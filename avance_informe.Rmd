@@ -70,14 +70,9 @@ Se utiliza la encuesta Latinobarómetro 2023. Los datos fueron procesados para s
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(lme4, haven, stargazer, ggplot2, texreg, dplyr, psych, kableExtra, ggeffects, reghelper)
 
-# ---- 2. Carga y Preparación de Datos Latinobarómetro 2023 ----
-ruta_archivo <- "Latinobarometro_2023_Esp_R_v1_0.sav" 
+# ---- 2. Carga y Preparación de Datos Latinobarómetro 2023 ---
 
-if (!file.exists(ruta_archivo)) {
-  stop("El archivo de datos '", ruta_archivo, "' no se encuentra en la ruta especificada. ",
-       "Por favor, verifica la ruta o descarga el archivo si es necesario.")
-}
-base_raw <- haven::read_sav(ruta_archivo, user_na = TRUE) 
+base_raw <- haven::read_sav("input/data/latinobarometro_2023.sav", user_na = TRUE) 
 
 base_proc <- base_raw %>% 
   select(

@@ -2,7 +2,7 @@
 title: "Actitudes Económicas y Confianza Institucional en América Latina: Un Análisis Multinivel Preliminar"
 subtitle: "Informe de Avance - Analisis de Datos Multinivel 2025"
 author: "Yerkho Nuñez, Dorian Ñanco y Morgan Salazar"
-date: "28-05-2025"
+date: "06-28-2025"
 lang: es
 format: 
   html:

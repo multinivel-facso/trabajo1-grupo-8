@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Yerkho Nuñez, Dorian Ñanco y Morgan Salazar">
+
+<title>Actitudes Económicas y Confianza Institucional en América Latina: Un Análisis Multinivel Preliminar</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="avance_informe_files/libs/clipboard/clipboard.min.js"></script>
+<script src="avance_informe_files/libs/quarto-html/quarto.js"></script>
+<script src="avance_informe_files/libs/quarto-html/popper.min.js"></script>
+<script src="avance_informe_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="avance_informe_files/libs/quarto-html/anchor.min.js"></script>
+<link href="avance_informe_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="avance_informe_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="avance_informe_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="avance_informe_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="avance_informe_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#sec-intro-avance" id="toc-sec-intro-avance" class="nav-link active" data-scroll-target="#sec-intro-avance">Introducción</a></li>
+  <li><a href="#sec-abstract-avance" id="toc-sec-abstract-avance" class="nav-link" data-scroll-target="#sec-abstract-avance">Abstract</a></li>
+  <li><a href="#sec-obj-hypo-avance" id="toc-sec-obj-hypo-avance" class="nav-link" data-scroll-target="#sec-obj-hypo-avance">Objetivos e Hipótesis</a></li>
+  <li><a href="#sec-data-methods-avance" id="toc-sec-data-methods-avance" class="nav-link" data-scroll-target="#sec-data-methods-avance">Datos, Variables y Métodos (Versión de Avance)</a>
+  <ul class="collapse">
+  <li><a href="#carga-y-preparación-de-datos" id="toc-carga-y-preparación-de-datos" class="nav-link" data-scroll-target="#carga-y-preparación-de-datos">Carga y Preparación de Datos</a></li>
+  <li><a href="#variables-del-estudio" id="toc-variables-del-estudio" class="nav-link" data-scroll-target="#variables-del-estudio">Variables del Estudio</a></li>
+  <li><a href="#estadísticos-descriptivos-univariados" id="toc-estadísticos-descriptivos-univariados" class="nav-link" data-scroll-target="#estadísticos-descriptivos-univariados">Estadísticos Descriptivos Univariados</a></li>
+  <li><a href="#fiabilidad-de-escalas-alfa-de-cronbach" id="toc-fiabilidad-de-escalas-alfa-de-cronbach" class="nav-link" data-scroll-target="#fiabilidad-de-escalas-alfa-de-cronbach">Fiabilidad de Escalas (Alfa de Cronbach)</a></li>
+  <li><a href="#métodos-de-análisis" id="toc-métodos-de-análisis" class="nav-link" data-scroll-target="#métodos-de-análisis">Métodos de Análisis</a></li>
+  </ul></li>
+  <li><a href="#sec-analisis-avance" id="toc-sec-analisis-avance" class="nav-link" data-scroll-target="#sec-analisis-avance">Análisis Multinivel Preliminar</a>
+  <ul class="collapse">
+  <li><a href="#modelo-nulo-y-coeficiente-de-correlación-intraclase-icc" id="toc-modelo-nulo-y-coeficiente-de-correlación-intraclase-icc" class="nav-link" data-scroll-target="#modelo-nulo-y-coeficiente-de-correlación-intraclase-icc">Modelo Nulo y Coeficiente de Correlación Intraclase (ICC)</a></li>
+  <li><a href="#modelos-preliminares-con-predictores-de-nivel-1" id="toc-modelos-preliminares-con-predictores-de-nivel-1" class="nav-link" data-scroll-target="#modelos-preliminares-con-predictores-de-nivel-1">Modelos Preliminares con Predictores de Nivel 1</a></li>
+  </ul></li>
+  <li><a href="#sec-conclusiones-avance" id="toc-sec-conclusiones-avance" class="nav-link" data-scroll-target="#sec-conclusiones-avance">Conclusiones Preliminares del Avance</a></li>
+  <li><a href="#sec-bib-avance" id="toc-sec-bib-avance" class="nav-link" data-scroll-target="#sec-bib-avance">Bibliografía</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Actitudes Económicas y Confianza Institucional en América Latina: Un Análisis Multinivel Preliminar</h1>
+<p class="subtitle lead">Informe de Avance - Analisis de Datos Multinivel 2025</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor/a</div>
+    <div class="quarto-title-meta-contents">
+             <p>Yerkho Nuñez, Dorian Ñanco y Morgan Salazar </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Fecha de publicación</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">5 de abril de 2027</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-intro-avance" class="level1">
+<h1>Introducción</h1>
+<p>Uno de los componentes fundamentales de la sociedad son las instituciones, cada una cumpliendo un rol específico según las necesidades de la población y los problemas emergentes, con el fin de asegurar el bienestar colectivo (North, 1993). La efectividad y legitimidad de estas instituciones no solo dependen de sus acciones formales, sino también de la percepción pública y las nociones predominantes sobre cómo deben enfrentar los problemas, sus causas y soluciones. Un ejemplo claro es la desconfianza ciudadana hacia las fuerzas policiales para combatir la delincuencia, lo que puede llevar a que los individuos prefieran la autodefensa como solución a problemas de seguridad, como la invasión de la propiedad privada (Kahan, 2001; Smulovitz &amp; Peruzzotti, 2000).</p>
+<p>La percepción ciudadana hacia las instituciones es variable y multifactorial. Los medios de comunicación, por ejemplo, pueden exacerbar los niveles de inseguridad e insatisfacción (Gerbner &amp; Gross, 1976; Valenzuela et al., 2017). Prueba de ello es la Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC) de 2023 en Chile, donde el 87.6% de la población percibió un aumento de la delincuencia (Instituto Nacional de Estadísticas [INE], 2024). Este fenómeno se ve amplificado en la era digital por la rápida diseminación de noticias falsas y la masificación de la información a través de redes sociales (Vosoughi et al., 2018). Adicionalmente, los escándalos de corrupción y el incumplimiento de deberes por parte de representantes institucionales minan la confianza pública, llevando a cuestionamientos sobre la función y existencia misma de dichas instituciones (Rose-Ackerman, 2006; CIDE, 2019).</p>
+<p>Este panorama se complejiza en contextos económicos de corte neoliberal. El neoliberalismo, como modelo de organización económica y social, postula la centralidad del mercado como principal regulador de la vida social, relegando al Estado a funciones mínimas como el mantenimiento del orden público y la protección de la propiedad privada (Harvey, 2007; Garretón, 2012). Se prioriza la libre competencia, la desregulación, la privatización y la figura del individuo como actor autónomo. Sin embargo, este modelo ha mostrado fisuras, especialmente durante crisis económicas. La pandemia de COVID-19, por ejemplo, evidenció la necesidad de intervención estatal para sostener el bienestar y la actividad económica (Stiglitz, 2002; CEPAL, 2021), demostrando que el modelo económico no se sostiene por sí solo sin un rol activo del Estado, no solo para controlar, sino también para fomentar la economía.</p>
+<p><strong>Planteamiento del Problema y Relevancia Multinivel (Foco del Avance):</strong> La percepción de la economía y las instituciones varía significativamente entre países. En América Latina, la adopción y adaptación de políticas neoliberales ha sido heterogénea, resultando en contextos nacionales diversos (Portes &amp; Hoffman, 2003; PNUD, 2004). Esta variabilidad contextual es crucial y justifica un <strong>enfoque multinivel</strong>. Las actitudes y percepciones individuales (Nivel 1) están “anidadas” dentro de contextos nacionales (Nivel 2), los cuales pueden influir tanto en la prevalencia de ciertas actitudes como en la forma en que estas se relacionan con la confianza institucional. Este informe de avance se centrará en explorar esta estructura jerárquica de los datos. La relevancia sociológica radica en comprender cómo las estructuras macro (país) modelan o moderan las relaciones a nivel micro (individuo) en un tema tan sensible como la confianza, fundamental para la cohesión social y la gobernabilidad democrática.</p>
+<p><strong>Pregunta de Investigación Principal (Avance):</strong> ¿Cómo se asocian las actitudes individuales pro-mercado (divididas en dimensiones como la creencia en la primacía del mercado, la confianza en el sector privado y el apoyo a la apertura económica) con la confianza en instituciones gubernamentales clave (Poder Judicial, Gobierno, Congreso, Policía) en los ciudadanos de diversos países latinoamericanos, y <strong>qué proporción de la varianza en esta confianza se debe a diferencias entre los países?</strong></p>
+</section>
+<section id="sec-abstract-avance" class="level1">
+<h1>Abstract</h1>
+<ul>
+<li><strong>Problema:</strong> La relación entre las actitudes económicas individuales pro-mercado y la confianza en instituciones gubernamentales en América Latina, considerando la variabilidad contextual entre países.</li>
+<li><strong>Pregunta (Avance):</strong> ¿Cómo se asocian las actitudes individuales pro-mercado con la confianza institucional en América Latina, y cuánta de esta varianza es atribuible al contexto nacional?</li>
+<li><strong>Objetivo (Avance):</strong> Explorar preliminarmente esta relación mediante análisis multinivel, enfocándose en la descripción de datos, el cálculo de Correlación Intraclase (ICC) y la estimación de modelos nulos y modelos con interceptos aleatorios y predictores de nivel individual.</li>
+<li><strong>Datos:</strong> Encuesta Latinobarómetro 2023 (N total ≈ 19,205 individuos, N países en modelos ≈ 17).</li>
+<li><strong>Resultado Principal (Avance):</strong> Se encontró una varianza significativa en la confianza institucional a nivel de país (ICC entre 9.3% y 14.7%), justificando el análisis multinivel. El índice de “Primacía del Mercado” mostró una fiabilidad muy baja (Alfa=0.246) y no se utilizó en los modelos. El <code>Indice_ConfPrivado</code> (Alfa=0.691) se asoció positivamente con la <code>Confianza_Gobierno</code> (β=0.409, p&lt;0.001). El <code>Indice_AperturaEco</code> (Alfa=0.676) también se construyó.</li>
+</ul>
+</section>
+<section id="sec-obj-hypo-avance" class="level1">
+<h1>Objetivos e Hipótesis</h1>
+<p><strong>Objetivo General (Avance):</strong> Establecer el marco analítico y presentar los resultados descriptivos y multinivel preliminares sobre la relación entre dimensiones de actitudes pro-mercado y la confianza en instituciones gubernamentales en América Latina, con énfasis en la <strong>cuantificación de la varianza entre países (ICC) y la estimación de efectos fijos a nivel individual</strong>.</p>
+<p><strong>Objetivos Específicos (Avance):</strong> 1. Describir las características de la muestra y las variables clave de Latinobarómetro 2023. 2. Construir y evaluar la fiabilidad interna (Alfa de Cronbach) de las escalas propuestas para medir dimensiones de actitudes pro-mercado. 3. <strong>Estimar y analizar la Correlación Intraclase (ICC)</strong> para las variables de confianza institucional. 4. Estimar y describir <strong>modelos multinivel de interceptos aleatorios (modelos nulos)</strong>. 5. Estimar y describir <strong>modelos multinivel preliminares con predictores de nivel individual</strong> y efectos aleatorios para el intercepto.</p>
+<p><strong>Hipótesis (Principales para el Avance):</strong> * <strong>H_ICC (Nivel 2):</strong> Existirá una varianza significativa en la confianza en el Poder Judicial, Gobierno, Congreso y Policía atribuible a las diferencias entre países latinoamericanos (ICC &gt; 0.05). * <strong>H1 (Nivel Individual):</strong> Una mayor adhesión individual a la “Creencia en la Primacía y Eficiencia del Mercado” se asociará positivamente con la confianza en el Poder Judicial y la Policía. <em>(Nota: Dada la muy baja fiabilidad del índice (Alfa=0.246), esta hipótesis se explorará utilizando ítems individuales en el informe final).</em> * <strong>H2 (Nivel Individual):</strong> Una mayor “Confianza individual en el Sector Privado y Actores Económicos” se asociará positivamente con la confianza en el Gobierno. * <strong>H3 (Nivel Individual):</strong> Un mayor “Apoyo individual a la Apertura Económica e Integración Global” se asociará positivamente con la confianza en el Congreso.</p>
+</section>
+<section id="sec-data-methods-avance" class="level1">
+<h1>Datos, Variables y Métodos (Versión de Avance)</h1>
+<section id="carga-y-preparación-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="carga-y-preparación-de-datos">Carga y Preparación de Datos</h2>
+<p>Se utiliza la encuesta Latinobarómetro 2023. Los datos fueron procesados para seleccionar las variables de interés, tratar valores perdidos y recodificar ítems para la construcción de escalas e índices.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>Invalid date string (length=9): 09 034 23</code></pre>
+</div>
+</div>
+<p>El N total de observaciones procesadas es 19205 individuos, distribuidos en 17 países. El N efectivo en los modelos variará debido a valores perdidos; por ejemplo, el modelo de regresión presentado más adelante utiliza 14,462 observaciones en 17 países.</p>
+</section>
+<section id="variables-del-estudio" class="level2">
+<h2 class="anchored" data-anchor-id="variables-del-estudio">Variables del Estudio</h2>
+<ul>
+<li><strong>Variables Dependientes (Confianza Institucional - Nivel 1):</strong>
+<ul>
+<li><code>Confianza_Judicial</code>, <code>Confianza_Gobierno</code>, <code>Confianza_Congreso</code>, <code>Confianza_Policia</code>. (Escala 1-4).</li>
+</ul></li>
+<li><strong>Variables Independientes Principales (Actitudes Pro-Mercado - Nivel 1, Índices Z):</strong>
+<ul>
+<li><code>Indice_PrimaciaMercado</code>: (Alfa=0.246) No utilizado debido a muy baja fiabilidad. Se explorarán ítems individuales en el informe final.</li>
+<li><code>Indice_ConfPrivado</code>: (Alfa=0.691) Promedio de ítems estandarizados sobre confianza en sector privado.</li>
+<li><code>Indice_AperturaEco</code>: (Alfa=0.676) Promedio de ítems estandarizados sobre apoyo a apertura económica.</li>
+</ul></li>
+<li><strong>Variables de Control (Nivel Individual - Nivel 1):</strong>
+<ul>
+<li><code>EDAD</code>, <code>SEXO</code>, <code>REEDUC.1</code> (Nivel educativo 1-7), <code>P16ST</code> (Escala política 1-10).</li>
+</ul></li>
+<li><strong>Variable de Agrupación (Nivel 2):</strong> <code>IDENPA</code> (País).</li>
+</ul>
+</section>
+<section id="estadísticos-descriptivos-univariados" class="level2">
+<h2 class="anchored" data-anchor-id="estadísticos-descriptivos-univariados">Estadísticos Descriptivos Univariados</h2>
+<div class="cell" data-layout-align="center">
+<table style="text-align:center">
+<caption>
+<strong>Estadísticos Descriptivos de Variables Clave (Nivel Individual)</strong>
+</caption>
+<tbody><tr>
+<td colspan="7" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Statistic
+</td>
+<td>
+N
+</td>
+<td>
+Mean
+</td>
+<td>
+St.&nbsp;Dev.
+</td>
+<td>
+Min
+</td>
+<td>
+Median
+</td>
+<td>
+Max
+</td>
+</tr>
+<tr>
+<td colspan="7" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Conf. Poder Judicial (1-4)
+</td>
+<td>
+18,722
+</td>
+<td>
+2.04
+</td>
+<td>
+0.94
+</td>
+<td>
+1
+</td>
+<td>
+2
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Conf. Gobierno (1-4)
+</td>
+<td>
+19,008
+</td>
+<td>
+2.01
+</td>
+<td>
+0.99
+</td>
+<td>
+1
+</td>
+<td>
+2
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Conf. Congreso (1-4)
+</td>
+<td>
+18,676
+</td>
+<td>
+1.93
+</td>
+<td>
+0.91
+</td>
+<td>
+1
+</td>
+<td>
+2
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Conf. Policía (1-4)
+</td>
+<td>
+19,072
+</td>
+<td>
+2.27
+</td>
+<td>
+0.98
+</td>
+<td>
+1
+</td>
+<td>
+2
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Índice Conf. Sector Privado (Z)
+</td>
+<td>
+19,066
+</td>
+<td>
+-0.004
+</td>
+<td>
+0.80
+</td>
+<td>
+-1.68
+</td>
+<td>
+-0.09
+</td>
+<td>
+1.86
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Índice Apertura Económica (Z)
+</td>
+<td>
+19,001
+</td>
+<td>
+-0.01
+</td>
+<td>
+0.57
+</td>
+<td>
+-2.74
+</td>
+<td>
+-0.06
+</td>
+<td>
+1.20
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Edad (años)
+</td>
+<td>
+19,205
+</td>
+<td>
+41.54
+</td>
+<td>
+16.58
+</td>
+<td>
+16
+</td>
+<td>
+40
+</td>
+<td>
+93
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Nivel Educativo (1-7)
+</td>
+<td>
+19,194
+</td>
+<td>
+4.34
+</td>
+<td>
+1.73
+</td>
+<td>
+1
+</td>
+<td>
+5
+</td>
+<td>
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Escala Política (1-10)
+</td>
+<td>
+14,610
+</td>
+<td>
+6.05
+</td>
+<td>
+2.55
+</td>
+<td>
+1
+</td>
+<td>
+5
+</td>
+<td>
+10
+</td>
+</tr>
+<tr>
+<td colspan="7" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td colspan="7" style="text-align:left">
+Fuente: Elaboración propia con datos de Latinobarómetro 2023.
+</td>
+</tr>
+<tr>
+<td colspan="7" style="text-align:left">
+SEXO: Hombres 47.5%, Mujeres 52.5%.
+</td>
+</tr>
+<tr>
+<td colspan="7" style="text-align:left">
+Índices (Z) son promedios de ítems estandarizados (media aprox. 0, DE aprox. 1).
+</td>
+</tr>
+<tr>
+<td colspan="7" style="text-align:left">
+Índice Primacía Mercado no se muestra debido a su baja fiabilidad (Alfa=0.246).
+</td>
+</tr>
+</tbody></table>
+</div>
+<p>En promedio, la confianza en el Poder Judicial es de 2.04 (DE=0.94), en el Gobierno de 2.01 (DE=0.99), en el Congreso de 1.93 (DE=0.91), y en la Policía de 2.27 (DE=0.98). El <code>Índice Confianza Sector Privado</code> (M=-0.004, DE=0.80) y el <code>Índice Apertura Económica</code> (M=-0.01, DE=0.88) están estandarizados. La edad promedio es 41.54 años, el nivel educativo 4.34, y la escala política 6.05.</p>
+</section>
+<section id="fiabilidad-de-escalas-alfa-de-cronbach" class="level2">
+<h2 class="anchored" data-anchor-id="fiabilidad-de-escalas-alfa-de-cronbach">Fiabilidad de Escalas (Alfa de Cronbach)</h2>
+<p>La consistencia interna de las escalas propuestas se evaluó mediante el Alfa de Cronbach: * <strong>Dimensión 1 (Primacía del Mercado):</strong> Alfa = 0.246. * El Alfa para esta dimensión fue de 0.246. Dada esta muy baja consistencia interna, el índice <code>Indice_PrimaciaMercado</code> no se utilizará en los modelos de este avance. Para el informe final, se considerará el análisis de sus ítems de forma individual o una posible reformulación de la escala. * <strong>Dimensión 2 (Confianza Sector Privado):</strong> Alfa = 0.691. * El Alfa de 0.691 es aceptable para fines exploratorios. * <strong>Dimensión 3 (Apertura Económica):</strong> Alfa = 0.676. * El Alfa de 0.676 es aceptable con precaución para este avance.</p>
+</section>
+<section id="métodos-de-análisis" class="level2">
+<h2 class="anchored" data-anchor-id="métodos-de-análisis">Métodos de Análisis</h2>
+<p>Se emplearán modelos lineales mixtos (multinivel) (<code>lme4</code> en R). 1. <strong>Modelo Nulo:</strong> <code>VD ~ 1 + (1 | IDENPA)</code> 2. <strong>Modelo Nivel 1:</strong> <code>VD ~ Indice_Actitud_X + EDAD + SEXO + REEDUC.1 + P16ST + (1 | IDENPA)</code></p>
+</section>
+</section>
+<section id="sec-analisis-avance" class="level1">
+<h1>Análisis Multinivel Preliminar</h1>
+<section id="modelo-nulo-y-coeficiente-de-correlación-intraclase-icc" class="level2">
+<h2 class="anchored" data-anchor-id="modelo-nulo-y-coeficiente-de-correlación-intraclase-icc">Modelo Nulo y Coeficiente de Correlación Intraclase (ICC)</h2>
+<div class="cell" data-layout-align="center">
+<table class="table table-striped table-hover">
+<caption>
+Coeficiente de Correlación Intraclase (ICC) por Variable de Confianza Institucional
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Variable.Dependiente
+</th>
+<th style="text-align:right;">
+ICC
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Confianza_Judicial
+</td>
+<td style="text-align:left;">
+Confianza_Judicial
+</td>
+<td style="text-align:right;">
+0.093
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Confianza_Gobierno
+</td>
+<td style="text-align:left;">
+Confianza_Gobierno
+</td>
+<td style="text-align:right;">
+0.147
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Confianza_Congreso
+</td>
+<td style="text-align:left;">
+Confianza_Congreso
+</td>
+<td style="text-align:right;">
+0.111
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Confianza_Policia
+</td>
+<td style="text-align:left;">
+Confianza_Policia
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Los ICC (entre 9.3% para Confianza Judicial y 14.7% para Confianza Gobierno) justifican el análisis multinivel.</p>
+</section>
+<section id="modelos-preliminares-con-predictores-de-nivel-1" class="level2">
+<h2 class="anchored" data-anchor-id="modelos-preliminares-con-predictores-de-nivel-1">Modelos Preliminares con Predictores de Nivel 1</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+--- Modelo de Nivel 1 para: Confianza_Gobierno con predictor principal: Indice_ConfPrivado ---
+Linear mixed model fit by maximum likelihood  ['lmerMod']
+Formula: Confianza_Gobierno ~ Indice_ConfPrivado + EDAD + SEXO + REEDUC.1 +  
+    P16ST + (1 | IDENPA)
+   Data: data_modelo_n1_ejemplo
+Control: lmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 200000))
+
+     AIC      BIC   logLik deviance df.resid 
+ 36704.3  36765.0 -18344.2  36688.3    14454 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.0768 -0.7479 -0.0791  0.6837  3.3779 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ IDENPA   (Intercept) 0.1194   0.3456  
+ Residual             0.7358   0.8578  
+Number of obs: 14462, groups:  IDENPA, 17
+
+Fixed effects:
+                     Estimate Std. Error t value
+(Intercept)         1.9684055  0.0915177  21.508
+Indice_ConfPrivado  0.4086302  0.0094257  43.353
+EDAD                0.0031485  0.0004614   6.824
+SEXOMujer          -0.0104444  0.0143049  -0.730
+REEDUC.1           -0.0220042  0.0045769  -4.808
+P16ST               0.0064623  0.0029414   2.197
+
+Correlation of Fixed Effects:
+            (Intr) Ind_CP EDAD   SEXOMj REEDUC
+Indc_CnfPrv  0.008                            
+EDAD        -0.237  0.094                     
+SEXOMujer   -0.086  0.024  0.034              
+REEDUC.1    -0.283 -0.094  0.226  0.005       
+P16ST       -0.189 -0.077 -0.115 -0.009  0.086</code></pre>
+</div>
+</div>
+<p><strong>Interpretación del Modelo de Ejemplo (<code>Confianza_Gobierno</code> ~ <code>Indice_ConfPrivado</code>):</strong> El modelo multinivel para <code>Confianza_Gobierno</code> (N=14,462, Países=17): * <code>Indice_ConfPrivado</code>: β = 0.409 (p &lt; 0.001). Un aumento de 1 DE en la confianza en el sector privado se asocia con un aumento de 0.409 puntos en la confianza en el gobierno. Apoya H2. * <code>EDAD</code>: β = 0.003 (p &lt; 0.001). * <code>SEXOMujer</code>: No significativo. * <code>REEDUC.1</code>: β = -0.022 (p &lt; 0.001). * <code>P16ST</code>: β = 0.006 (p &lt; 0.05). * Varianza País (Intercepto): 0.1194. Varianza Residual: 0.7358.</p>
+</section>
+</section>
+<section id="sec-conclusiones-avance" class="level1">
+<h1>Conclusiones Preliminares del Avance</h1>
+<p>Este informe de avance ha establecido el marco metodológico. El <code>Indice_PrimaciaMercado</code> (Alfa=0.246) no se utilizó por baja fiabilidad. El <code>Indice_ConfPrivado</code> (Alfa=0.691) y el <code>Indice_AperturaEco</code> (Alfa=0.676) son aceptables para exploración.</p>
+<p>Los ICC (entre 9.3% y 14.7%) validan el enfoque multinivel. El modelo para <code>Confianza_Gobierno</code> con <code>Indice_ConfPrivado</code> (β=0.409, p&lt;0.001) apoya H2.</p>
+<p>Los próximos pasos incluirán la estimación de todos los modelos, análisis de ítems para la dimensión de primacía del mercado, incorporación de predictores Nivel 2, y análisis más avanzados.</p>
+</section>
+<section id="sec-bib-avance" class="level1">
+<h1>Bibliografía</h1>
+<p>CEPAL (Comisión Económica para América Latina y el Caribe). (2021). <em>Panorama Social de América Latina 2020</em>. Santiago de Chile: CEPAL.</p>
+<p>Centro de Investigación y Docencia Económicas (CIDE). (2019). <em>Encuesta Nacional sobre Calidad e Impacto Gubernamental (ENCIG)</em>. México, D.F.: CIDE.</p>
+<p>Fourcade-Gourinchas, M., &amp; Babb, S. L. (2002). The Rebirth of the Liberal Creed: Paths to Neoliberalism in Four Countries. <em>American Journal of Sociology</em>, <em>108</em>(3), 533–579.</p>
+<p>Gárate, M. (2012). <em>La revolución capitalista de Chile (1973-2003)</em>. Santiago de Chile: Ediciones Universidad Alberto Hurtado.</p>
+<p>Garretón, M. A. (2012). <em>Neoliberalismo corregido y progresismo limitado: Los gobiernos de la Concertación en Chile, 1990-2010</em>. Santiago de Chile: Editorial ARCIS; Buenos Aires: CLACSO.</p>
+<p>Gerbner, G., &amp; Gross, L. (1976). Living with Television: The Violence Profile. <em>Journal of Communication</em>, <em>26</em>(2), 173–199.</p>
+<p>Harvey, D. (2007). <em>Breve historia del neoliberalismo</em>. Madrid: Ediciones Akal.</p>
+<p>Instituto Nacional de Estadísticas (INE). (2024). <em>Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC) 2023: Principales resultados</em>. Recuperado de <a href="https://www.ine.gob.cl/estadisticas/sociales/seguridad-ciudadana/encuesta-nacional-urbana-de-seguridad-ciudadana" class="uri">https://www.ine.gob.cl/estadisticas/sociales/seguridad-ciudadana/encuesta-nacional-urbana-de-seguridad-ciudadana</a></p>
+<p>Kahan, D. M. (2001). Trust, Collective Action, and Law. <em>Boston University Law Review</em>, <em>81</em>(1), 333-352.</p>
+<p>Corporación Latinobarómetro. (2023). <em>Latinobarómetro Estudio 2023: Libro de Códigos</em>. Santiago de Chile: Autor.</p>
+<p>North, D. C. (1993). <em>Instituciones, cambio institucional y desempeño económico</em>. México, D.F.: Fondo de Cultura Económica.</p>
+<p>PNUD (Programa de las Naciones Unidas para el Desarrollo). (2004). <em>La democracia en América Latina: Hacia una democracia de ciudadanas y ciudadanos</em>. Buenos Aires: Aguilar, Altea, Taurus, Alfaguara / PNUD.</p>
+<p>Portes, A., &amp; Hoffman, K. (2003). Latin American Class Structures: Their Composition and Change during the Neoliberal Era. <em>Latin American Research Review</em>, <em>38</em>(1), 41–82.</p>
+<p>Rose-Ackerman, S. (2006). <em>Corruption and Government: Causes, Consequences, and Reform</em> (2nd ed.). Cambridge, UK: Cambridge University Press.</p>
+<p>Smulovitz, C., &amp; Peruzzotti, E. (2000). Societal Accountability in Latin America. <em>Journal of Democracy</em>, <em>11</em>(4), 147-158.</p>
+<p>Stiglitz, J. E. (2002). <em>El malestar en la globalización</em>. Madrid: Taurus.</p>
+<p>Valenzuela, S., Arriagada, A., &amp; Scherman, A. (2012). The social media basis of youth protest behavior: The case of Chile. <em>Journal of Communication</em>, <em>62</em>(2), 299-314.</p>
+<p>Vosoughi, S., Roy, D., &amp; Aral, S. (2018). The spread of true and false news online. <em>Science</em>, <em>359</em>(6380), 1146–1151.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

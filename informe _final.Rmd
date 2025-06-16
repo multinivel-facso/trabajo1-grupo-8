@@ -66,27 +66,53 @@ Establecer el marco analítico y presentar los resultados descriptivos y multini
 Se utiliza la encuesta Latinobarómetro 2023. Los datos fueron procesados para seleccionar las variables de interés, tratar valores perdidos y recodificar ítems para la construcción de escalas e índices.
 
 ```{r carga_datos_latinobarometro, eval=TRUE}
-# ---- 1. Carga de Librerías ----
+# 1. Carga de Librerias
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(lme4, haven, stargazer, ggplot2, texreg, dplyr, psych, kableExtra, ggeffects, reghelper)
 
-# ---- 2. Carga y Preparación de Datos Latinobarómetro 2023 ---
-
+# 2 Carga de Base de Datos
 base_raw <- haven::read_sav("input/data/latinobarometro_2023.sav", user_na = TRUE) 
 
+# 3. Seleccion de Variables Nivel 1
 base_proc <- base_raw %>% 
   select(
-    pais = IDENPA, edad = EDAD, sexo = SEXO,
-    niv_educ_S11 = S11, niv_educ_recod = REEEDUC.1, 
+    # ID Agregada
+    pais = IDENPA, 
+    # Nivel 1, Control
+    edad = EDAD, 
+    sexo = SEXO, 
+    niv_educ = REEEDUC.1, 
     esc_pol = P16ST,
-    conf_policia = P13STGBS.B, conf_congreso = P13ST.D,
-    conf_gobierno = P13ST.E, conf_judicial = P13ST.F,
-    neol_desarrollo = P54ST.B, neol_prioridad_crec = P36ST, 
-    neol_acept_des = P61ST, neol_dist_ing = P17ST,
-    conf_cias_nac = P14ST.B, conf_cias_int = P14ST.E, conf_bancos = P14ST.F,
-    apertura_integ_la = P29STIN.A, apertura_integ_fuera_la = P29STIN.B,
-    P31INN.1, P31INN.2, P31INN.3, P31INN.4, P31INN.5, P31INN.6 
+    # Nivel 1, VD
+    conf_congreso = P13ST.D,
+    conf_gobierno = P13ST.E, 
+    conf_judicial = P13ST.F,
+    # Nivel 1, Indice Agentes Economicos
+    conf_cias_nac = P14ST.B,
+    conf_cias_int = P14ST.E,
+    conf_bancos = P14ST.F,
+    # Nivel 1, Desigualdad
+    neol_acept_des = P61ST,
+    neol_dist_ing = P17ST,
+    # Nivel 1, Sistema unico
+    neol_unico = P54ST.B, 
   )
+
+# 4. Adición de vVariables Nivel 2
+datos_pais <- data.frame(
+  # ID Agregada
+  pais = c(36, 68, 76, 152, 170, 188, 218, 222, 320, 340, 484, 558, 591, 600, 858, 862, 214), 
+  # Etiqueta Agregada
+  nombrepais = c("Argentina", "Bolivia", "Brasil", "Chile", "Colombia", "Costa Rica", "Ecuador", "El Salvador", 
+                 "Guatemala", "Honduras", "México", "Nicaragua", "Panamá", "Paraguay", "Uruguay", "Venezuela", "Rep. Dominicana"),
+  # Nivel 2, % de Gasto Social en el PIB
+  gasto_social= c(),
+  # Nivel 2, Desigualdad
+  gini = c(),
+  # Nivel 2. Control
+  PIB_per_capita = c()
+  )
+
 
 base_proc <- base_proc %>%
   mutate(

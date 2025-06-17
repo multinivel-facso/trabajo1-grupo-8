@@ -94,18 +94,74 @@ datos_pais <- data.frame(
   nombrepais = c("Argentina", "Bolivia", "Brasil", "Chile", "Colombia", "Costa Rica", "Ecuador", "El Salvador", 
                  "Guatemala", "Honduras", "México", "Nicaragua", "Panamá", "Paraguay", "Uruguay", "Venezuela", "Rep. Dominicana"),
   # Nivel 2, % de Gasto Social en el PIB
-  gasto_social= c(37.84, 36.00, 45.31, 27.40, 35.45, 18.51, 39.45, 30.38, 13.72, 26.10, 28.59, 26.06, 21.49, 21.48, 30.52, 34.37, 19.13), # Datos extraidos de "https://datosmacro.expansion.com/estado/gasto?anio=2023"
+  gasto_social= c(),
   # Nivel 2, Desigualdad
-  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 46.2, 48.9, 45.1, 40.6, 44.7, 37.0), #Datos de Guatemala y Nicaragua de 2014, Venezuela de 2006 # Datos extraidos de "https://datosmacro.expansion.com/demografia/indice-gini"
+  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 46.2, 48.9, 45.1, 40.6, 44.7, 37.0), #Datos de Guatemala y Nicaragua de 2014, Venezuela de 2006
   # Nivel 2. Control
-  pib_per_capita = c()
+  pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 2612.87, 18686.41, 6276.35, 22797.81, 99, 10717,63)
   )
-
-base_proc <- merge(base_proc, datos_pais)
-
+  
 # 5. Limpieza de Datos
 
-colSums(base_proc, na.rm = TRUE)
+
+items_dim1_names <- c("Item_EcoMercado_Unico", "Item_PrioridadCrec", "Item_AceptaDesigualdad", "Item_DistIngreso_Justa")
+if(all(items_dim1_names %in% names(base_proc)) && sum(sapply(base_proc[items_dim1_names], function(x) sum(!is.na(x)))) > 0) {
+  base_proc_scaled_dim1 <- base_proc %>% mutate(across(all_of(items_dim1_names), ~ as.numeric(scale(.x)), .names = "{.col}_z"))
+  items_for_alpha_dim1 <- base_proc_scaled_dim1 %>% select(ends_with("_z") & all_of(paste0(items_dim1_names, "_z")))
+  if(nrow(na.omit(items_for_alpha_dim1)) >= 2 && ncol(items_for_alpha_dim1) >=2) {
+    alpha_dim1_results <- psych::alpha(items_for_alpha_dim1, na.rm = TRUE, check.keys = TRUE) 
+    alpha_dim1_val <- alpha_dim1_results$total$raw_alpha
+  } else { alpha_dim1_val <- NA }
+} else { alpha_dim1_val <- NA }
+
+if (!is.na(alpha_dim1_val) && alpha_dim1_val > 0.5) { 
+  base_proc$Indice_PrimaciaMercado <- rowMeans(items_for_alpha_dim1, na.rm = TRUE)
+} else {
+  base_proc$Indice_PrimaciaMercado <- NA 
+}
+
+items_dim2_names <- c("Item_Conf_CiasNac", "Item_Conf_CiasInt", "Item_Conf_Bancos")
+if(all(items_dim2_names %in% names(base_proc)) && sum(sapply(base_proc[items_dim2_names], function(x) sum(!is.na(x)))) > 0) {
+  base_proc_scaled_dim2 <- base_proc %>% mutate(across(all_of(items_dim2_names), ~ as.numeric(scale(.x)), .names = "{.col}_z"))
+  items_for_alpha_dim2 <- base_proc_scaled_dim2 %>% select(ends_with("_z") & all_of(paste0(items_dim2_names, "_z")))
+  if(nrow(na.omit(items_for_alpha_dim2)) >= 2 && ncol(items_for_alpha_dim2) >=2) {
+    alpha_dim2_results <- psych::alpha(items_for_alpha_dim2, na.rm = TRUE, check.keys = TRUE)
+    alpha_dim2_val <- alpha_dim2_results$total$raw_alpha
+  } else { alpha_dim2_val <- NA }
+} else { alpha_dim2_val <- NA }
+
+if (!is.na(alpha_dim2_val) && alpha_dim2_val > 0.6) { 
+  base_proc$Indice_ConfPrivado <- rowMeans(items_for_alpha_dim2, na.rm = TRUE)
+} else { base_proc$Indice_ConfPrivado <- NA }
+
+items_dim3_names <- c("Item_IntegracionLA", "Item_IntegracionFueraLA", "Item_Benef_ProdExt_direct", "Item_Benef_MasEmpleo_direct", "Item_Benef_SalariosAltos_direct", "Item_Benef_VarProd_direct")
+if(all(items_dim3_names %in% names(base_proc)) && sum(sapply(base_proc[items_dim3_names], function(x) sum(!is.na(x)))) > 0) {
+  base_proc_scaled_dim3 <- base_proc %>% mutate(across(all_of(items_dim3_names), ~ as.numeric(scale(.x)), .names = "{.col}_z"))
+  items_for_alpha_dim3 <- base_proc_scaled_dim3 %>% select(ends_with("_z") & all_of(paste0(items_dim3_names, "_z")))
+  if(nrow(na.omit(items_for_alpha_dim3)) >= 2 && ncol(items_for_alpha_dim3) >=2) {
+    alpha_dim3_results <- psych::alpha(items_for_alpha_dim3, na.rm = TRUE, check.keys = TRUE)
+    alpha_dim3_val <- alpha_dim3_results$total$raw_alpha
+  } else { alpha_dim3_val <- NA }
+} else { alpha_dim3_val <- NA }
+
+if (!is.na(alpha_dim3_val) && alpha_dim3_val > 0.5) { 
+  base_proc$Indice_AperturaEco <- rowMeans(items_for_alpha_dim3, na.rm = TRUE)
+} else { base_proc$Indice_AperturaEco <- NA }
+
+base_proc <- base_proc %>%
+  mutate(
+    EDAD = edad_clean, 
+    SEXO = factor(sexo_clean, levels = c(1,2), labels = c("Hombre", "Mujer")), 
+    REEDUC.1 = niv_educ_recod_clean, 
+    P16ST = esc_pol_clean, 
+    IDENPA = as.factor(pais)
+  ) %>%
+  select(
+    IDENPA, EDAD, SEXO, REEDUC.1, P16ST, 
+    Confianza_Judicial, Confianza_Gobierno, Confianza_Congreso, Confianza_Policia,
+    Indice_PrimaciaMercado, Indice_ConfPrivado, Indice_AperturaEco,
+    Item_EcoMercado_Unico, Item_PrioridadCrec, Item_AceptaDesigualdad, Item_DistIngreso_Justa 
+  )
 
 N_observaciones <- nrow(base_proc)
 N_paises <- length(unique(base_proc$IDENPA[!is.na(base_proc$IDENPA)]))

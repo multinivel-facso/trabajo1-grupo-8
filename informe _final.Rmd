@@ -108,59 +108,13 @@ datos_pais <- data.frame(
   # Nivel 2, % de Gasto Social en el PIB
   gasto_social= c(),
   # Nivel 2, Desigualdad
-  gini = c(),
+  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 46.2, 48.9, 45.1, 40.6, 44.7, 37.0), #Datos de Guatemala y Nicaragua de 2014, Venezuela de 2006
   # Nivel 2. Control
-  PIB_per_capita = c()
+  pib_per_capita = c()
   )
 
+# 5. Limpieza de Datos
 
-base_proc <- base_proc %>%
-  mutate(
-    conf_policia_clean = ifelse(conf_policia %in% c(0, 8, 98, 99), NA, conf_policia),
-    conf_congreso_clean = ifelse(conf_congreso %in% c(0, 8, 98, 99), NA, conf_congreso),
-    conf_gobierno_clean = ifelse(conf_gobierno %in% c(0, 8, 98, 99), NA, conf_gobierno),
-    conf_judicial_clean = ifelse(conf_judicial %in% c(0, 8, 98, 99), NA, conf_judicial),
-    neol_desarrollo_clean = ifelse(neol_desarrollo %in% c(0, 8, 98, 99), NA, neol_desarrollo),
-    neol_prioridad_crec_clean = ifelse(neol_prioridad_crec %in% c(0, 8, 98, 99), NA, neol_prioridad_crec),
-    neol_acept_des_clean = ifelse(neol_acept_des %in% c(0, 98, 99) | neol_acept_des < 1 | neol_acept_des > 10, NA, neol_acept_des),
-    neol_dist_ing_clean = ifelse(neol_dist_ing %in% c(0, 8, 98, 99), NA, neol_dist_ing),
-    conf_cias_nac_clean = ifelse(conf_cias_nac %in% c(0, 8, 98, 99), NA, conf_cias_nac),
-    conf_cias_int_clean = ifelse(conf_cias_int %in% c(0, 8, 98, 99), NA, conf_cias_int),
-    conf_bancos_clean = ifelse(conf_bancos %in% c(0, 8, 98, 99), NA, conf_bancos),
-    apertura_integ_la_clean = ifelse(apertura_integ_la %in% c(0,8,98,99), NA, apertura_integ_la),
-    apertura_integ_fuera_la_clean = ifelse(apertura_integ_fuera_la %in% c(0,8,98,99), NA, apertura_integ_fuera_la),
-    
-    any_P31INN_answered = !is.na(P31INN.1) | !is.na(P31INN.2) | !is.na(P31INN.3) | !is.na(P31INN.4) | !is.na(P31INN.5) | !is.na(P31INN.6),
-    Item_Benef_ProdExt_direct = ifelse(any_P31INN_answered, ifelse(P31INN.1 == 2 | P31INN.2 == 2 | P31INN.3 == 2 | P31INN.4 == 2 | P31INN.5 == 2 | P31INN.6 == 2, 1, 0), NA_real_),
-    Item_Benef_MasEmpleo_direct = ifelse(any_P31INN_answered, ifelse(P31INN.1 == 3 | P31INN.2 == 3 | P31INN.3 == 3 | P31INN.4 == 3 | P31INN.5 == 3 | P31INN.6 == 3, 1, 0), NA_real_),
-    Item_Benef_SalariosAltos_direct = ifelse(any_P31INN_answered, ifelse(P31INN.1 == 4 | P31INN.2 == 4 | P31INN.3 == 4 | P31INN.4 == 4 | P31INN.5 == 4 | P31INN.6 == 4, 1, 0), NA_real_),
-    Item_Benef_VarProd_direct = ifelse(any_P31INN_answered, ifelse(P31INN.1 == 5 | P31INN.2 == 5 | P31INN.3 == 5 | P31INN.4 == 5 | P31INN.5 == 5 | P31INN.6 == 5, 1, 0), NA_real_),
-
-    edad_clean = ifelse(edad > 110 | edad < 15 | edad %in% c(-1,-2,-3,-4,-5, 998, 999, 0), NA, edad),
-    sexo_clean = ifelse(sexo %in% c(1, 2), sexo, NA), 
-    niv_educ_recod_clean = ifelse(is.na(niv_educ_recod) | niv_educ_recod == 0 | niv_educ_recod < 1 | niv_educ_recod > 7, NA, niv_educ_recod),
-    esc_pol_clean = ifelse(esc_pol %in% c(97, 98, 99, 0) | esc_pol < 1 | esc_pol > 10, NA, esc_pol)
-  )
-
-base_proc <- base_proc %>%
-  mutate(
-    Confianza_Judicial = case_when(conf_judicial_clean == 1 ~ 4, conf_judicial_clean == 2 ~ 3, conf_judicial_clean == 3 ~ 2, conf_judicial_clean == 4 ~ 1, TRUE ~ NA_real_),
-    Confianza_Gobierno = case_when(conf_gobierno_clean == 1 ~ 4, conf_gobierno_clean == 2 ~ 3, conf_gobierno_clean == 3 ~ 2, conf_gobierno_clean == 4 ~ 1, TRUE ~ NA_real_),
-    Confianza_Congreso = case_when(conf_congreso_clean == 1 ~ 4, conf_congreso_clean == 2 ~ 3, conf_congreso_clean == 3 ~ 2, conf_congreso_clean == 4 ~ 1, TRUE ~ NA_real_),
-    Confianza_Policia  = case_when(conf_policia_clean == 1 ~ 4, conf_policia_clean == 2 ~ 3, conf_policia_clean == 3 ~ 2, conf_policia_clean == 4 ~ 1, TRUE ~ NA_real_),
-    
-    Item_EcoMercado_Unico = case_when(neol_desarrollo_clean == 1 ~ 4, neol_desarrollo_clean == 2 ~ 3, neol_desarrollo_clean == 3 ~ 2, neol_desarrollo_clean == 4 ~ 1, TRUE ~ NA_real_),
-    Item_PrioridadCrec = ifelse(neol_prioridad_crec_clean == 2, 1, ifelse(neol_prioridad_crec_clean == 1, 0, NA_real_)), 
-    Item_AceptaDesigualdad = neol_acept_des_clean,
-    Item_DistIngreso_Justa = case_when(neol_dist_ing_clean == 1 ~ 4, neol_dist_ing_clean == 2 ~ 3, neol_dist_ing_clean == 3 ~ 2, neol_dist_ing_clean == 4 ~ 1, TRUE ~ NA_real_),
-    
-    Item_Conf_CiasNac = case_when(conf_cias_nac_clean == 1 ~ 4, conf_cias_nac_clean == 2 ~ 3, conf_cias_nac_clean == 3 ~ 2, conf_cias_nac_clean == 4 ~ 1, TRUE ~ NA_real_),
-    Item_Conf_CiasInt = case_when(conf_cias_int_clean == 1 ~ 4, conf_cias_int_clean == 2 ~ 3, conf_cias_int_clean == 3 ~ 2, conf_cias_int_clean == 4 ~ 1, TRUE ~ NA_real_),
-    Item_Conf_Bancos   = case_when(conf_bancos_clean == 1 ~ 4, conf_bancos_clean == 2 ~ 3, conf_bancos_clean == 3 ~ 2, conf_bancos_clean == 4 ~ 1, TRUE ~ NA_real_),
-    
-    Item_IntegracionLA = case_when(apertura_integ_la_clean == 1 ~ 4, apertura_integ_la_clean == 2 ~ 3, apertura_integ_la_clean == 3 ~ 2, apertura_integ_la_clean == 4 ~ 1, TRUE ~ NA_real_),
-    Item_IntegracionFueraLA = case_when(apertura_integ_fuera_la_clean == 1 ~ 4, apertura_integ_fuera_la_clean == 2 ~ 3, apertura_integ_fuera_la_clean == 3 ~ 2, apertura_integ_fuera_la_clean == 4 ~ 1, TRUE ~ NA_real_)
-  )
 
 items_dim1_names <- c("Item_EcoMercado_Unico", "Item_PrioridadCrec", "Item_AceptaDesigualdad", "Item_DistIngreso_Justa")
 if(all(items_dim1_names %in% names(base_proc)) && sum(sapply(base_proc[items_dim1_names], function(x) sum(!is.na(x)))) > 0) {

@@ -23,41 +23,29 @@ options(scipen = 999)
 
 Uno de los componentes fundamentales de la sociedad son las instituciones, cada una cumpliendo un rol específico según las necesidades de la población y los problemas emergentes, con el fin de asegurar el bienestar colectivo (North, 1993). La efectividad y legitimidad de estas instituciones no solo dependen de sus acciones formales, sino también de la percepción pública y las nociones predominantes sobre cómo deben enfrentar los problemas, sus causas y soluciones. Un ejemplo claro es la desconfianza ciudadana hacia las fuerzas policiales para combatir la delincuencia, lo que puede llevar a que los individuos prefieran la autodefensa como solución a problemas de seguridad, como la invasión de la propiedad privada (Kahan, 2001; Smulovitz & Peruzzotti, 2000).
 
-La percepción ciudadana hacia las instituciones es variable y multifactorial. Los medios de comunicación, por ejemplo, pueden exacerbar los niveles de inseguridad e insatisfacción (Gerbner & Gross, 1976; Valenzuela et al., 2017). Prueba de ello es la Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC) de 2023 en Chile, donde el 87.6% de la población percibió un aumento de la delincuencia (Instituto Nacional de Estadísticas \[INE], 2024). Este fenómeno se ve amplificado en la era digital por la rápida diseminación de noticias falsas y la masificación de la información a través de redes sociales (Vosoughi et al., 2018). Adicionalmente, los escándalos de corrupción y el incumplimiento de deberes por parte de representantes institucionales minan la confianza pública, llevando a cuestionamientos sobre la función y existencia misma de dichas instituciones (Rose-Ackerman, 2006; CIDE, 2019).
+La percepción ciudadana hacia las instituciones es variable y multifactorial. Los medios de comunicación, por ejemplo, pueden exacerbar los niveles de inseguridad e insatisfacción (Gerbner & Gross, 1976; Valenzuela et al., 2017). Prueba de ello es la Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC) de 2023 en Chile, donde el 87.6% de la población percibió un aumento de la delincuencia (Instituto Nacional de Estadísticas \[INE\], 2024). Este fenómeno se ve amplificado en la era digital por la rápida diseminación de noticias falsas y la masificación de la información a través de redes sociales (Vosoughi et al., 2018). Adicionalmente, los escándalos de corrupción y el incumplimiento de deberes por parte de representantes institucionales minan la confianza pública, llevando a cuestionamientos sobre la función y existencia misma de dichas instituciones (Rose-Ackerman, 2006; CIDE, 2019).
 
 Este panorama se complejiza en contextos económicos de corte neoliberal. El neoliberalismo, como modelo de organización económica y social, postula la centralidad del mercado como principal regulador de la vida social, relegando al Estado a funciones mínimas como el mantenimiento del orden público y la protección de la propiedad privada (Harvey, 2007; Garretón, 2012). Se prioriza la libre competencia, la desregulación, la privatización y la figura del individuo como actor autónomo. Sin embargo, este modelo ha mostrado fisuras, especialmente durante crisis económicas. La pandemia de COVID-19, por ejemplo, evidenció la necesidad de intervención estatal para sostener el bienestar y la actividad económica (Stiglitz, 2002; CEPAL, 2021), demostrando que el modelo económico no se sostiene por sí solo sin un rol activo del Estado, no solo para controlar, sino también para fomentar la economía.
 
-**Planteamiento del Problema y Relevancia Multinivel (Foco del Avance):**
-La percepción de la economía y las instituciones varía significativamente entre países. En América Latina, la adopción y adaptación de políticas neoliberales ha sido heterogénea, resultando en contextos nacionales diversos (Portes & Hoffman, 2003; PNUD, 2004). Esta variabilidad contextual es crucial y justifica un **enfoque multinivel**. Las actitudes y percepciones individuales (Nivel 1) están "anidadas" dentro de contextos nacionales (Nivel 2), los cuales pueden influir tanto en la prevalencia de ciertas actitudes como en la forma en que estas se relacionan con la confianza institucional. Este informe de avance se centrará en explorar esta estructura jerárquica de los datos. La relevancia sociológica radica en comprender cómo las estructuras macro (país) modelan o moderan las relaciones a nivel micro (individuo) en un tema tan sensible como la confianza, fundamental para la cohesión social y la gobernabilidad democrática.
+**Planteamiento del Problema y Relevancia Multinivel (Foco del Avance):** La percepción de la economía y las instituciones varía significativamente entre países. En América Latina, la adopción y adaptación de políticas neoliberales ha sido heterogénea, resultando en contextos nacionales diversos (Portes & Hoffman, 2003; PNUD, 2004). Esta variabilidad contextual es crucial y justifica un **enfoque multinivel**. Las actitudes y percepciones individuales (Nivel 1) están "anidadas" dentro de contextos nacionales (Nivel 2), los cuales pueden influir tanto en la prevalencia de ciertas actitudes como en la forma en que estas se relacionan con la confianza institucional. Este informe de avance se centrará en explorar esta estructura jerárquica de los datos. La relevancia sociológica radica en comprender cómo las estructuras macro (país) modelan o moderan las relaciones a nivel micro (individuo) en un tema tan sensible como la confianza, fundamental para la cohesión social y la gobernabilidad democrática.
 
-**Pregunta de Investigación Principal (Avance):**
-¿Cómo se asocian las actitudes individuales pro-mercado (divididas en dimensiones como la creencia en la primacía del mercado, la confianza en el sector privado y el apoyo a la apertura económica) con la confianza en instituciones gubernamentales clave (Poder Judicial, Gobierno, Congreso, Policía) en los ciudadanos de diversos países latinoamericanos, y **qué proporción de la varianza en esta confianza se debe a diferencias entre los países?**
+**Pregunta de Investigación Principal (Avance):** ¿Cómo se asocian las actitudes individuales pro-mercado (divididas en dimensiones como la creencia en la primacía del mercado, la confianza en el sector privado y el apoyo a la apertura económica) con la confianza en instituciones gubernamentales clave (Poder Judicial, Gobierno, Congreso, Policía) en los ciudadanos de diversos países latinoamericanos, y **qué proporción de la varianza en esta confianza se debe a diferencias entre los países?**
 
 # Abstract {#sec-abstract-avance}
 
-*   **Problema:** La relación entre las actitudes económicas individuales pro-mercado y la confianza en instituciones gubernamentales en América Latina, considerando la variabilidad contextual entre países.
-*   **Pregunta (Avance):** ¿Cómo se asocian las actitudes individuales pro-mercado con la confianza institucional en América Latina, y cuánta de esta varianza es atribuible al contexto nacional?
-*   **Objetivo (Avance):** Explorar preliminarmente esta relación mediante análisis multinivel, enfocándose en la descripción de datos, el cálculo de Correlación Intraclase (ICC) y la estimación de modelos nulos y modelos con interceptos aleatorios y predictores de nivel individual.
-*   **Datos:** Encuesta Latinobarómetro 2023 (N total ≈ 19,205 individuos, N países en modelos ≈ 17).
-*   **Resultado Principal (Avance):** Se encontró una varianza significativa en la confianza institucional a nivel de país (ICC entre 9.3% y 14.7%), justificando el análisis multinivel. El índice de "Primacía del Mercado" mostró una fiabilidad muy baja (Alfa=0.246) y no se utilizó en los modelos. El `Indice_ConfPrivado` (Alfa=0.691) se asoció positivamente con la `Confianza_Gobierno` (β=0.409, p<0.001). El `Indice_AperturaEco` (Alfa=0.676) también se construyó.
+-   **Problema:** La relación entre las actitudes económicas individuales pro-mercado y la confianza en instituciones gubernamentales en América Latina, considerando la variabilidad contextual entre países.
+-   **Pregunta (Avance):** ¿Cómo se asocian las actitudes individuales pro-mercado con la confianza institucional en América Latina, y cuánta de esta varianza es atribuible al contexto nacional?
+-   **Objetivo (Avance):** Explorar preliminarmente esta relación mediante análisis multinivel, enfocándose en la descripción de datos, el cálculo de Correlación Intraclase (ICC) y la estimación de modelos nulos y modelos con interceptos aleatorios y predictores de nivel individual.
+-   **Datos:** Encuesta Latinobarómetro 2023 (N total ≈ 19,205 individuos, N países en modelos ≈ 17).
+-   **Resultado Principal (Avance):** Se encontró una varianza significativa en la confianza institucional a nivel de país (ICC entre 9.3% y 14.7%), justificando el análisis multinivel. El índice de "Primacía del Mercado" mostró una fiabilidad muy baja (Alfa=0.246) y no se utilizó en los modelos. El `Indice_ConfPrivado` (Alfa=0.691) se asoció positivamente con la `Confianza_Gobierno` (β=0.409, p\<0.001). El `Indice_AperturaEco` (Alfa=0.676) también se construyó.
 
 # Objetivos e Hipótesis {#sec-obj-hypo-avance}
 
-**Objetivo General (Avance):**
-Establecer el marco analítico y presentar los resultados descriptivos y multinivel preliminares sobre la relación entre dimensiones de actitudes pro-mercado y la confianza en instituciones gubernamentales en América Latina, con énfasis en la **cuantificación de la varianza entre países (ICC) y la estimación de efectos fijos a nivel individual**.
+**Objetivo General (Avance):** Establecer el marco analítico y presentar los resultados descriptivos y multinivel preliminares sobre la relación entre dimensiones de actitudes pro-mercado y la confianza en instituciones gubernamentales en América Latina, con énfasis en la **cuantificación de la varianza entre países (ICC) y la estimación de efectos fijos a nivel individual**.
 
-**Objetivos Específicos (Avance):**
-1.  Describir las características de la muestra y las variables clave de Latinobarómetro 2023.
-2.  Construir y evaluar la fiabilidad interna (Alfa de Cronbach) de las escalas propuestas para medir dimensiones de actitudes pro-mercado.
-3.  **Estimar y analizar la Correlación Intraclase (ICC)** para las variables de confianza institucional.
-4.  Estimar y describir **modelos multinivel de interceptos aleatorios (modelos nulos)**.
-5.  Estimar y describir **modelos multinivel preliminares con predictores de nivel individual** y efectos aleatorios para el intercepto.
+**Objetivos Específicos (Avance):** 1. Describir las características de la muestra y las variables clave de Latinobarómetro 2023. 2. Construir y evaluar la fiabilidad interna (Alfa de Cronbach) de las escalas propuestas para medir dimensiones de actitudes pro-mercado. 3. **Estimar y analizar la Correlación Intraclase (ICC)** para las variables de confianza institucional. 4. Estimar y describir **modelos multinivel de interceptos aleatorios (modelos nulos)**. 5. Estimar y describir **modelos multinivel preliminares con predictores de nivel individual** y efectos aleatorios para el intercepto.
 
-**Hipótesis (Principales para el Avance):**
-*   **H_ICC (Nivel 2):** Existirá una varianza significativa en la confianza en el Poder Judicial, Gobierno, Congreso y Policía atribuible a las diferencias entre países latinoamericanos (ICC > 0.05).
-*   **H1 (Nivel Individual):** Una mayor adhesión individual a la "Creencia en la Primacía y Eficiencia del Mercado" se asociará positivamente con la confianza en el Poder Judicial y la Policía. *(Nota: Dada la muy baja fiabilidad del índice (Alfa=0.246), esta hipótesis se explorará utilizando ítems individuales en el informe final).*
-*   **H2 (Nivel Individual):** Una mayor "Confianza individual en el Sector Privado y Actores Económicos" se asociará positivamente con la confianza en el Gobierno.
-*   **H3 (Nivel Individual):** Un mayor "Apoyo individual a la Apertura Económica e Integración Global" se asociará positivamente con la confianza en el Congreso.
+**Hipótesis (Principales para el Avance):** \* **H_ICC (Nivel 2):** Existirá una varianza significativa en la confianza en el Poder Judicial, Gobierno, Congreso y Policía atribuible a las diferencias entre países latinoamericanos (ICC \> 0.05). \* **H1 (Nivel Individual):** Una mayor adhesión individual a la "Creencia en la Primacía y Eficiencia del Mercado" se asociará positivamente con la confianza en el Poder Judicial y la Policía. *(Nota: Dada la muy baja fiabilidad del índice (Alfa=0.246), esta hipótesis se explorará utilizando ítems individuales en el informe final).* \* **H2 (Nivel Individual):** Una mayor "Confianza individual en el Sector Privado y Actores Económicos" se asociará positivamente con la confianza en el Gobierno. \* **H3 (Nivel Individual):** Un mayor "Apoyo individual a la Apertura Económica e Integración Global" se asociará positivamente con la confianza en el Congreso.
 
 # Datos, Variables y Métodos (Versión de Avance) {#sec-data-methods-avance}
 
@@ -233,15 +221,16 @@ alpha_dim3_val <- 0.676
 El N total de observaciones procesadas es `r N_observaciones` individuos, distribuidos en `r N_paises` países. El N efectivo en los modelos variará debido a valores perdidos; por ejemplo, el modelo de regresión presentado más adelante utiliza 14,462 observaciones en 17 países.
 
 ## Variables del Estudio
-*   **Variables Dependientes (Confianza Institucional - Nivel 1):**
-    *   `Confianza_Judicial`, `Confianza_Gobierno`, `Confianza_Congreso`, `Confianza_Policia`. (Escala 1-4).
-*   **Variables Independientes Principales (Actitudes Pro-Mercado - Nivel 1, Índices Z):**
-    *   `Indice_PrimaciaMercado`: (Alfa=0.246) No utilizado debido a muy baja fiabilidad. Se explorarán ítems individuales en el informe final.
-    *   `Indice_ConfPrivado`: (Alfa=0.691) Promedio de ítems estandarizados sobre confianza en sector privado.
-    *   `Indice_AperturaEco`: (Alfa=0.676) Promedio de ítems estandarizados sobre apoyo a apertura económica.
-*   **Variables de Control (Nivel Individual - Nivel 1):**
-    *   `EDAD`, `SEXO`, `REEDUC.1` (Nivel educativo 1-7), `P16ST` (Escala política 1-10).
-*   **Variable de Agrupación (Nivel 2):** `IDENPA` (País).
+
+-   **Variables Dependientes (Confianza Institucional - Nivel 1):**
+    -   `Confianza_Judicial`, `Confianza_Gobierno`, `Confianza_Congreso`, `Confianza_Policia`. (Escala 1-4).
+-   **Variables Independientes Principales (Actitudes Pro-Mercado - Nivel 1, Índices Z):**
+    -   `Indice_PrimaciaMercado`: (Alfa=0.246) No utilizado debido a muy baja fiabilidad. Se explorarán ítems individuales en el informe final.
+    -   `Indice_ConfPrivado`: (Alfa=0.691) Promedio de ítems estandarizados sobre confianza en sector privado.
+    -   `Indice_AperturaEco`: (Alfa=0.676) Promedio de ítems estandarizados sobre apoyo a apertura económica.
+-   **Variables de Control (Nivel Individual - Nivel 1):**
+    -   `EDAD`, `SEXO`, `REEDUC.1` (Nivel educativo 1-7), `P16ST` (Escala política 1-10).
+-   **Variable de Agrupación (Nivel 2):** `IDENPA` (País).
 
 ## Estadísticos Descriptivos Univariados
 
@@ -287,18 +276,11 @@ En promedio, la confianza en el Poder Judicial es de 2.04 (DE=0.94), en el Gobie
 
 ## Fiabilidad de Escalas (Alfa de Cronbach)
 
-La consistencia interna de las escalas propuestas se evaluó mediante el Alfa de Cronbach:
-*   **Dimensión 1 (Primacía del Mercado):** Alfa = 0.246.
-    *   El Alfa para esta dimensión fue de 0.246. Dada esta muy baja consistencia interna, el índice `Indice_PrimaciaMercado` no se utilizará en los modelos de este avance. Para el informe final, se considerará el análisis de sus ítems de forma individual o una posible reformulación de la escala.
-*   **Dimensión 2 (Confianza Sector Privado):** Alfa = 0.691.
-    *   El Alfa de 0.691 es aceptable para fines exploratorios.
-*   **Dimensión 3 (Apertura Económica):** Alfa = 0.676.
-    *   El Alfa de 0.676 es aceptable con precaución para este avance.
+La consistencia interna de las escalas propuestas se evaluó mediante el Alfa de Cronbach: \* **Dimensión 1 (Primacía del Mercado):** Alfa = 0.246. \* El Alfa para esta dimensión fue de 0.246. Dada esta muy baja consistencia interna, el índice `Indice_PrimaciaMercado` no se utilizará en los modelos de este avance. Para el informe final, se considerará el análisis de sus ítems de forma individual o una posible reformulación de la escala. \* **Dimensión 2 (Confianza Sector Privado):** Alfa = 0.691. \* El Alfa de 0.691 es aceptable para fines exploratorios. \* **Dimensión 3 (Apertura Económica):** Alfa = 0.676. \* El Alfa de 0.676 es aceptable con precaución para este avance.
 
 ## Métodos de Análisis
-Se emplearán modelos lineales mixtos (multinivel) (`lme4` en R).
-1.  **Modelo Nulo:** `VD ~ 1 + (1 | IDENPA)`
-2.  **Modelo Nivel 1:** `VD ~ Indice_Actitud_X + EDAD + SEXO + REEDUC.1 + P16ST + (1 | IDENPA)`
+
+Se emplearán modelos lineales mixtos (multinivel) (`lme4` en R). 1. **Modelo Nulo:** `VD ~ 1 + (1 | IDENPA)` 2. **Modelo Nivel 1:** `VD ~ Indice_Actitud_X + EDAD + SEXO + REEDUC.1 + P16ST + (1 | IDENPA)`
 
 # Análisis Multinivel Preliminar {#sec-analisis-avance}
 
@@ -395,24 +377,18 @@ if(exists("base_proc") && "IDENPA" %in% names(base_proc) &&
 }
 ```
 
-**Interpretación del Modelo de Ejemplo (`Confianza_Gobierno` ~ `Indice_ConfPrivado`):**
-El modelo multinivel para `Confianza_Gobierno` (N=14,462, Países=17):
-*   `Indice_ConfPrivado`: β = 0.409 (p < 0.001). Un aumento de 1 DE en la confianza en el sector privado se asocia con un aumento de 0.409 puntos en la confianza en el gobierno. Apoya H2.
-*   `EDAD`: β = 0.003 (p < 0.001).
-*   `SEXOMujer`: No significativo.
-*   `REEDUC.1`: β = -0.022 (p < 0.001).
-*   `P16ST`: β = 0.006 (p < 0.05).
-*   Varianza País (Intercepto): 0.1194. Varianza Residual: 0.7358.
+**Interpretación del Modelo de Ejemplo (`Confianza_Gobierno` \~ `Indice_ConfPrivado`):** El modelo multinivel para `Confianza_Gobierno` (N=14,462, Países=17): \* `Indice_ConfPrivado`: β = 0.409 (p \< 0.001). Un aumento de 1 DE en la confianza en el sector privado se asocia con un aumento de 0.409 puntos en la confianza en el gobierno. Apoya H2. \* `EDAD`: β = 0.003 (p \< 0.001). \* `SEXOMujer`: No significativo. \* `REEDUC.1`: β = -0.022 (p \< 0.001). \* `P16ST`: β = 0.006 (p \< 0.05). \* Varianza País (Intercepto): 0.1194. Varianza Residual: 0.7358.
 
 # Conclusiones Preliminares del Avance {#sec-conclusiones-avance}
 
 Este informe de avance ha establecido el marco metodológico. El `Indice_PrimaciaMercado` (Alfa=0.246) no se utilizó por baja fiabilidad. El `Indice_ConfPrivado` (Alfa=0.691) y el `Indice_AperturaEco` (Alfa=0.676) son aceptables para exploración.
 
-Los ICC (entre 9.3% y 14.7%) validan el enfoque multinivel. El modelo para `Confianza_Gobierno` con `Indice_ConfPrivado` (β=0.409, p<0.001) apoya H2.
+Los ICC (entre 9.3% y 14.7%) validan el enfoque multinivel. El modelo para `Confianza_Gobierno` con `Indice_ConfPrivado` (β=0.409, p\<0.001) apoya H2.
 
 Los próximos pasos incluirán la estimación de todos los modelos, análisis de ítems para la dimensión de primacía del mercado, incorporación de predictores Nivel 2, y análisis más avanzados.
 
 # Bibliografía {#sec-bib-avance}
+
 CEPAL (Comisión Económica para América Latina y el Caribe). (2021). *Panorama Social de América Latina 2020*. Santiago de Chile: CEPAL.
 
 Centro de Investigación y Docencia Económicas (CIDE). (2019). *Encuesta Nacional sobre Calidad e Impacto Gubernamental (ENCIG)*. México, D.F.: CIDE.
@@ -427,7 +403,7 @@ Gerbner, G., & Gross, L. (1976). Living with Television: The Violence Profile. *
 
 Harvey, D. (2007). *Breve historia del neoliberalismo*. Madrid: Ediciones Akal.
 
-Instituto Nacional de Estadísticas (INE). (2024). *Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC) 2023: Principales resultados*. Recuperado de [https://www.ine.gob.cl/estadisticas/sociales/seguridad-ciudadana/encuesta-nacional-urbana-de-seguridad-ciudadana](https://www.ine.gob.cl/estadisticas/sociales/seguridad-ciudadana/encuesta-nacional-urbana-de-seguridad-ciudadana)
+Instituto Nacional de Estadísticas (INE). (2024). *Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC) 2023: Principales resultados*. Recuperado de <https://www.ine.gob.cl/estadisticas/sociales/seguridad-ciudadana/encuesta-nacional-urbana-de-seguridad-ciudadana>
 
 Kahan, D. M. (2001). Trust, Collective Action, and Law. *Boston University Law Review*, *81*(1), 333-352.
 

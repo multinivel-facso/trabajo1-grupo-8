@@ -94,13 +94,14 @@ datos_pais <- data.frame(
   nombrepais = c("Argentina", "Bolivia", "Brasil", "Chile", "Colombia", "Costa Rica", "Ecuador", "El Salvador", 
                  "Guatemala", "Honduras", "México", "Nicaragua", "Panamá", "Paraguay", "Uruguay", "Venezuela", "Rep. Dominicana"),
   # Nivel 2, % de Gasto Social en el PIB
-  gasto_social= c(),
+  gasto_social= c(37.84, 36.00, 45.31, 27.40, 35.45, 18.51, 39.45, 30.38, 13.72, 26.10, 28.59, 26.06, 21.49, 21.48, 30.52, 34.37, 19.13), # Datos extraidos de https://datosmacro.expansion.com/estado/gasto?anio=2023
   # Nivel 2, Desigualdad
-  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 46.2, 48.9, 45.1, 40.6, 44.7, 37.0), #Datos de Guatemala y Nicaragua de 2014, Venezuela de 2006
+  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 46.2, 48.9, 45.1, 40.6, 44.7, 37.0), #Datos de Guatemala y Nicaragua de 2014, Venezuela de 2006 # Datos extraidos de https://datosmacro.expansion.com/demografia/indice-gini
   # Nivel 2. Control
-  pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 2612.87, 18686.41, 6276.35, 22797.81, 99, 10717,63)
+  pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 2612.87, 18686.41, 6276.35, 22797.81, NA, 10717.63) 
   )
   
+base_proc <- merge(base_proc, datos_pais)
 # 5. Limpieza de Datos
 
 

@@ -100,12 +100,9 @@ datos_pais <- data.frame(
   # Nivel 2. Control
   pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 2612.87, 18686.41, 6276.35, 22797.81, NA, 10717.63) 
   )
-  
-<<<<<<< HEAD
+
 base_proc <- merge(base_proc, datos_pais)
-=======
-merge()
->>>>>>> 98d55241734fe6dab830a0fff139342c3728bc46
+
 # 5. Limpieza de Datos
 
 

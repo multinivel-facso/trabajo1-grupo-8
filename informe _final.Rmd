@@ -53,7 +53,7 @@ Este panorama se complejiza en contextos económicos de corte neoliberal. El neo
 
 Se utiliza la encuesta Latinobarómetro 2023. Los datos fueron procesados para seleccionar las variables de interés, tratar valores perdidos y recodificar ítems para la construcción de escalas e índices.
 
-```{r carga_datos_latinobarometro, eval=TRUE}
+```{r carga_datos_latinobarometro, eval=TRUE, include=FALSE}
 # 1. Carga de Librerias
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(lme4, haven, stargazer, ggplot2, texreg, dplyr, psych, kableExtra, ggeffects, reghelper)
@@ -101,77 +101,101 @@ datos_pais <- data.frame(
   pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 2612.87, 18686.41, 6276.35, 22797.81, NA, 10717.63) 
   )
 
+# 5. Merge de bases
+
 base_proc <- merge(base_proc, datos_pais)
 
-# 5. Limpieza de Datos
+# 6. Limpieza de Datos
 
+# # Revision de NAs
+# table(base_proc$nombrepais)
+# 
+# na_pais <- base_proc %>%
+#   group_by(nombrepais) %>%
+#   summarise(
+#     across(
+#       .cols = everything(), 
+#       .fns = ~sum(is.na(.)),
+#       .names = "na_{.col}" 
+#     )
+#   )
+# 
+# print(na_pais)
+##
 
-items_dim1_names <- c("Item_EcoMercado_Unico", "Item_PrioridadCrec", "Item_AceptaDesigualdad", "Item_DistIngreso_Justa")
-if(all(items_dim1_names %in% names(base_proc)) && sum(sapply(base_proc[items_dim1_names], function(x) sum(!is.na(x)))) > 0) {
-  base_proc_scaled_dim1 <- base_proc %>% mutate(across(all_of(items_dim1_names), ~ as.numeric(scale(.x)), .names = "{.col}_z"))
-  items_for_alpha_dim1 <- base_proc_scaled_dim1 %>% select(ends_with("_z") & all_of(paste0(items_dim1_names, "_z")))
-  if(nrow(na.omit(items_for_alpha_dim1)) >= 2 && ncol(items_for_alpha_dim1) >=2) {
-    alpha_dim1_results <- psych::alpha(items_for_alpha_dim1, na.rm = TRUE, check.keys = TRUE) 
-    alpha_dim1_val <- alpha_dim1_results$total$raw_alpha
-  } else { alpha_dim1_val <- NA }
-} else { alpha_dim1_val <- NA }
+base_proc <- na.omit(base_proc)
 
-if (!is.na(alpha_dim1_val) && alpha_dim1_val > 0.5) { 
-  base_proc$Indice_PrimaciaMercado <- rowMeans(items_for_alpha_dim1, na.rm = TRUE)
-} else {
-  base_proc$Indice_PrimaciaMercado <- NA 
-}
+## Revision de NAs
+# table(base_proc$nombrepais)
 
-items_dim2_names <- c("Item_Conf_CiasNac", "Item_Conf_CiasInt", "Item_Conf_Bancos")
-if(all(items_dim2_names %in% names(base_proc)) && sum(sapply(base_proc[items_dim2_names], function(x) sum(!is.na(x)))) > 0) {
-  base_proc_scaled_dim2 <- base_proc %>% mutate(across(all_of(items_dim2_names), ~ as.numeric(scale(.x)), .names = "{.col}_z"))
-  items_for_alpha_dim2 <- base_proc_scaled_dim2 %>% select(ends_with("_z") & all_of(paste0(items_dim2_names, "_z")))
-  if(nrow(na.omit(items_for_alpha_dim2)) >= 2 && ncol(items_for_alpha_dim2) >=2) {
-    alpha_dim2_results <- psych::alpha(items_for_alpha_dim2, na.rm = TRUE, check.keys = TRUE)
-    alpha_dim2_val <- alpha_dim2_results$total$raw_alpha
-  } else { alpha_dim2_val <- NA }
-} else { alpha_dim2_val <- NA }
+# 7. Moficación y creacion de variables
 
-if (!is.na(alpha_dim2_val) && alpha_dim2_val > 0.6) { 
-  base_proc$Indice_ConfPrivado <- rowMeans(items_for_alpha_dim2, na.rm = TRUE)
-} else { base_proc$Indice_ConfPrivado <- NA }
-
-items_dim3_names <- c("Item_IntegracionLA", "Item_IntegracionFueraLA", "Item_Benef_ProdExt_direct", "Item_Benef_MasEmpleo_direct", "Item_Benef_SalariosAltos_direct", "Item_Benef_VarProd_direct")
-if(all(items_dim3_names %in% names(base_proc)) && sum(sapply(base_proc[items_dim3_names], function(x) sum(!is.na(x)))) > 0) {
-  base_proc_scaled_dim3 <- base_proc %>% mutate(across(all_of(items_dim3_names), ~ as.numeric(scale(.x)), .names = "{.col}_z"))
-  items_for_alpha_dim3 <- base_proc_scaled_dim3 %>% select(ends_with("_z") & all_of(paste0(items_dim3_names, "_z")))
-  if(nrow(na.omit(items_for_alpha_dim3)) >= 2 && ncol(items_for_alpha_dim3) >=2) {
-    alpha_dim3_results <- psych::alpha(items_for_alpha_dim3, na.rm = TRUE, check.keys = TRUE)
-    alpha_dim3_val <- alpha_dim3_results$total$raw_alpha
-  } else { alpha_dim3_val <- NA }
-} else { alpha_dim3_val <- NA }
-
-if (!is.na(alpha_dim3_val) && alpha_dim3_val > 0.5) { 
-  base_proc$Indice_AperturaEco <- rowMeans(items_for_alpha_dim3, na.rm = TRUE)
-} else { base_proc$Indice_AperturaEco <- NA }
-
-base_proc <- base_proc %>%
+base_model_data <- base_proc %>%
   mutate(
-    EDAD = edad_clean, 
-    SEXO = factor(sexo_clean, levels = c(1,2), labels = c("Hombre", "Mujer")), 
-    REEDUC.1 = niv_educ_recod_clean, 
-    P16ST = esc_pol_clean, 
-    IDENPA = as.factor(pais)
-  ) %>%
-  select(
-    IDENPA, EDAD, SEXO, REEDUC.1, P16ST, 
-    Confianza_Judicial, Confianza_Gobierno, Confianza_Congreso, Confianza_Policia,
-    Indice_PrimaciaMercado, Indice_ConfPrivado, Indice_AperturaEco,
-    Item_EcoMercado_Unico, Item_PrioridadCrec, Item_AceptaDesigualdad, Item_DistIngreso_Justa 
+    conf_congreso = case_when(
+      conf_congreso == 1 ~ 4,
+      conf_congreso == 2 ~ 3,
+      conf_congreso == 3 ~ 2,
+      conf_congreso == 4 ~ 1
+      ),
+    conf_gobierno = case_when(
+      conf_gobierno == 1 ~ 4,
+      conf_gobierno == 2 ~ 3,
+      conf_gobierno == 3 ~ 2,
+      conf_gobierno == 4 ~ 1
+    ),
+    conf_judicial = case_when(
+      conf_judicial == 1 ~ 4,
+      conf_judicial == 2 ~ 3,
+      conf_judicial == 3 ~ 2,
+      conf_judicial == 4 ~ 1
+    ),
+    neol_unico = case_when(
+      neol_unico == 1 ~ 4,
+      neol_unico == 2 ~ 3,
+      neol_unico == 3 ~ 2,
+      neol_unico == 4 ~ 1
+    ),
+    neol_dist_ing = case_when(
+      neol_dist_ing == 1 ~ 4,
+      neol_dist_ing == 2 ~ 3,
+      neol_dist_ing == 3 ~ 2,
+      neol_dist_ing == 4 ~ 1
+    ),
+    conf_cias_nac = case_when(
+      conf_cias_nac == 1 ~ 4, 
+      conf_cias_nac == 2 ~ 3,
+      conf_cias_nac == 3 ~ 2, 
+      conf_cias_nac == 4 ~ 1
+    ),
+    conf_cias_int = case_when(
+      conf_cias_int == 1 ~ 4, 
+      conf_cias_int == 2 ~ 3,
+      conf_cias_int == 3 ~ 2, 
+      conf_cias_int == 4 ~ 1
+    ),
+    conf_bancos = case_when(
+      conf_bancos == 1 ~ 4, 
+      conf_bancos == 2 ~ 3,
+      conf_bancos == 3 ~ 2, 
+      conf_bancos == 4 ~ 1
+    ),
+    esc_pol_cat = factor(case_when(
+      esc_pol >= 1 & esc_pol <= 3 ~ "Izquierda",
+      esc_pol >= 4 & esc_pol <= 6 ~ "Centro",
+      esc_pol >= 7 & esc_pol <= 10 ~ "Derecha",
+      esc_pol == 97 ~ "Ninguna"
+    ), levels = c("Izquierda", "Centro", "Derecha", "Ninguna"))
   )
 
-N_observaciones <- nrow(base_proc)
-N_paises <- length(unique(base_proc$IDENPA[!is.na(base_proc$IDENPA)]))
+# 8. Creación de Indices
 
-# Forzar los valores de Alfa que me proporcionaste para el texto, aunque el script los calcula
-alpha_dim1_val <- 0.246
-alpha_dim2_val <- 0.691
-alpha_dim3_val <- 0.676
+base_proc <- base_proc %>% mutate(
+  ind_conf_inst = rowMeans(select(., conf_congreso, conf_gobierno, conf_judicial)),
+  ind_conf_priv = rowMeans(select(., conf_bancos, conf_cias_int, conf_cias_nac)),
+  ind_desig = rowMeans(scale(select(., neol_dist_ing, neol_acept_des)))
+  )
+
 ```
 
 El N total de observaciones procesadas es `r N_observaciones` individuos, distribuidos en `r N_paises` países. El N efectivo en los modelos variará debido a valores perdidos; por ejemplo, el modelo de regresión presentado más adelante utiliza 14,462 observaciones en 17 países.

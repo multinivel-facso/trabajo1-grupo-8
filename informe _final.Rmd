@@ -103,7 +103,7 @@ datos_pais <- data.frame(
 
 # 5. Merge de bases
 
-base_proc <- merge(base_proc, datos_pais)
+base_proc <- left_join(base_proc, datos_pais, by = "pais")
 
 # 6. Limpieza de Datos
 
@@ -126,7 +126,7 @@ base_proc <- merge(base_proc, datos_pais)
 base_proc <- na.omit(base_proc)
 
 ## Revision de NAs
-# table(base_proc$nombrepais)
+#table(base_proc$nombrepais)
 
 # 7. Moficación y creacion de variables
 
@@ -196,6 +196,24 @@ base_proc <- base_proc %>% mutate(
   ind_desig = rowMeans(scale(select(., neol_dist_ing, neol_acept_des)))
   )
 
+# 9. Centrado de Variables
+## Centrado al Promedio del Grupo (CGM) para variables L1 y Centrado al Promedio General (CMG) para variables L2
+
+base_proc <- base_proc %>% 
+  group_by(pais) %>%
+  mutate(
+    ind_conf_inst_c = ind_conf_inst - mean(ind_conf_inst),
+    ind_conf_priv_c = ind_conf_priv - mean(ind_conf_priv),
+    ind_desig_c = ind_desig - mean(ind_desig),
+    edad_c = edad - mean(edad),
+    niv_educ_c = niv_educ - mean(niv_educ)
+  ) %>%
+  ungroup() %>%
+  mutate(
+    gasto_social_c = gasto_social - mean(gasto_social),
+    gini_c = gini - mean(gini),
+    pib_per_capita_c = pib_per_capita - mean(pib_per_capita)
+  )
 ```
 
 El N total de observaciones procesadas es `r N_observaciones` individuos, distribuidos en `r N_paises` países. El N efectivo en los modelos variará debido a valores perdidos; por ejemplo, el modelo de regresión presentado más adelante utiliza 14,462 observaciones en 17 países.
@@ -215,41 +233,10 @@ El N total de observaciones procesadas es `r N_observaciones` individuos, distri
 ## Estadísticos Descriptivos Univariados
 
 ```{r estadisticos-descriptivos, eval=TRUE, results='asis'}
-if(exists("base_proc")) {
-  vars_para_descriptivos_continuas <- c(
-    "Confianza_Judicial", "Confianza_Gobierno", "Confianza_Congreso", "Confianza_Policia",
-    "Indice_ConfPrivado", "Indice_AperturaEco", 
-    "EDAD", "REEDUC.1", "P16ST" 
-  )
-  vars_existentes_continuas <- intersect(vars_para_descriptivos_continuas, names(base_proc))
-  
-  if(length(vars_existentes_continuas) > 0) {
-    df_descriptivos <- as.data.frame(base_proc[, vars_existentes_continuas])
-    labels_map <- list(
-        "Confianza_Judicial" = "Conf. Poder Judicial (1-4)",
-        "Confianza_Gobierno" = "Conf. Gobierno (1-4)",
-        "Confianza_Congreso" = "Conf. Congreso (1-4)",
-        "Confianza_Policia" = "Conf. Policía (1-4)",
-        "Indice_ConfPrivado" = "Índice Conf. Sector Privado (Z)",
-        "Indice_AperturaEco" = "Índice Apertura Económica (Z)",
-        "EDAD" = "Edad (años)",
-        "REEDUC.1" = "Nivel Educativo (1-7)",
-        "P16ST" = "Escala Política (1-10)"
-    )
-    labels_stargazer_ordered <- unlist(labels_map[vars_existentes_continuas])
 
-    stargazer(df_descriptivos, title="Estadísticos Descriptivos de Variables Clave (Nivel Individual)", 
-              type = "html", summary.stat = c("n", "mean", "sd", "min", "median", "max"), digits=2,
-              notes=c("Fuente: Elaboración propia con datos de Latinobarómetro 2023.",
-                      paste0("SEXO: Hombres ", if('SEXO' %in% names(base_proc) && sum(!is.na(base_proc$SEXO)) > 0 && "Hombre" %in% levels(base_proc$SEXO)) round(prop.table(table(base_proc$SEXO))[['Hombre']]*100,1) else 'NA',
-                             "%, Mujeres ", if('SEXO' %in% names(base_proc) && sum(!is.na(base_proc$SEXO)) > 0 && "Mujer" %in% levels(base_proc$SEXO)) round(prop.table(table(base_proc$SEXO))[['Mujer']]*100,1) else 'NA', "%."),
-                      "Índices (Z) son promedios de ítems estandarizados (media aprox. 0, DE aprox. 1).",
-                      "Índice Primacía Mercado no se muestra debido a su baja fiabilidad (Alfa=0.246)."),
-              flip = FALSE, label = "tab:descriptivos", header = FALSE,
-              covariate.labels = labels_stargazer_ordered
-              )
-  } else { cat("<p>Variables para descriptivos no encontradas.</p>") }
-} else { cat("<p>'base_proc' no existe.</p>") }
+# 1. Etiquetar variables
+
+base_proc <- base_proc
 ```
 
 En promedio, la confianza en el Poder Judicial es de 2.04 (DE=0.94), en el Gobierno de 2.01 (DE=0.99), en el Congreso de 1.93 (DE=0.91), y en la Policía de 2.27 (DE=0.98). El `Índice Confianza Sector Privado` (M=-0.004, DE=0.80) y el `Índice Apertura Económica` (M=-0.01, DE=0.88) están estandarizados. La edad promedio es 41.54 años, el nivel educativo 4.34, y la escala política 6.05.

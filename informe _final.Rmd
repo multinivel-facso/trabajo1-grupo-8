@@ -145,7 +145,7 @@ base_proc <- na.omit(base_proc)
 
 # 7. Moficación y creacion de variables
 
-base_model_data <- base_proc %>%
+base_proc <- base_proc %>%
   mutate(
     conf_congreso = case_when(
       conf_congreso == 1 ~ 4,
@@ -408,39 +408,103 @@ Los ICC (entre 9.3% para Confianza Judicial y 14.7% para Confianza Gobierno) jus
 
 ## Modelos Preliminares con Predictores de Nivel 1
 
-```{r modelos_nivel1_latinobarometro, eval=TRUE, results='markup'}
-if(exists("base_proc") && "IDENPA" %in% names(base_proc) && 
-   exists("Indice_ConfPrivado", where = base_proc) && !is.na(sum(base_proc$Indice_ConfPrivado, na.rm=TRUE)) && sum(!is.na(base_proc$Indice_ConfPrivado)) > 0 ) { # Asegurar que Indice_ConfPrivado no es todo NA
-  vd_ejemplo_n1 <- "Confianza_Gobierno" 
-  predictor_ejemplo_n1 <- "Indice_ConfPrivado" 
-  
-  if (vd_ejemplo_n1 %in% names(base_proc) && sum(!is.na(base_proc[[vd_ejemplo_n1]])) > 100 &&
-      all(c("EDAD", "SEXO", "REEDUC.1", "P16ST", "IDENPA") %in% names(base_proc))) {
-    
-    formula_str <- paste(vd_ejemplo_n1, "~", predictor_ejemplo_n1, "+ EDAD + SEXO + REEDUC.1 + P16ST + (1 | IDENPA)")
-    vars_modelo_actual <- c(vd_ejemplo_n1, predictor_ejemplo_n1, "EDAD", "SEXO", "REEDUC.1", "P16ST", "IDENPA")
-    data_modelo_n1_ejemplo <- base_proc[complete.cases(base_proc[, vars_modelo_actual]), ]
-    
-    if(nrow(data_modelo_n1_ejemplo) > 100 && length(unique(data_modelo_n1_ejemplo$IDENPA)) > 1) {
-      cat(paste("\n--- Modelo de Nivel 1 para:", vd_ejemplo_n1, "con predictor principal:", predictor_ejemplo_n1, "---\n"))
-      modelo_estimado_n1_ejemplo <- tryCatch({
-        lmer(as.formula(formula_str), data = data_modelo_n1_ejemplo, REML = FALSE, 
-             control = lmerControl(optimizer ="bobyqa", optCtrl = list(maxfun = 2e5)))
-      }, error = function(e) {cat(paste("Error estimando modelo:", e$message, "\n")); return(NULL)})
-      
-      if (!is.null(modelo_estimado_n1_ejemplo)) { 
-        print(summary(modelo_estimado_n1_ejemplo)) 
-      }
-    } else {
-      cat(paste("No hay suficientes datos completos para estimar el modelo de ejemplo para", vd_ejemplo_n1, "con", predictor_ejemplo_n1, "\n"))
-    }
-  } else {
-    cat(paste("No se pudo estimar el modelo de ejemplo para", vd_ejemplo_n1, "con", predictor_ejemplo_n1, 
-              ". Verifique que las variables existan y tengan suficientes casos.\n"))
-  }
-} else { 
-  cat("<p>Variables para el modelo de ejemplo no disponibles (ej. Indice_ConfPrivado no se creó o base_proc no existe).</p>") 
-}
+```{r tabla-modelos-finales, results='asis', echo=FALSE, warning=FALSE, message=FALSE, fig.show='hide'}
+# --- CÓDIGO PARA LA TABLA COMPARATIVA DE MODELOS MULTINIVEL ---
+
+# 1. Cargar las librerías necesarias
+pacman::p_load(lme4, stargazer, dplyr)
+
+# 2. Estimar la secuencia de modelos
+# Es crucial usar REML = FALSE (ML) para poder comparar modelos con AIC/BIC.
+# Eliminamos las filas con NAs en las variables clave para asegurar que todos los modelos usan los mismos datos.
+datos_modelo <- base_proc %>%
+  select(ind_conf_inst, ind_conf_priv_c, ind_desig_c, edad_c, sexo, niv_educ_c, esc_pol_cat, pais, gini_c, gasto_social_c, pib_per_capita_c) %>%
+  na.omit()
+
+# Modelo 1: Predictores de Nivel 1, solo intercepto aleatorio.
+m1_intercepto <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + (1 | pais), 
+                      data = datos_modelo, REML = FALSE)
+
+# Modelo 2: Añadimos pendiente aleatoria para la confianza en privados.
+m2_pendiente <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + (1 + ind_conf_priv_c | pais), 
+                     data = datos_modelo, REML = FALSE)
+
+# Modelo 3: Modelo completo con predictores de Nivel 2 e interacciones.
+m3_interaccion <- lmer(ind_conf_inst ~ ind_conf_priv_c * gini_c + ind_conf_priv_c * gasto_social_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + pib_per_capita_c + (1 + ind_conf_priv_c | pais),
+                       data = datos_modelo, REML = FALSE)
+
+# 3. Crear las etiquetas para la tabla de stargazer
+var_labels <- c(
+  "Confianza en Privados (N1)", "Pro-Desigualdad (N1)", "Edad (N1)", "Sexo (Mujer)", "Nivel Educacional (N1)",
+  "Pos. Política: Centro", "Pos. Política: Derecha", "Pos. Política: Ninguna",
+  "Índice GINI (N2)", "Gasto Social (N2)", "PIB per cápita (N2)",
+  "Conf. Privados x GINI", "Conf. Privados x Gasto Social",
+  "Intercepto"
+)
+
+# 4. Crear líneas adicionales para las varianzas y estadísticos de ajuste
+varianzas_y_fit <- list(
+  "Varianza Intercepto (País)" = c(round(VarCorr(m1_intercepto)$pais, 3), round(VarCorr(m2_pendiente)$pais, 3), round(VarCorr(m3_interaccion)$pais, 3)),
+  "Varianza Pendiente (País)" = c("---", round(VarCorr(m2_pendiente)$pais, 3), round(VarCorr(m3_interaccion)$pais, 3)),
+  "Varianza Residual" = c(round(sigma(m1_intercepto)^2, 3), round(sigma(m2_pendiente)^2, 3), round(sigma(m3_interaccion)^2, 3)),
+  "AIC" = c(round(AIC(m1_intercepto)), round(AIC(m2_pendiente)), round(AIC(m3_interaccion))),
+  "BIC" = c(round(BIC(m1_intercepto)), round(BIC(m2_pendiente)), round(BIC(m3_interaccion))),
+  "N Observaciones" = c(nobs(m1_intercepto), nobs(m2_pendiente), nobs(m3_interaccion)),
+  "N Países" = c(length(unique(datos_modelo$pais)), length(unique(datos_modelo$pais)), length(unique(datos_modelo$pais)))
+)
+
+# 5. Generar la tabla final con stargazer
+stargazer(
+  m1_intercepto, m2_pendiente, m3_interaccion,
+  type = "html",
+  title = "Tabla 4: Modelos Multinivel para Predecir la Confianza Institucional",
+  header = FALSE,
+  align = TRUE,
+  dep.var.labels.include = FALSE,
+  dep.var.caption = "Variable Dependiente: Índice de Confianza Institucional",
+  column.labels = c("Modelo 1<br>(Intercepto Aleatorio)", "Modelo 2<br>(Pendiente Aleatoria)", "Modelo 3<br>(Interacción CLI)"),
+  column.separate = c(1, 1, 1),
+  covariate.labels = var_labels,
+  add.lines = varianzas_y_fit,
+  notes.align = "l",
+  notes = "N1: Nivel 1 (Individual, centrado al promedio del grupo). N2: Nivel 2 (País, centrado al promedio general). Coeficientes estandarizados. Errores estándar en paréntesis.",
+  star.cutoffs = c(0.05, 0.01, 0.001)
+)
+```
+
+```{r grafico-interaccion-final, echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig-cap="Figura 1: Efecto de la Confianza en el Sector Privado sobre la Confianza Institucional, Moderado por la Desigualdad (GINI) del País."}
+# --- CÓDIGO PARA EL GRÁFICO DE INTERACCIÓN ---
+
+# 1. Cargar las librerías necesarias
+pacman::p_load(ggeffects, ggplot2)
+
+# 2. Calcular los efectos predichos para la interacción clave
+# Le pedimos a ggeffects que calcule la confianza institucional predicha (y)
+# a lo largo de los valores de confianza privada (x),
+# para tres niveles distintos del moderador GINI (bajo, medio, alto).
+# Se utiliza el modelo final, m3_interaccion.
+predicciones_interaccion <- ggeffect(m3_interaccion, terms = c("ind_conf_priv_c", "gini_c"))
+
+# 3. Crear el gráfico usando el objeto de predicciones y ggplot2 para personalizar
+plot(predicciones_interaccion, connect.lines = TRUE) +
+  # Etiquetas claras y descriptivas
+  labs(
+    title = "La Desigualdad Modera el Vínculo entre Confianza Privada e Institucional",
+    subtitle = "El efecto positivo de la confianza en privados se debilita en países con mayor desigualdad.",
+    x = "Confianza en el Sector Privado (Individual)",
+    y = "Confianza Institucional (Predicha)",
+    color = "Nivel de Desigualdad\n(Índice GINI)"
+  ) +
+  # Un tema visual limpio y profesional
+  theme_minimal(base_size = 14) +
+  # Usar una paleta de colores más atractiva y clara (opcional pero recomendado)
+  scale_color_viridis_d(
+    labels = c("GINI Bajo (-1 DE)", "GINI Promedio", "GINI Alto (+1 DE)")
+  ) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    legend.position = "bottom"
+  )
 ```
 
 **Interpretación del Modelo de Ejemplo (`Confianza_Gobierno` \~ `Indice_ConfPrivado`):** El modelo multinivel para `Confianza_Gobierno` (N=14,462, Países=17): \* `Indice_ConfPrivado`: β = 0.409 (p \< 0.001). Un aumento de 1 DE en la confianza en el sector privado se asocia con un aumento de 0.409 puntos en la confianza en el gobierno. Apoya H2. \* `EDAD`: β = 0.003 (p \< 0.001). \* `SEXOMujer`: No significativo. \* `REEDUC.1`: β = -0.022 (p \< 0.001). \* `P16ST`: β = 0.006 (p \< 0.05). \* Varianza País (Intercepto): 0.1194. Varianza Residual: 0.7358.

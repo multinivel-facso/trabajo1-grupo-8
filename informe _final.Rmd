@@ -472,38 +472,36 @@ stargazer(
 )
 ```
 
-```{r grafico-interaccion-final, echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig-cap="Figura 1: Efecto de la Confianza en el Sector Privado sobre la Confianza Institucional, Moderado por la Desigualdad (GINI) del País."}
-# --- CÓDIGO PARA EL GRÁFICO DE INTERACCIÓN ---
+```{r grafico-interaccion-final, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Figura 1: Efecto de la Confianza en el Sector Privado sobre la Confianza Institucional, moderado por el Índice de GINI del país.", fig.align='center'}
+# --- CÓDIGO PARA VISUALIZAR LA INTERACCIÓN ENTRE NIVELES (CLI) ---
 
 # 1. Cargar las librerías necesarias
-pacman::p_load(ggeffects, ggplot2)
+# ggplot2 se carga automáticamente con ggeffects
+pacman::p_load(ggeffects, ggplot2, RColorBrewer) 
 
-# 2. Calcular los efectos predichos para la interacción clave
-# Le pedimos a ggeffects que calcule la confianza institucional predicha (y)
-# a lo largo de los valores de confianza privada (x),
-# para tres niveles distintos del moderador GINI (bajo, medio, alto).
-# Se utiliza el modelo final, m3_interaccion.
+# 2. Calcular los efectos predichos para la interacción
+# Usamos el modelo final 'm3_interaccion' que ya fue estimado.
+# terms = c("predictor_en_eje_x", "moderador_que_cambia_las_lineas")
 predicciones_interaccion <- ggeffect(m3_interaccion, terms = c("ind_conf_priv_c", "gini_c"))
 
-# 3. Crear el gráfico usando el objeto de predicciones y ggplot2 para personalizar
+# 3. Crear el gráfico usando el objeto de predicciones
+# plot() para objetos de ggeffects usa ggplot2 por debajo.
 plot(predicciones_interaccion, connect.lines = TRUE) +
-  # Etiquetas claras y descriptivas
+  # 4. Personalizar las etiquetas y el tema para publicación
   labs(
-    title = "La Desigualdad Modera el Vínculo entre Confianza Privada e Institucional",
-    subtitle = "El efecto positivo de la confianza en privados se debilita en países con mayor desigualdad.",
+    title = "El Efecto de la Confianza Privada es Moderado por la Desigualdad",
+    subtitle = "En países con mayor GINI, la confianza en el sector privado tiene un impacto menor en la confianza institucional.",
     x = "Confianza en el Sector Privado (Individual)",
     y = "Confianza Institucional (Predicha)",
-    color = "Nivel de Desigualdad\n(Índice GINI)"
+    colour = "Nivel de Desigualdad del País\n(Índice GINI)"
   ) +
-  # Un tema visual limpio y profesional
-  theme_minimal(base_size = 14) +
-  # Usar una paleta de colores más atractiva y clara (opcional pero recomendado)
-  scale_color_viridis_d(
-    labels = c("GINI Bajo (-1 DE)", "GINI Promedio", "GINI Alto (+1 DE)")
-  ) +
+  theme_minimal(base_size = 14) + # Un tema limpio con texto legible
+  scale_color_brewer(palette = "RdYlBu", labels = c("Bajo (-1 DE)", "Promedio", "Alto (+1 DE)")) + # Paleta de colores distintiva
   theme(
-    plot.title = element_text(face = "bold"),
-    legend.position = "bottom"
+    plot.title = element_text(face = "bold", hjust = 0.5), # Título centrado y en negrita
+    plot.subtitle = element_text(size = 12, hjust = 0.5), # Subtítulo centrado
+    legend.position = "bottom", # Leyenda abajo para más espacio horizontal
+    panel.grid.minor = element_blank() # Rejilla más limpia
   )
 ```
 

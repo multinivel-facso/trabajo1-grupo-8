@@ -71,19 +71,17 @@ m5_H6 <- lmer(esc ~ nse_cmc * prop_empleo_gmc +
 :::
 
 :::: {.column .column-right width="80%"}
-## **Desigualdad educativa en el Gran Santiago: un análisis multinivel de factores individuales y territoriales**
+## Actitudes Económicas y Confianza Institucional en America Latina: Un Análisis Multinivel Preliminar
 
 ------------------------------------------------------------------------
 
-**Juan Prado, Katherine Aravena Herrera, Paula Cerda Torres & Sebastián Monreal Villarroel**
+**Yerkho Nuñez, Dorian Ñanco, Morgan Salazar Análisis de datos multinivel - 2025**
 
 ::: {.red2 .medium}
-**Análisis de datos multinivel - 2025**
-
 **Departamento de Sociología, Universidad de Chile**
 :::
 
-Santiago, 19 de Junio de 2025
+Santiago, 25 de Junio de 2025
 ::::
 
 [Github repo](link%20al%20repo)
@@ -97,22 +95,22 @@ Aquí mis notas
 
 -   **Problema/Objeto de estudio:**
 
-    | La desigualdad educativa persiste como una de las principales barreras para la movilidad social en Chile, especialmente en la Región Metropolitana de Santiago. A pesar de la expansión del acceso educativo, las diferencias en años de escolaridad continúan reproduciendo desigualdades estructurales entre grupos sociales. Este estudio busca comprender cómo estas diferencias se explican a partir de la interacción entre recursos familiares y condiciones territoriales en el Gran Santiago.
+    | Uno de los componentes fundamentales de la sociedad son las instituciones, cada una cumpliendo un rol específico según las necesidades de la población y los problemas emergentes, con el fin de asegurar el bienestar colectivo (North, 1993). La efectividad y legitimidad de estas instituciones no solo dependen de sus acciones formales, sino también de la percepción pública y las nociones predominantes sobre cómo deben enfrentar los problemas, sus causas y soluciones. Un ejemplo claro es la desconfianza ciudadana hacia las fuerzas policiales para combatir la delincuencia, lo que puede llevar a que los individuos prefieran la autodefensa como solución a problemas de seguridad, como la invasión de la propiedad privada (Kahan, 2001; Smulovitz & Peruzzotti, 2000).
 
 ------------------------------------------------------------------------
 
--   **Factores asociados L1:** Nivel socioeconómico del hogar, Género y Participación social familiar
+-   **Factores asociados L1:** Variable dependiente, Indice Agentes Economicos, Desigualdad, Sistema Unico y Variables de control.
 
-    > Estos factores se entienden como recursos o desventajas que configuran las trayectorias escolares desde el origen social, afectando tanto el acceso como la permanencia y el logro educativo.
+    Se utiliza la encuesta Latinobarómetro 2023. Los datos fueron procesados para seleccionar las variables de interés, tratar valores perdidos y recodificar ítems para la construcción de escalas e índices. Las Variables expresan la confianza que se tienen ante instituciones publicas y poderes del estado bajo el contexto del modelo neoliberal siendo parte de la base datos la division por sexo y edad siendo las que conforman las variables de control.
 
--   **Factores asociados L2:** Tasa de empleo comunal y Oferta escolar comunal (densidad de establecimientos)
+-   **Factores asociados L2:** País y Porcentaje de Gasto Social en el PIB
 
-    > Ambas variables expresan las condiciones estructurales del territorio, influyendo en las oportunidades educativas disponibles. Se incorporan para analizar cómo el entorno puede amplificar o mitigar las desigualdades preexistentes, más allá de las características individuales.
+    > Las Variables se componen por cada Pais del contiente junto con el gasto social que realizan anualmente componiendo esta variable el indice de Gini y el PIB per capita.
 
 ##  {data-background-color="#FF0000"}
 
 ::: {.center .middle}
-[¿En qué medida los distintos factores de socialización —tanto familiares como territoriales— influyen en los años de escolaridad de los habitantes del Gran Santiago?]{style="font-size: 230%;"}
+¿Cómo se asocian las actitudes individuales pro-mercado (divididas en dimensiones como la creencia en la primacía del mercado, la confianza en el sector privado y el apoyo a la apertura económica) con la confianza en instituciones gubernamentales clave (Poder Judicial, Gobierno, Congreso, Policía) en los ciudadanos de diversos países latinoamericanos, y **qué proporción de la varianza en esta confianza se debe a diferencias entre los países?**
 :::
 
 # Hipótesis:
@@ -143,64 +141,80 @@ $H_6$: El efecto positivo del nivel socioeconómico (NSE) sobre la escolaridad e
 
 ## Datos
 
-\[Se utilizó la base de datos de la **CASEN 2022**, que tiene un diseño muestral probabilístico, estratificado por región, comuna y área urbana/rural.
-
-Para el análisis se trabajó con **22.706 individuos** (nivel 1) de 18 o más años, anidados dentro de las **32 comunas** del Gran Santiago (nivel 2), con un promedio de 702 casos por comuna.\]
+\[Se utilizó la base de datos del Latinobarometro del año 2023, tiene un diseño divido por país, sexo y edad. Para el analisis se uso una cantidad de 13.157 personas dividido en 17 paises de America Latina.\]
 
 ## Variables
 
-```{r tabla_nivel1, echo=FALSE, results='asis'}
+```{r carga_datos_latinobarometro, eval=TRUE, include=FALSE}
+# 1. Carga de Librerias
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(lme4, 
+               haven, 
+               stargazer, 
+               ggplot2, 
+               texreg, 
+               dplyr, 
+               psych, 
+               kableExtra, 
+               ggeffects, 
+               reghelper, 
+               gtsummary,
+               rnaturalearth,
+               rnaturalearthdata,
+               sf,
+               ggdist,
+               patchwork)
 
-### --------- NIVEL 1: variables individuales -----------------------------
-nivel1 <- casen_educ %>%
-  mutate(
-    female          = as.numeric(female),          # 0 / 1
-    part_social_num = as.numeric(part_social_num)
-  ) %>%
-  select(esc, female, nse_numerico, part_social_num) %>%
-  as.data.frame()
+# 2 Carga de Base de Datos
+base_raw <- haven::read_sav("input/data/latinobarometro_2023.sav", user_na = TRUE) 
 
-html_lvl1 <- paste(
-  capture.output(
-    stargazer(
-      nivel1,
-      type   = "html",
-      title  = "Estadísticos descriptivos – Nivel 1 (individual)",
-      digits = 2,
-      summary.stat = c("n","min","p25","median","mean","p75","max","sd")
-    )
-  ),
-  collapse = "\n"
+# 3. Seleccion de Variables Nivel 1
+base_proc <- base_raw %>% 
+  select(
+    # ID Agregada
+    pais = IDENPA, 
+    # Nivel 1, Control
+    edad = EDAD, 
+    sexo = SEXO, 
+    niv_educ = REEEDUC.1, 
+    esc_pol = P16ST,
+    # Nivel 1, VD
+    conf_congreso = P13ST.D,
+    conf_gobierno = P13ST.E, 
+    conf_judicial = P13ST.F,
+    # Nivel 1, Indice Agentes Economicos
+    conf_cias_nac = P14ST.B,
+    conf_cias_int = P14ST.E,
+    conf_bancos = P14ST.F,
+    # Nivel 1, Desigualdad
+    neol_acept_des = P61ST,
+    neol_dist_ing = P17ST,
+    # Nivel 1, Sistema unico
+    neol_unico = P54ST.B, 
+  )
+
 )
 
-### --------- NIVEL 2: variables comunales -------------------------------
-nivel2 <- casen_educ %>%
-  select(comuna, n_escuelas, prop_empleo) %>%
-  distinct() %>%                       # una fila por comuna
-  select(n_escuelas, prop_empleo) %>%  # solo numéricas
-  as.data.frame()
-
-html_lvl2 <- paste(
-  capture.output(
-    stargazer(
-      nivel2,
-      type   = "html",
-      title  = "Estadísticos descriptivos – Nivel 2 (comunal)",
-      digits = 2,
-      summary.stat = c("n","min","p25","median","mean","p75","max","sd")
-    )
-  ),
-  collapse = "\n"
+### # 4. Adición de Variables Nivel 2
+datos_pais <- data.frame(
+  # ID Agregada
+  pais = c(32, 68, 76, 152, 170, 188, 218, 222, 320, 340, 484, 558, 591, 600, 858, 862, 214), 
+  # Etiqueta Agregada
+  nombrepais = c("Argentina", "Bolivia", "Brasil", "Chile", "Colombia", "Costa Rica", "Ecuador", "El Salvador", 
+                 "Guatemala", "Honduras", "México", "Nicaragua", "Panamá", "Paraguay", "Uruguay", "Venezuela", "Rep. Dominicana"),
+  # Nivel 2, % de Gasto Social en el PIB
+  gasto_social= c(37.84, 36.00, 45.31, 27.40, 35.45, 18.51, 39.45, 30.38, 13.72, 26.10, 28.59, 26.06, 21.49, 21.48, 30.52, 34.37, 19.13), # Datos extraidos de https://datosmacro.expansion.com/estado/gasto?anio=2023
+  # Nivel 2, Desigualdad
+  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 46.2, 48.9, 45.1, 40.6, 44.7, 37.0), #Datos de Guatemala y Nicaragua de 2014, Venezuela de 2006 # Datos extraidos de https://datosmacro.expansion.com/demografia/indice-gini
+  # Nivel 2. Control
+  pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 2612.87, 18686.41, 6276.35, 22797.81, NA, 10717.63) 
+  )
 )
 
-### --------- COMBINA Y MUESTRA ------------------------------------------
-knitr::asis_output(
-  paste0(
-    '<div style="font-size:85%; width:95%; margin:0 auto;">',
-    html_lvl1,
-    '<br><br>',     # espacio entre tablas
-    html_lvl2,
-    '</div>'
+### 5. Merge de bases
+
+base_proc <- left_join(base_proc, datos_pais, by = "pais")
+
   )
 )
 invisible(NULL)
@@ -209,7 +223,9 @@ invisible(NULL)
 
 ## Métodos
 
-Se utilizó una metodología de análisis estadístico multinivel. De este modo se puede observar de manera más precisa cómo \_\_las trayectorias educativas\_\_ se configuran por la interacción entre \_\_factores individuales\_\_ (nivel socioeconómico, género o participación social) y \_\_contextuales\_\_ (oferta escolar o tasa de empleo comunal).
+Para el análisis estadístico se uso una metodología multinivel para asi poder observar la confianza en instituciones gubernamentales según cada pais, el modelo economico de cada uno de estos junto a divisiones de sexo y edad.
+
+Se uso Rstudio para lograr el análisis de datos, se uso
 
 El análisis de datos se realizó en Rstudio, utilizando \_lmer\_ para la construcción de los modelos, \_sjPlot\_ para la visualización de los datos y \_summary tools\_ para generar descriptivos univariados
 
@@ -582,13 +598,13 @@ Cimadamore, A. D., & Cattani, A. D. (Coords.). (2008). Producción de pobreza y 
 
 Finch, W. H., Bolin, J. E., & Kelley, K. (2019). Multilevel modeling using R. Chapman and Hall/CRC.
 
-Instituto Nacional de Evaluación Educativa. (2011). PIRLS–TIMSS 2011. Estudio Internacional de Progreso en Comprensión Lectora, Matemáticas y Ciencias. Volumen I: Informe español. IEA.[ https://www.mecd.gob.es/inee](https://www.mecd.gob.es/inee)
+Instituto Nacional de Evaluación Educativa. (2011). PIRLS–TIMSS 2011. Estudio Internacional de Progreso en Comprensión Lectora, Matemáticas y Ciencias. Volumen I: Informe español. IEA.<https://www.mecd.gob.es/inee>
 
 Ministerio de Educación de Chile. (2023). Informe de resultados SIMCE y brechas por grupo socioeconómico. Santiago: MINEDUC.
 
 Ministerio de Desarrollo Social y Familia. (2022). Encuesta de Caracterización Socioeconómica Nacional (Casen) 2022. Gobierno de Chile.
 
-OECD. (2021). Education at a Glance: OECD Indicators. OECD Publishing.[ https://doi.org/10.1787/b35a14e5-en](https://doi.org/10.1787/b35a14e5-en)
+OECD. (2021). Education at a Glance: OECD Indicators. OECD Publishing.<https://doi.org/10.1787/b35a14e5-en>
 
 Peláez González, C., & Rodríguez, S. A. (2020). Género, trabajo y educación: Diferencias entre hombres y mujeres en la entrada al primer empleo. Revista Interdisciplinaria de Estudios de Género de El Colegio de México, 6, e494.
 

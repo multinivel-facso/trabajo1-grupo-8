@@ -99,11 +99,11 @@ Aquí mis notas
 
 ------------------------------------------------------------------------
 
--   **Factores asociados L1:** Variable dependiente, Indice Agentes Economicos, Desigualdad, Sistema Unico y Variables de control.
+-   **Factores asociados L1:** Confianza en instituciones, Actitudes Pro- mercado, Variables de control.
 
     Se utiliza la encuesta Latinobarómetro 2023. Los datos fueron procesados para seleccionar las variables de interés, tratar valores perdidos y recodificar ítems para la construcción de escalas e índices. Las Variables expresan la confianza que se tienen ante instituciones publicas y poderes del estado bajo el contexto del modelo neoliberal siendo parte de la base datos la division por sexo y edad siendo las que conforman las variables de control.
 
--   **Factores asociados L2:** País y Porcentaje de Gasto Social en el PIB
+-   **Factores asociados L2:** País y Porcentaje de Gasto Social en el PIB, Indice de Gini
 
     > Las Variables se componen por cada Pais del contiente junto con el gasto social que realizan anualmente componiendo esta variable el indice de Gini y el PIB per capita.
 
@@ -117,25 +117,18 @@ Aquí mis notas
 
 **Nivel 1:**
 
-$H_1$: Las mujeres completan, en promedio, menos años de escolaridad que los hombres.
+$H_1$: (Nivel Individual):** Una mayor adhesión individual a la "Creencia en la Primacía y Eficiencia del Mercado" se asociará positivamente con la confianza en el Poder Judicial y la Policía. *(Nota: Dada la muy baja fiabilidad del índice (Alfa=0.246), esta hipótesis se explorará utilizando ítems individuales en el informe final).*
+$H_2$: (Nivel Individual):** Una mayor "Confianza individual en el Sector Privado y Actores Económicos" se asociará positivamente con la confianza en el Gobierno.
 
-$H_2$: Cuanto más alto es el nivel socioeconómico (NSE) del hogar, más años de escolaridad alcanza el estudiante.
-
-$H_3$: Provenir de un hogar con baja participación social reduce los años de escolaridad frente a hogares activos en redes comunitarias.
-
+$H_3$:(Nivel Individual):** Un mayor "Apoyo individual a la Apertura Económica e Integración Global" se asociará positivamente con la confianza en el Congreso.
 **Nivel 2:**
 
-$H_4$: Las comunas con mayor tasa de empleo presentan una escolaridad promedio más alta.
+$H_4$: Existirá una varianza significativa en la confianza en el Poder Judicial, Gobierno, Congreso y Policía atribuible a las diferencias entre países latinoamericanos (ICC \> 0.05).
 
-$H_5$: Las comunas con mayor número de escuelas ofrecen más oportunidades y muestran mayores años de escolaridad.
+$H_5$:En países con menor desigualdad (medida por el índice de Gini), la relación positiva entre la confianza individual en el mercado y la confianza en las instituciones estatales es más fuerte
 
 ------------------------------------------------------------------------
 
-**Interacción entre niveles:**
-
-$H_6$: El efecto positivo del nivel socioeconómico (NSE) sobre la escolaridad es más intenso en comunas con alta tasa de empleo; un mercado laboral dinámico potencia los recursos familiares.
-
-![Modelo teórico (hipótesis)](input/img/Años_de_escolaridad.png){fig-align="center" width="638" height="364"}
 
 # Metodología {data-background-color="#FF0000"}
 
@@ -229,25 +222,21 @@ Se uso Rstudio para lograr el análisis de datos, se uso
 
 El análisis de datos se realizó en Rstudio, utilizando \_lmer\_ para la construcción de los modelos, \_sjPlot\_ para la visualización de los datos y \_summary tools\_ para generar descriptivos univariados
 
-Se estimaron un total de 6 modelos, siguientes modelos:
+Se estimaron un total de 3 modelos, siguientes modelos:
 
 ## Modelo nulo
 
 $$
-\text{esc}_{ij} \;=\; \gamma_{00}
-+ u_{0\text{comuna}}
-+ r_{ij}
+
+\text{conf}_{ij} = \gamma_{00} + u_{0j} + r_{ij}
+
 $$
+
 
 ## Modelo 1 con variables independientes individuales
 
 $$
-\text{esc}_{ij} \;=\; \gamma_{00}
-+ \gamma_{01}\,\text{female}
-+ \gamma_{02}\,\text{nse_cmc}
-+ \gamma_{03}\,\text{part_social_num}
-+ u_{0\text{comuna}}
-+ r_{ij}
+\text{conf}_{ij} = \beta_{0j} + \beta_{1j} \cdot \text{neolib}_{ij} + \beta_{2j} \cdot \text{edad}_{ij} + \beta_{3j} \cdot \text{genero}_{ij} + \beta_{4j} \cdot \text{educ}_{ij} + \beta_{5j} \cdot \text{ingreso}_{ij} + \beta_{6j} \cdot \text{ideo}_{ij} + r_{ij} 
 $$
 
 ## Modelo 2 con variables independientes contextuales
@@ -265,50 +254,14 @@ $$
 :::: {style="font-size:85%"}
 ::: {style="overflow-x: auto; white-space: nowrap;"}
 $$
-\text{esc}_{ij}= \gamma_{00}
-+ \gamma_{01}\,\text{female}
-+ \gamma_{02}\,\text{nse_cmc}
-+ \gamma_{03}\,\text{part_social_num}
-+ \gamma_{04}\,\text{prop_empleo_gmc}
-+ \gamma_{05}\,\text{n_escuelas_gmc}
-+ u_{0\text{comuna}}
-+ r_{ij}
-$$
-:::
-::::
-
-## Modelo 4 con intercepto y pendiente aleatoria de NSE
-
-:::: {style="font-size:85%"}
-::: {style="overflow-x: auto; white-space: nowrap;"}
-$$
-\text{esc}_{ij}= \gamma_{00}
-+ \gamma_{01}\,\text{female}
-+ \gamma_{02}\,\text{nse_cmc}
-+ \gamma_{03}\,\text{part_social_num}
-+ \gamma_{04}\,\text{prop_empleo_gmc}
-+ \gamma_{05}\,\text{n_escuelas_gmc}
-+ u_{0\text{comuna}}
-+ u_{1\text{comuna}}\,\text{nse_cmc}
-+ r_{ij}
-$$
-:::
-::::
-
-## Modelo 5 con interacción entre NSE y empleo
-
-:::: {style="font-size:85%"}
-::: {style="overflow-x: auto; white-space: nowrap;"}
-$$
-\text{esc}_{ij}= \gamma_{00}
-+ \gamma_{01}\,\text{nse_cmc}
-+ \gamma_{02}\,\text{prop_empleo_gmc}
-+ \gamma_{03}\,\text{part_social_num}
-+ \gamma_{04}\,\text{n_escuelas_gmc}
-+ \gamma_{05}\,\text{female}
-+ \gamma_{06}\bigl(\text{nse_cmc}\,\times\,\text{prop_empleo_gmc}\bigr)
-+ u_{0\text{comuna}}
-+ u_{1\text{comuna}}\,\text{nse_cmc}
+\text{conf}_{ij} = \gamma_{00} 
++ \gamma_{10} \cdot \text{neolib}_{ij}
++ \gamma_{20} \cdot \text{edad}_{ij}
++ \gamma_{30} \cdot \text{genero}_{ij}
++ \gamma_{40} \cdot \text{educ}_{ij}
++ \gamma_{01} \cdot \text{GINI}_j
++ \gamma_{02} \cdot \text{gasto}_j
++ u_{0j} 
 + r_{ij}
 $$
 :::

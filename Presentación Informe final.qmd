@@ -227,13 +227,6 @@ Santiago, 25 de Junio de 2025
 
 ------------------------------------------------------------------------
 
--   **Variable Independiente:** Indice Confianza en Instituciones Gubermanentales (CIG)
-
--   **Varaibles Dependientes L1 (Individual):** Indice Confianza en Sector Privado (CSP), Indice Aceptación Desigualdad (AD).
-
--   **Variables Contextuales L2 (Pais):** % de Gasto Social en el PIB (GS), Indice de Gini (GINI)
-
--   **Variables de Control:** L1: Sexo, edad, nivel educativo(NE), posición politica(PP); L2: PIB per Capita(En miles de dolares)(PPP)
 
     Se utiliza la encuesta Latinobarómetro 2023. Los datos fueron procesados para seleccionar las variables de interés, tratar valores perdidos y recodificar ítems para la construcción de escalas e índices. Las Variables expresan la confianza que se tienen ante instituciones publicas y poderes del estado bajo el contexto del modelo neoliberal siendo parte de la base datos la division por sexo y edad siendo las que conforman las variables de control.
 
@@ -278,14 +271,16 @@ ggplot(base_proc, aes(x = reorder(nombrepais, CIG, FUN = median), y = CIG)) +
 
 -   **Datos:** Encuesta **Latinobarómetro 2023**.
 -   **Muestra:** **12,023** individuos en **15** países.
--   **Método:** Modelamiento multinivel progresivo.
-    1.  **Modelo Nulo (ICC):** ¿Vale la pena un modelo multinivel?
-    2.  **Modelo de Interceptos Aleatorios:** Añadimos efectos individuales (Nivel 1).
-    3.  **Modelo Multinivel Completo:** Añadimos efectos contextuales (Nivel 2).
-    4.  **Modelo de Coeficientes Aleatorios:** ¿Varían los efectos de CSP y AD entre países?
-    5.  **Modelo Final con Interacciones:** Probamos las hipótesis de moderación.
 
 ## Variables
+
+-   **Variable Independiente:** Indice Confianza en Instituciones Gubermanentales (CIG)
+
+-   **Varaibles Dependientes L1 (Individual):** Indice Confianza en Sector Privado (CSP), Indice Aceptación Desigualdad (AD).
+
+-   **Variables Contextuales L2 (Pais):** % de Gasto Social en el PIB (GS), Indice de Gini (GINI)
+
+-   **Variables de Control:** L1: Sexo, edad, nivel educativo(NE), posición politica(PP); L2: PIB per Capita(En miles de dolares)(PPP)
 
 # ============================
 # CARGA DE DATOS Y LIBRERÍAS
@@ -374,8 +369,6 @@ base_proc <- left_join(base_proc, datos_pais, by = "pais")
 
 # No imprimir resultados
 invisible(NULL)
-
-
 ```
 
 ## Métodos
@@ -389,57 +382,28 @@ El análisis de datos se realizó en Rstudio, utilizando \_lmer\_ para la constr
 Se estimaron un total de 6 modelos, siguientes modelos:
 
 ## Modelos de Nivel 1
-efecto negativo esperado
 
+-   **Método:** Modelamiento multinivel progresivo.
+    1.  **Modelo Nulo (ICC):** ¿Vale la pena un modelo multinivel?
 $$
-
-\text{CIG}_{ij} = \gamma_{00} + \gamma_{10} \cdot \text{CSP}_{ij} + u_{0j} + r_{ij}
-
+\text{CIG}_{ij} = \gamma_{00} + u_{0j} + r_{ij}
 $$
-
-
-## Modelo 2 
-
+    2.  **Modelo de Interceptos Aleatorios:** Añadimos efectos individuales (Nivel 1).
 $$
-\text{CIG}_{ij} = \gamma_{00} + \gamma_{10} \cdot \text{AD}_{ij} + u_{0j} + r_{ij}
+\text{CIG}_{ij} = \gamma_{00} + \gamma_{10}(\text{CSP}_{ij}) + \gamma_{20}(\text{AD}_{ij}) + \gamma_{30}(\text{Sexo}_{ij}) + \gamma_{40}(\text{Edad}_{ij}) + \gamma_{50}(\text{NE}_{ij}) + \gamma_{60}(\text{PP}_{ij}) + u_{0j} + r_{ij}
 $$
-
-
-## Nivel 2: Modelo con variables independientes contextuales
-
+    3.  **Modelo Multinivel Completo:** Añadimos efectos contextuales (Nivel 2).
 $$
-\text{CIG}_{ij} = \gamma_{00} + \gamma_{01} \cdot \text{GS}_{j} + u_{0j} + r_{ij}
+\text{CIG}_{ij} = \gamma_{00} + \gamma_{10}(\text{CSP}_{ij}) + \gamma_{20}(\text{AD}_{ij}) + \gamma_{30}(\text{Sexo}_{ij}) + \gamma_{40}(\text{Edad}_{ij}) + \gamma_{50}(\text{NE}_{ij}) + \gamma_{60}(\text{PP}_{ij}) + \gamma_{01}(\text{GS}_{j}) + \gamma_{02}(\text{GINI}_{j}) + \gamma_{03}(\text{PPP}_{j}) + u_{0j} + r_{ij}
 $$
-
-
-## Modelo 3 con variables independiente individual y contedtuales
-
-:::: {style="font-size:85%"}
-::: {style="overflow-x: auto; white-space: nowrap;"}
+    4.  **Modelo de Coeficientes Aleatorios:** ¿Varían los efectos de CSP y AD entre países?
 $$
-\text{CIG}_{ij} = \gamma_{00} + \gamma_{01} \cdot \text{GINI}_{j} + u_{0j} + r_{ij}
+\text{CIG}_{ij} = \underbrace{\gamma_{00} + \gamma_{10}(\text{CSP}_{ij}) + \dots + \gamma_{03}(\text{PPP}_{j})}_\text{Parte Fija} + \underbrace{u_{0j} + u_{1j}(\text{CSP}_{ij}) + u_{2j}(\text{AD}_{ij}) + r_{ij}}_\text{Parte Aleatoria}
 $$
-# Modelo 5 Interacción entre niveles
-
+    5.  **Modelo Final con Interacciones:** Probamos las hipótesis de moderación.
 $$
-\text{CIG}_{ij} = \gamma_{00} 
-+ \gamma_{10} \cdot \text{AD}_{ij} 
-+ \gamma_{01} \cdot \text{GINI}_{j} 
-+ \gamma_{11} \cdot (\text{AD}_{ij} \times \text{GINI}_{j}) 
-+ u_{0j} + r_{ij}
+\text{CIG}_{ij} = \gamma_{00} + \underbrace{[\gamma_{10} + \gamma_{11}(\text{GS}_{j})]}_{\text{Efecto de CSP condicionado por GS}}(\text{CSP}_{ij}) + \underbrace{[\gamma_{20} + \gamma_{21}(\text{GINI}_{j})]}_{\text{Efecto de AD condicionado por GINI}}(\text{AD}_{ij}) + \dots + \text{Controles} + u_{0j} + u_{1j}(\text{CSP}_{ij}) + u_{2j}(\text{AD}_{ij}) + r_{ij}
 $$
-
-
-#Modelo 6 
-
-$$
-\text{CIG}_{ij} = \gamma_{00} 
-+ \gamma_{10} \cdot \text{CSP}_{ij} 
-+ \gamma_{01} \cdot \text{GS}_{j} 
-+ \gamma_{11} \cdot (\text{CSP}_{ij} \times \text{GS}_{j}) 
-+ u_{0j} + r_{ij}
-$$
-
 
 :::
 ::::

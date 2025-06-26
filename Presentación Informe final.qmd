@@ -239,15 +239,17 @@ Santiago, 25 de Junio de 2025
 ¿Cómo se asocian las actitudes individuales pro-mercado (confianza en el sector privado, la aceptación de la desigualdad) y el contexto socio-económico del pais (coeficiente de Gini, PIB per capita, % de Gasto social) con la confianza en instituciones gubernamentales (Poder Judicial, Gobierno y Congreso) en los ciudadanos de diversos países latinoamericanos, y **qué proporción de la varianza en esta confianza se debe a diferencias entre los países?**
 :::
 ::: {.column width="40%"}
-```{r boxplot-intro, fig.height=4.5}
-ggplot(base_proc, aes(x = reorder(nombrepais, CIG, FUN = median), y = CIG)) +
-   geom_boxplot(fill = "skyblue", alpha = 0.7) +
-   coord_flip() +
+```{r boxplot-justificacion, echo=FALSE, fig.height=5}
+ggplot(base_proc, aes(x = reorder(nombrepais, ind_conf_inst, FUN = median), y = ind_conf_inst)) +
+  geom_boxplot(fill = "skyblue", alpha = 0.7) +
+  coord_flip() +
   labs(
-     title = "Confianza Institucional por País",
-    x = "", y = "Índice de Confianza (CIG)"
-   ) +
-   theme_minimal(base_size = 10)
+    title = "La Confianza Institucional Varía Notablemente por País",
+    subtitle = "Justificación visual para el análisis multinivel",
+    x = "País",
+    y = "Índice de Confianza Institucional (CIG)"
+  ) +
+  theme_minimal(base_size = 14)
 ```
 
 # Hipótesis:

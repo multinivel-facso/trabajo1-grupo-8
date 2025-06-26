@@ -64,16 +64,23 @@ Analizar la relación entre las actitudes económicas individuales y la confianz
 3.  Determinar si la relación entre las actitudes individuales y la confianza institucional varía significativamente entre los países.
 4.  Probar si variables contextuales a nivel de país (Nivel 2), como la desigualdad económica (GINI) y el Gasto Social, moderan la relación observada a nivel individual.
 
+¡Excelente pregunta! Es una oportunidad perfecta para pulir una sección ya buena y hacerla ejemplar, siguiendo la "filosofía" del curso.
+
+La clave en un informe multinivel es que las hipótesis reflejen la **estructura anidada** de los datos y la **lógica progresiva** del modelamiento. Se espera que no solo listes las hipótesis, sino que las organices por nivel de análisis.
+
+Basándome en la guía del curso y la estructura de tu informe, así es como reorganizaría y refinaría tu sección de hipótesis para que sea un modelo a seguir.
+
 #### **2.3. Hipótesis**
 
-Las hipótesis de este estudio se estructuran en función de los niveles de análisis:
+*   **Hipótesis de Varianza Contextual (Nivel 2):**
+    *   **H1:** Existirá una varianza significativa en la confianza institucional que puede ser atribuida a diferencias sistemáticas entre los países. Se espera que el Coeficiente de Correlación Intraclase (ICC) sea superior a 0.05, justificando el uso de un modelo multinivel.
 
 *   **Hipótesis de Efectos Individuales (Nivel 1):**
-    *   **H2:** A mayor confianza individual en el sector privado, se registrará una **menor** confianza en las instituciones estatales, controlando por otros factores.
+    *   **H2:** A mayor confianza individual en el sector privado, se registrará una **menor** confianza en las instituciones estatales, controlando por otros factores. Esta hipótesis se basa en la teoría de que la adhesión a la lógica de mercado puede generar escepticismo hacia el sector público.
 
 *   **Hipótesis de Interacción Entre Niveles (Cross-Level Interaction):**
-    *   **H3:** La relación negativa postulada en H2 será significativamente **más fuerte** en países con mayores niveles de desigualdad (GINI).
-    *   **H4:** La relación negativa postulada en H2 será significativamente **más débil** en países con mayores niveles de Gasto Social.
+    *   **H3:** La relación negativa postulada en H2 será significativamente **más fuerte** en países con mayores niveles de desigualdad económica (medida por el Índice de GINI). Se argumenta que en contextos más desiguales, la percepción de un "juego arreglado" exacerba la desconfianza en el Estado entre quienes adhieren a una visión de mercado.
+    *   **H4:** La relación negativa postulada en H2 será significativamente **más débil** (o incluso podría revertirse) en países con mayores niveles de Gasto Social. Se postula que un Estado de bienestar robusto legitima a las instituciones públicas, atenuando la tensión entre la confianza en el mercado y en el Estado.
 
 ### **3. Datos, Variables y Método**
 

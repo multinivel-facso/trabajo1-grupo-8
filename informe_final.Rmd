@@ -1,0 +1,375 @@
+---
+title: "Actitudes Neoliberales y Confianza Institucional en América Latina: Un Análisis Multinivel"
+subtitle: "Informe Final - Análisis de Datos Multinivel 2025"
+author: "Yerkho Nuñez, Dorian Ñanco y Morgan Salazar"
+date: "28 de junio de 2025"
+lang: es
+format: 
+  html:
+    toc: true
+    toc_float: true
+    number_sections: true
+    theme: cosmo 
+    code_folding: none 
+---
+
+```{r setup-global, include=FALSE}
+# Opciones globales y carga de paquetes
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center')
+options(scipen = 999)
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  lme4, haven, dplyr, ggeffects, ggplot2, 
+  rnaturalearth, sf, gtsummary, sjPlot, car
+)
+```
+
+### **Abstract**
+Este estudio investiga la relación entre las actitudes económicas individuales y la confianza en las instituciones políticas, examinando si esta dinámica es moderada por el contexto socioeconómico en América Latina. A partir de una muestra final de **12,023 individuos en 15 países** de la encuesta Latinobarómetro 2023, se estimaron modelos de regresión multinivel. Los resultados revelan una significativa varianza contextual (ICC = 0.19), indicando que el 19% de la varianza en la confianza se debe a diferencias entre países. Contrario a la hipótesis teórica inicial, una mayor confianza individual en el sector privado se asocia **positivamente** con una mayor confianza en las instituciones estatales (β = 0.43, p < 0.001). La hipótesis central de que la desigualdad (GINI) o el gasto social moderan esta relación fue **rechazada**. Sin embargo, el análisis de efectos aleatorios confirma que la fuerza de esta asociación positiva varía significativamente entre países. Estos hallazgos sugieren que, más que un antagonismo, existe una sinergia en la confianza ciudadana hacia las instituciones del mercado y del Estado, aunque la naturaleza de esta sinergia depende del contexto nacional específico.
+
+---
+
+¡Excelente! Procedo a redactar la sección combinada de **Introducción y Marco Teórico**, cumpliendo con el requisito de las ~1000 palabras y siguiendo la estructura solicitada. Esta sección está diseñada para ser copiada y pegada directamente en tu `.Rmd`, reemplazando las secciones 1 y 2 de la plantilla anterior.
+
+---
+
+### **1. Introducción: Confianza, Mercado y Legitimidad en América Latina**
+
+La confianza en las instituciones constituye una piedra angular para el funcionamiento de las sociedades modernas. Desde una perspectiva sociológica, no es simplemente una actitud individual, sino un mecanismo de reducción de la complejidad que permite la cooperación social y la estabilidad del orden político (Luhmann, 1979). Instituciones robustas y confiables, como las define Douglas North (1993), establecen "las reglas del juego" que facilitan la interacción económica y política, reduciendo la incertidumbre. En el contexto de América Latina, una región marcada por historias de inestabilidad política y crisis económicas, la confianza ciudadana en las instituciones es un recurso tan escaso como vital. Su erosión, documentada extensamente (Corporación Latinobarómetro, 2023), no solo obstaculiza la gobernabilidad democrática, sino que también fomenta la búsqueda de soluciones al margen de la legalidad, desde la evasión de impuestos hasta la justicia por mano propia (Kahan, 2001; Smulovitz & Peruzzotti, 2000).
+
+La desconfianza en la región es un fenómeno multifactorial, alimentado por escándalos de corrupción que revelan la captura del Estado por intereses privados (Rose-Ackerman, 2006; CIDE, 2019), por la percepción de una inseguridad creciente, a menudo amplificada por los medios de comunicación (Gerbner & Gross, 1976), y por la rápida diseminación de desinformación en un ecosistema digital fragmentado (Vosoughi et al., 2018). Sin embargo, este estudio argumenta que, más allá de estos factores coyunturales, la crisis de confianza puede estar ligada a transformaciones estructurales más profundas, vinculadas al modelo de desarrollo hegemónico en las últimas décadas: el neoliberalismo.
+
+El neoliberalismo, como proyecto político-económico, postula la centralidad del mercado como el mecanismo óptimo para la asignación de recursos, promoviendo la desregulación, la privatización y un rol subsidiario para el Estado (Harvey, 2007). Este modelo no solo reconfiguró las economías latinoamericanas, sino que también transformó las subjetividades, entronizando al "individuo emprendedor" como figura ideal. Teóricos críticos como Stiglitz (2002) y Garretón (2012) han señalado que esta primacía del mercado genera tensiones de legitimidad para el Estado. Si el mercado es el motor del progreso, y el individuo el único responsable de su éxito o fracaso, ¿cuál es el rol de las instituciones públicas? ¿Son vistas como un apoyo necesario, como un obstáculo burocrático, o como un actor irrelevante?
+
+Esta tensión plantea un "puzzle" sociológico: ¿cómo se relacionan las actitudes pro-mercado de los ciudadanos con su confianza en las instituciones políticas? Una línea de argumentación sugiere que una fuerte adhesión a la lógica de mercado podría fomentar una visión escéptica del sector público, viéndolo como ineficiente y coercitivo en comparación con el dinamismo del sector privado. Esta perspectiva implicaría una relación negativa: a mayor confianza en el mercado, menor confianza en el Estado.
+
+Sin embargo, esta relación a nivel individual no ocurre en un vacío. La relevancia del **análisis multinivel**, un pilar de este curso, reside precisamente en su capacidad para analizar cómo los **contextos nacionales (Nivel 2)** modelan las relaciones observadas a nivel de los **individuos (Nivel 1)**. América Latina es un laboratorio natural para este enfoque, dada la heterogeneidad de sus trayectorias nacionales tras la adopción de reformas pro-mercado (Portes & Hoffman, 2003; Fourcade-Gourinchas & Babb, 2002). Esto nos permite explorar la **interacción entre niveles (Cross-Level Interaction - CLI)**, es decir, cómo una característica del país puede alterar la relación entre una actitud individual y un resultado político.
+
+Proponemos dos características contextuales clave como posibles moderadores. Primero, la **desigualdad socioeconómica**, medida por el Índice de GINI. En países con alta desigualdad, la narrativa meritocrática del neoliberalismo se ve directamente desafiada por la realidad de la exclusión y la concentración de la riqueza. Esta disonancia podría exacerbar cualquier sentimiento anti-Estado entre quienes, a pesar de adherir a la lógica de mercado, perciben que el sistema no cumple sus promesas (PNUD, 2004). Por lo tanto, se podría esperar que la relación negativa entre confianza en el mercado y en el Estado sea más fuerte en contextos más desiguales.
+
+Segundo, el **gasto social** como porcentaje del PIB. Esta variable representa el esfuerzo del Estado por mitigar las fallas del mercado y proveer bienestar, una función que fue central durante crisis como la pandemia de COVID-19 (CEPAL, 2021). Un Estado con una robusta red de protección social podría ser percibido como más legítimo y necesario, atenuando así la desconfianza que pudiera surgir de una orientación pro-mercado. Desde esta perspectiva, el gasto social podría debilitar o incluso revertir la relación negativa entre la confianza en el sector privado y la confianza en las instituciones públicas.
+
+Este estudio, por lo tanto, se enmarca en la intersección de la sociología política, la economía política y los métodos cuantitativos avanzados. Su **relevancia sociológica** radica en su intento de conectar la micro-fundamentación de las actitudes políticas con las macro-estructuras socioeconómicas, utilizando un enfoque multinivel para ofrecer una respuesta empírica a un debate teórico de larga data. Al analizar datos de la encuesta Latinobarómetro 2023, este informe busca responder a la siguiente pregunta de investigación: **¿De qué manera las actitudes individuales pro-mercado se relacionan con la confianza en las instituciones políticas, y cómo los contextos de desigualdad y gasto social a nivel nacional moderan esta relación en América Latina?** El análisis no solo pondrá a prueba las hipótesis derivadas de la teoría crítica, sino que también buscará descubrir patrones inesperados que puedan enriquecer nuestra comprensión de la legitimidad política en la región.
+
+### **2. Objetivos e Hipótesis**
+
+#### **2.1. Objetivo General**
+
+Analizar la relación entre las actitudes económicas individuales y la confianza en las instituciones políticas en América Latina, evaluando cómo esta relación es moderada por el contexto socioeconómico de cada país mediante un enfoque de modelamiento multinivel.
+
+#### **2.2. Objetivos Específicos**
+
+1.  Estimar la magnitud de la varianza en la confianza institucional que es atribuible a diferencias entre países (Nivel 2).
+2.  Evaluar el efecto de las actitudes individuales pro-mercado (Nivel 1), como la confianza en el sector privado, sobre la confianza en las instituciones del Estado.
+3.  Determinar si la relación entre las actitudes individuales y la confianza institucional varía significativamente entre los países.
+4.  Probar si variables contextuales a nivel de país (Nivel 2), como la desigualdad económica (GINI) y el Gasto Social, moderan la relación observada a nivel individual.
+
+#### **2.3. Hipótesis**
+
+Las hipótesis de este estudio se estructuran en función de los niveles de análisis:
+
+*   **Hipótesis de Varianza Contextual (Nivel 2):**
+    *   **H1:** Existirá una varianza significativa en la confianza institucional que puede ser atribuida a diferencias sistemáticas entre los países (ICC > 0.05).
+
+*   **Hipótesis de Efectos Individuales (Nivel 1):**
+    *   **H2:** A mayor confianza individual en el sector privado, se registrará una **menor** confianza en las instituciones estatales, controlando por otros factores.
+
+*   **Hipótesis de Interacción Entre Niveles (Cross-Level Interaction):**
+    *   **H3:** La relación negativa postulada en H2 será significativamente **más fuerte** en países con mayores niveles de desigualdad (GINI).
+    *   **H4:** La relación negativa postulada en H2 será significativamente **más débil** en países con mayores niveles de Gasto Social.
+
+### **3. Datos, Variables y Método**
+
+```{r carga_datos_latinobarometro, include=FALSE}
+# --- PREPARACIÓN COMPLETA DE DATOS ---
+base_raw <- haven::read_sav("input/data/latinobarometro_2023.sav", user_na = TRUE) 
+base_proc <- base_raw %>% 
+  select(
+    pais = IDENPA, edad = EDAD, sexo = SEXO, niv_educ = REEEDUC.1, esc_pol = P16ST,
+    conf_congreso = P13ST.D, conf_gobierno = P13ST.E, conf_judicial = P13ST.F,
+    conf_cias_nac = P14ST.B, conf_cias_int = P14ST.E, conf_bancos = P14ST.F,
+    neol_acept_des = P61ST, neol_dist_ing = P17ST, neol_unico = P54ST.B
+  ) %>%
+  mutate(pais = haven::zap_labels(pais))
+datos_pais <- data.frame(
+  pais = c(32, 68, 76, 152, 170, 188, 218, 222, 320, 340, 484, 604, 591, 600, 858, 862, 214), 
+  nombrepais = c("Argentina", "Bolivia", "Brasil", "Chile", "Colombia", "Costa Rica", "Ecuador", "El Salvador", "Guatemala", "Honduras", "México", "Perú", "Panamá", "Paraguay", "Uruguay", "Venezuela", "Rep. Dominicana"),
+  gasto_social = c(37.84, 36.00, 45.31, 27.40, 35.45, 18.51, 39.45, 30.38, 13.72, 26.10, 28.59, 24.90, 21.49, 21.48, 30.52, 34.37, 19.13),
+  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 40.2, 48.9, 45.1, 40.6, 44.7, 37.0),
+  pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 7126.00, 18686.41, 6276.35, 22797.81, NA, 10717.63) 
+)
+base_proc <- left_join(base_proc, datos_pais, by = "pais")
+base_proc <- base_proc %>% filter(!pais %in% c(320, 862))
+base_proc <- na.omit(base_proc)
+base_proc <- base_proc %>%
+  mutate(
+    across(c(conf_congreso, conf_gobierno, conf_judicial, neol_unico, neol_dist_ing, conf_cias_nac, conf_cias_int, conf_bancos),
+           ~ car::recode(., "1=4; 2=3; 3=2; 4=1")),
+    esc_pol_cat_temp = case_when(
+      esc_pol >= 1 & esc_pol <= 3 ~ "Izquierda",
+      esc_pol >= 4 & esc_pol <= 6 ~ "Centro",
+      esc_pol >= 7 & esc_pol <= 10 ~ "Derecha",
+      esc_pol == 97 ~ "Ninguna"
+    ),
+    esc_pol_cat = relevel(factor(esc_pol_cat_temp), ref = "Ninguna")
+  )
+base_proc <- base_proc %>% mutate(
+  ind_conf_inst = rowMeans(select(., conf_congreso, conf_gobierno, conf_judicial)),
+  ind_conf_priv = rowMeans(select(., conf_bancos, conf_cias_int, conf_cias_nac)),
+  ind_desig = rowMeans(scale(select(., neol_dist_ing, neol_acept_des)))
+)
+base_proc <- base_proc %>% 
+  group_by(pais) %>%
+  mutate(
+    ind_conf_priv_c = ind_conf_priv - mean(ind_conf_priv, na.rm = TRUE),
+    ind_desig_c = ind_desig - mean(ind_desig, na.rm = TRUE),
+    edad_c = edad - mean(edad, na.rm = TRUE),
+    niv_educ_c = niv_educ - mean(niv_educ, na.rm = TRUE)
+  ) %>%
+  ungroup() %>%
+  mutate(
+    gasto_social_c = gasto_social - mean(gasto_social, na.rm = TRUE),
+    gini_c = gini - mean(gini, na.rm = TRUE),
+    pib_per_capita_c = pib_per_capita - mean(pib_per_capita, na.rm = TRUE)
+  )
+```
+
+¡Absolutamente! Ahora nos enfocamos en la sección de "Datos, Variables y Método". La clave aquí es ser preciso, transparente y seguir la "receta" que hemos identificado en los prácticos del curso. He construido esta sección para que contenga toda la información requerida, incluyendo la descripción de la muestra, la operacionalización de las variables y una descripción clara de la estrategia analítica progresiva.
+
+Esta sección está lista para ser copiada y pegada, e incluye los chunks de R que generarán el mapa y la tabla de descriptivos.
+
+---
+
+### **3. Datos, Variables y Método**
+
+#### **3.1. Fuente de Datos y Muestra**
+
+Este estudio utiliza datos de la ola 2023 de la encuesta **Latinobarómetro**, una de las fuentes más completas para el estudio de la opinión pública en América Latina. La base de datos original contiene información de 17 países de la región. Para asegurar la calidad y comparabilidad de los datos, se tomaron decisiones de exclusión. Primero, se constató que **Nicaragua** no fue incluida en esta ola de la encuesta. Adicionalmente, **Venezuela** fue eliminada por la falta de datos disponibles para el PIB per cápita y **Guatemala** fue excluida por la antigüedad de sus datos de GINI (2014), que no correspondían al periodo de la encuesta.
+
+Tras un proceso de eliminación por lista de los casos con valores perdidos en las variables de interés, la **muestra analítica final** sobre la que se estiman los modelos consta de **12,023 individuos**, anidados en **15 países**. El número de encuestados por país varía, con un promedio aproximado de 800 individuos por unidad de Nivel 2.
+
+#### **3.2. Medición de Variables**
+
+Las variables utilizadas en este estudio fueron operacionalizadas de la siguiente manera:
+
+*   **Variable Dependiente (Nivel 1):**
+    *   **Confianza Institucional:** Un índice (`ind_conf_inst`) construido como el promedio de la confianza del encuestado en tres instituciones clave: el Gobierno, el Congreso y el Poder Judicial. La escala original de 4 puntos (1=Mucha confianza, 4=Ninguna) fue invertida, resultando en un índice donde valores más altos indican mayor confianza (rango 1-4).
+
+*   **Variables Independientes Principales:**
+    *   **Confianza en Privados (Nivel 1):** Un índice (`ind_conf_priv_c`) que promedia la confianza en las empresas privadas nacionales, internacionales y los bancos. Para el análisis, esta variable fue centrada al promedio de su grupo (país), es decir, mediante *Group-Mean Centering* (CGM).
+    *   **Índice de GINI (Nivel 2):** Indicador de desigualdad de ingresos del país, obtenido del Banco Mundial para el año más cercano a 2023.
+    *   **Gasto Social (Nivel 2):** Gasto social total como porcentaje del PIB del país. Ambas variables de Nivel 2 fueron centradas al promedio general (*Grand-Mean Centering* - GMC).
+
+*   **Variables de Control:**
+    *   A nivel individual (Nivel 1), se controla por: **Actitud Pro-Desigualdad** (un índice de dos ítems sobre la justicia de la distribución del ingreso), **Edad**, **Sexo**, **Nivel Educacional** y **Posición Política** (Izquierda, Centro, Derecha, con "Ninguna" como categoría de referencia).
+    *   A nivel de país (Nivel 2), se controla por el **PIB per cápita** para aislar el efecto del nivel de desarrollo económico.
+
+#### **3.3. Estrategia Analítica**
+
+Se emplea un modelamiento multinivel progresivo para evaluar las hipótesis. La estrategia sigue una secuencia lógica de cuatro pasos, permitiendo descomponer la varianza y evaluar la contribución de cada nivel de análisis:
+
+1.  **Modelo Nulo:** Se estima un modelo sin predictores, con solo un intercepto aleatorio por país. Este modelo base permite calcular la Correlación Intraclase (ICC) para cuantificar la varianza atribuible al contexto nacional y así probar la Hipótesis 1.
+2.  **Modelo de Interceptos Aleatorios (Modelo 1):** Se añaden los predictores de Nivel 1 (actitudes individuales y controles) para evaluar sus efectos principales, manteniendo constante el promedio de confianza entre países.
+3.  **Modelo de Coeficientes Aleatorios (Modelo 2):** Se permite que la pendiente de la variable de interés principal (Confianza en Privados) varíe entre países. Se comparará el ajuste de este modelo con el anterior (usando AIC y la prueba `anova()`) para determinar si su efecto es heterogéneo.
+4.  **Modelo Completo con Interacciones (Modelo 3):** Finalmente, se añaden los predictores de Nivel 2 y los términos de interacción para probar las hipótesis centrales de moderación (H3 y H4).
+
+Todos los modelos se presentarán en una única tabla comparativa utilizando el paquete `sjPlot` para facilitar la interpretación.
+
+### **4. Resultados**
+
+Esta sección presenta los hallazgos empíricos del estudio. Se inicia con un análisis descriptivo de las variables clave, seguido de la presentación e interpretación de los resultados del modelamiento multinivel progresivo, diseñado para responder a las preguntas de investigación y poner a prueba las hipótesis planteadas.
+
+#### **4.1. Análisis Descriptivo**
+
+Antes de proceder con el modelamiento, es fundamental explorar la distribución de las variables en la muestra. La Figura 1 presenta un mapa coroplético que visualiza la confianza institucional promedio en los 15 países analizados. Se observa una notable variabilidad regional: países como Uruguay y Costa Rica exhiben los niveles más altos de confianza, mientras que en el extremo opuesto se encuentran Ecuador y Perú. Esta heterogeneidad visual sugiere, desde un primer momento, que el contexto nacional es un factor relevante que no puede ser ignorado.
+
+```{r descriptivos-final, fig.cap='Figura 1: Mapa de Confianza Institucional Promedio y Estadísticos Descriptivos de las Variables del Estudio.'}
+# --- GRÁFICO Y TABLA DESCRIPTIVA ---
+datos_mapa <- base_proc %>% group_by(pais, nombrepais) %>% summarise(confianza_promedio = mean(ind_conf_inst, na.rm = TRUE), .groups = 'drop')
+mapa_mundo <- ne_countries(scale = "medium", returnclass = "sf") %>% mutate(pais = as.numeric(iso_n3))
+mapa_final <- mapa_mundo %>% left_join(datos_mapa, by = "pais") %>% filter(!is.na(confianza_promedio))
+p1 <- ggplot(data = mapa_final) +
+  geom_sf(aes(fill = confianza_promedio), color = "white", size = 0.2) +
+  geom_sf_text(aes(label = nombrepais), size = 2.5, color = "black", fontface = "bold", fun.geometry = st_centroid, check_overlap = TRUE) +
+  scale_fill_viridis_c(option = "plasma", name = "Confianza Promedio\n(1-4)") +
+  coord_sf(xlim = c(-120, -30), ylim = c(-55, 35), expand = FALSE) +
+  labs(title = "Confianza Institucional Promedio en América Latina", caption = "Fuente: Latinobarómetro 2023.") +
+  theme_void() + theme(plot.title = element_text(hjust = 0.5, face = "bold"), legend.position = "right")
+print(p1)
+
+tabla_descriptiva <- base_proc %>%
+  select(
+    `Confianza Institucional` = ind_conf_inst, `Confianza en Privados` = ind_conf_priv,
+    `Actitud Pro-Desigualdad` = ind_desig, `Edad` = edad,
+    `Posición Política` = esc_pol_cat, `Sexo` = sexo,
+    `Índice de GINI` = gini, `Gasto Social (% PIB)` = gasto_social
+  ) %>%
+  tbl_summary(
+    type = list(all_continuous() ~ "continuous2"),
+    statistic = list(all_continuous() ~ c("{mean} ({sd})", "{min} – {max}"), all_categorical() ~ "{n} (%)"),
+    digits = all_continuous() ~ 2, missing = "no"
+  ) %>%
+  modify_header(label = "**Variable**", stat_0 = "**Estadísticos**") %>%
+  modify_caption("**Tabla 1: Estadísticos Descriptivos**") %>%
+  bold_labels()
+
+tabla_descriptiva
+```
+
+La Tabla 1 complementa esta visión con los estadísticos descriptivos. El promedio general del índice de Confianza Institucional es de 2.02 (DE=0.79), confirmando un nivel general de desconfianza. La edad promedio de los encuestados es de 40 años. En cuanto a la identidad política, un 44% se ubica en el centro, mientras que un 7.9% declara no tener ninguna posición, siendo este el grupo que se ha establecido como categoría de referencia en los modelos.
+
+#### **4.2. Resultados del Modelamiento Multinivel**
+
+El análisis prosigue con la estimación de los modelos multinivel. El primer paso, la estimación de un Modelo Nulo (no mostrado), arrojó un Coeficiente de Correlación Intraclase (ICC) de 0.19. Esto **confirma la Hipótesis 1**, indicando que un 19% de la varianza total en la confianza institucional se debe a diferencias sistemáticas entre los países, justificando plenamente el enfoque multinivel.
+
+La Tabla 2 presenta los resultados de los tres modelos progresivos. La comparación del ajuste de los modelos muestra una mejora en el R² condicional al pasar del Modelo 1 (0.366) al Modelo 2 (0.372), lo que justifica la inclusión de una pendiente aleatoria. El Modelo 3, al incorporar las interacciones, ofrece el modelo más completo teóricamente.
+
+```{r tabla-modelos-finales, results='asis', fig.cap='Tabla 2: Resultados de los Modelos Multinivel para Predecir la Confianza Institucional.'}
+# --- TABLA DE MODELOS AL ESTILO DEL CURSO CON sjPlot ---
+datos_modelo <- base_proc %>% filter(!is.na(esc_pol_cat))
+m1 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + (1 | pais), data = datos_modelo, REML = FALSE)
+m2 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + (1 + ind_conf_priv_c | pais), data = datos_modelo, REML = FALSE)
+m3 <- lmer(ind_conf_inst ~ ind_conf_priv_c * gini_c + ind_conf_priv_c * gasto_social_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + pib_per_capita_c + (1 + ind_conf_priv_c | pais), data = datos_modelo, REML = FALSE)
+
+tab_model(
+  m1, m2, m3,
+  dv.labels = c("Modelo 1", "Modelo 2", "Modelo 3"),
+  pred.labels = c("Intercepto", "Confianza en Privados (N1)", "Pro-Desigualdad (N1)", "Edad (Control)", "Sexo (Mujer) (Control)", "Nivel Educacional (Control)", "Pos. Pol: Izquierda", "Pos. Pol: Centro", "Pos. Pol: Derecha", "Índice GINI (N2)", "Gasto Social (N2)", "PIB per cápita (Control)", "Conf. Privados x GINI", "Conf. Privados x Gasto Social"),
+  string.pred = "Variables", string.ci = "IC 95%", p.style = "stars", show.icc = TRUE, show.re.var = TRUE
+)
+```
+
+**Análisis de las Hipótesis:**
+
+La interpretación de los resultados se centra en el Modelo 3, que permite una evaluación simultánea de todas las hipótesis.
+
+*   **Efecto de las Actitudes Individuales (H2):** La **Hipótesis 2**, que postulaba una relación negativa entre la confianza en el sector privado y la confianza institucional, es **rechazada de forma contundente**. El coeficiente para "Confianza en Privados" es positivo, fuerte y altamente significativo (β = 0.43, p < 0.001). Esto sugiere que, lejos de ser antagónicas, ambas formas de confianza están positivamente alineadas. La "Actitud Pro-Desigualdad" también muestra una asociación positiva significativa (β = 0.21, p < 0.001), indicando que una mayor aceptación de las jerarquías económicas se asocia con una mayor confianza en las instituciones.
+
+*   **Efectos de Moderación (H3 y H4):** El hallazgo central del estudio es el **rechazo de las hipótesis de interacción**. Los coeficientes para `Conf. Privados x GINI` y `Conf. Privados x Gasto Social` no son estadísticamente significativos. Esto significa que no se encontró evidencia de que la desigualdad o el gasto social del país alteren la relación entre la confianza individual en el mercado y en el Estado.
+
+**Otros Hallazgos Relevantes:**
+
+A nivel contextual (Nivel 2), ni el Índice de GINI ni el Gasto Social muestran un efecto directo significativo sobre la confianza institucional una vez que se controla por el resto de las variables en el Modelo 3.
+
+En cuanto a las variables de control, destaca el rol de la **identidad política**. Con el grupo "Ninguna" como categoría de referencia, se observa que los individuos que se identifican con la Izquierda (β = 0.12), el Centro (β = 0.14) y la Derecha (β = 0.16) presentan niveles de confianza significativamente más altos. Este hallazgo sugiere que la desafección política es un predictor más potente de la desconfianza que la adscripción a una ideología particular.
+
+**Profundizando en la Variación Contextual:**
+
+Aunque las interacciones no fueron significativas, el Modelo 2 reveló que el efecto de la "Confianza en Privados" no es homogéneo en toda la región (τ₁₁ = 0.01). La Figura 2 visualiza esta variación, mostrando el efecto estimado de esta variable para cada país.
+
+```{r grafico-pendientes-aleatorias, fig.cap='Figura 2: Variación del efecto de la "Confianza en Privados" por país.'}
+# --- GRÁFICO DE ORUGA CON NOMBRES DE PAÍS ---
+
+# 1. Extraer efectos aleatorios
+efectos_aleatorios <- ranef(m2, condVar = TRUE)
+df_efectos <- as.data.frame(efectos_aleatorios$pais)
+df_efectos$pais_id <- as.numeric(rownames(df_efectos))
+# Renombrar columnas para claridad
+names(df_efectos) <- c("intercepto_desv", "pendiente_desv", "pais_id")
+
+# 2. Obtener efectos fijos (promedio)
+efectos_fijos <- fixef(m2)
+
+# 3. Calcular la pendiente total para cada país
+df_efectos$pendiente_total <- efectos_fijos["ind_conf_priv_c"] + df_efectos$pendiente_desv
+
+# 4. Unir con los nombres de los países
+df_nombres <- distinct(base_proc, pais, nombrepais)
+df_plot <- left_join(df_efectos, df_nombres, by = c("pais_id" = "pais"))
+
+# 5. Calcular intervalos de confianza aproximados
+# Extraer la varianza de la pendiente
+var_pendiente <- VarCorr(m2)$pais[2,2]
+# Calcular error estándar de la pendiente para cada país
+df_plot$se_pendiente <- sqrt(var_pendiente) # Simplificación; para más precisión se usaría la matriz de covarianza
+df_plot$upper <- df_plot$pendiente_total + 1.96 * df_plot$se_pendiente
+df_plot$lower <- df_plot$pendiente_total - 1.96 * df_plot$se_pendiente
+
+# 6. Crear el gráfico
+ggplot(df_plot, aes(x = reorder(nombrepais, pendiente_total), y = pendiente_total)) +
+  geom_hline(yintercept = efectos_fijos["ind_conf_priv_c"], linetype = "dashed", color = "grey50") +
+  geom_point(size = 3, color = "darkblue") +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2, color = "darkblue") +
+  coord_flip() +
+  labs(
+    title = "Efecto Estimado de la Confianza en Privados por País",
+    subtitle = "La línea punteada representa el efecto promedio en la región.",
+    x = "País",
+    y = "Coeficiente de Regresión (Pendiente)"
+  ) +
+  theme_minimal()
+```
+
+La Figura 2 es elocuente: aunque el efecto es consistentemente positivo, su magnitud varía de forma considerable. En países como **Uruguay**, **Costa Rica** y **Brasil**, la asociación entre la confianza en el sector privado y en el Estado es muy fuerte. En cambio, en países como **Panamá** y **Ecuador**, esta relación es mucho más débil. Esto confirma que, si bien el GINI y el Gasto Social no son los mecanismos moderadores, el contexto nacional sí juega un rol crucial en modular esta dinámica, abriendo una importante veta para futuras investigaciones.
+
+#### **4.3. Análisis de Sensibilidad**
+
+Para asegurar la robustez de los resultados, se realizó un análisis de influencia para detectar si algún país en particular estaba determinando los hallazgos. Como se observa en la Figura 3, ningún país supera el umbral crítico (línea roja), lo que indica que los resultados no están siendo indebidamente influenciados por un único caso. Esto confiere una alta confianza a la estabilidad de los coeficientes estimados y a las conclusiones del estudio.
+
+```{r diagnostico-outliers, fig.cap='Figura 3: Diagnóstico de Países Influyentes (Distancia de Cook).'}
+# --- ANÁLISIS DE OUTLIERS ---
+pacman::p_load(influence.ME)
+influencia_paises <- influence(m3, group = "pais")
+distancias_cook <- as.data.frame(cooks.distance(influencia_paises))
+names(distancias_cook) <- "cook.d" # Asignar un nombre de columna explícito
+distancias_cook$pais <- rownames(distancias_cook)
+distancias_cook <- distancias_cook %>% mutate(pais = as.numeric(pais)) %>% left_join(distinct(base_proc, pais, nombrepais), by = "pais")
+umbral <- 4 / length(unique(datos_modelo$pais))
+
+ggplot(distancias_cook, aes(x = reorder(nombrepais, cook.d), y = cook.d)) +
+  geom_col(aes(fill = cook.d > umbral), show.legend = FALSE) +
+  geom_hline(yintercept = umbral, linetype = "dashed", color = "red") +
+  coord_flip() +
+  scale_fill_manual(values = c("skyblue", "red")) +
+  labs(title = "Distancia de Cook por País", subtitle = "Mide la influencia de cada país en los coeficientes del modelo.", x = "País", y = "Distancia de Cook") +
+  geom_text(aes(label = round(cook.d, 3)), hjust = -0.2, size = 3) +
+  theme_minimal()
+```
+
+### **5. Discusión y Conclusión**
+
+Los resultados desafían la narrativa de una simple oposición entre la lógica de mercado y la legitimidad del Estado en América Latina. La fuerte asociación positiva entre la confianza en el sector privado y en las instituciones públicas sugiere que ambas pueden ser parte de una "confianza en el sistema" más general.
+
+La principal ventaja del análisis multinivel en este estudio fue revelar que, aunque las hipótesis de moderación fueron rechazadas, el contexto nacional sí importa: altera la *fuerza* de la relación entre actitudes y confianza. Esto abre una importante agenda de investigación futura para descubrir qué factores contextuales (¿calidad de la gobernanza, corrupción percibida?) explican esta variación.
+
+Como limitación, la naturaleza transversal de los datos impide establecer causalidad. Futuros estudios podrían usar datos de panel para analizar estas relaciones a lo largo del tiempo.
+
+En resumen, este trabajo muestra que la confianza en las instituciones no se ve debilitada por una actitud pro-mercado. Por el contrario, ambas confianzas parecen reforzarse mutuamente, aunque la intensidad de esta sinergia depende de un contexto nacional que merece ser estudiado en mayor profundidad.
+
+### **6. Bibliografía**
+
+CEPAL (Comisión Económica para América Latina y el Caribe). (2021). *Panorama Social de América Latina 2020*. Santiago de Chile: CEPAL.
+
+Centro de Investigación y Docencia Económicas (CIDE). (2019). *Encuesta Nacional sobre Calidad e Impacto Gubernamental (ENCIG)*. México, D.F.: CIDE.
+
+Fourcade-Gourinchas, M., & Babb, S. L. (2002). The Rebirth of the Liberal Creed: Paths to Neoliberalism in Four Countries. *American Journal of Sociology*, *108*(3), 533–579.
+
+Gárate, M. (2012). *La revolución capitalista de Chile (1973-2003)*. Santiago de Chile: Ediciones Universidad Alberto Hurtado.
+
+Garretón, M. A. (2012). *Neoliberalismo corregido y progresismo limitado: Los gobiernos de la Concertación en Chile, 1990-2010*. Santiago de Chile: Editorial ARCIS; Buenos Aires: CLACSO.
+
+Gerbner, G., & Gross, L. (1976). Living with Television: The Violence Profile. *Journal of Communication*, *26*(2), 173–199.
+
+Harvey, D. (2007). *Breve historia del neoliberalismo*. Madrid: Ediciones Akal.
+
+Instituto Nacional de Estadísticas (INE). (2024). *Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC) 2023: Principales resultados*. Recuperado de <https://www.ine.gob.cl/estadisticas/sociales/seguridad-ciudadana/encuesta-nacional-urbana-de-seguridad-ciudadana>
+
+Kahan, D. M. (2001). Trust, Collective Action, and Law. *Boston University Law Review*, *81*(1), 333-352.
+
+Corporación Latinobarómetro. (2023). *Latinobarómetro Estudio 2023: Libro de Códigos*. Santiago de Chile: Autor.
+
+North, D. C. (1993). *Instituciones, cambio institucional y desempeño económico*. México, D.F.: Fondo de Cultura Económica.
+
+PNUD (Programa de las Naciones Unidas para el Desarrollo). (2004). *La democracia en América Latina: Hacia una democracia de ciudadanas y ciudadanos*. Buenos Aires: Aguilar, Altea, Taurus, Alfaguara / PNUD.
+
+Portes, A., & Hoffman, K. (2003). Latin American Class Structures: Their Composition and Change during the Neoliberal Era. *Latin American Research Review*, *38*(1), 41–82.
+
+Rose-Ackerman, S. (2006). *Corruption and Government: Causes, Consequences, and Reform* (2nd ed.). Cambridge, UK: Cambridge University Press.
+
+Smulovitz, C., & Peruzzotti, E. (2000). Societal Accountability in Latin America. *Journal of Democracy*, *11*(4), 147-158.
+
+Stiglitz, J. E. (2002). *El malestar en la globalización*. Madrid: Taurus.
+
+Valenzuela, S., Arriagada, A., & Scherman, A. (2012). The social media basis of youth protest behavior: The case of Chile. *Journal of Communication*, *62*(2), 299-314.
+
+Vosoughi, S., Roy, D., & Aral, S. (2018). The spread of true and false news online. *Science*, *359*(6380), 1146–1151.

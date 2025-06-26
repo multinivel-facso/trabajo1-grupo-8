@@ -101,7 +101,7 @@ base_proc <- base_raw %>%
     neol_unico = P54ST.B, 
   )
 
-# 4. Adición de vVariables Nivel 2
+# 4. Adición de Variables Nivel 2
 datos_pais <- data.frame(
   # ID Agregada
   pais = c(32, 68, 76, 152, 170, 188, 218, 222, 320, 340, 484, 558, 591, 600, 858, 862, 214), 

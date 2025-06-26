@@ -518,30 +518,53 @@ tab_model(
 ## Interacción
 
 ::::: columns
-::: {.column width="60%"}
-```{r }
+::: {.column width="50%"}
+```{r grafico-interaccion-h5-combined, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=5}
+# --- PAQUETES Y MODELO ---
+# Asegúrate de que 'm_final' (tu modelo con interacciones)
+# ha sido creado en un chunk de setup anterior.
 library(sjPlot)
 library(ggplot2)
 
-p_h6 <- plot_model(
-  m5_H6,
+# --- GRÁFICO PARA H5 ---
+plot_model(
+  m_final,
   type  = "int",
-  terms = c("nse_cmc", "prop_empleo_gmc")
+  terms = c("ind_desig_c", "gini_c") # VI Nivel 1, Moderador Nivel 2
 ) +
   labs(
-    title  = "Interacción H6: NSE individual × Tasa de empleo comunal",
-    x      = "NSE centrado en la comuna (CMC)",
-    y      = "Años esperados de escolaridad",
-    colour = "Tasa de empleo comunal\n(−1 DE / Media / +1 DE)"
+    title  = "H5: Interacción AD x GINI",
+    x      = "Aceptación de la Desigualdad (AD)",
+    y      = "Confianza Institucional (Predicha)",
+    colour = "Índice de GINI"
   ) +
-  theme_minimal(base_size = 12)
-
-print(p_h6)      # <- aseguras la impresión  
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom") # Mueve la leyenda abajo para dar espacio
 ```
 :::
 
-::: {.column width="40%"}
-[La interacción muestra que el efecto del nivel socioeconómico sobre la escolaridad varía según la tasa de empleo comunal. En comunas con más empleo (azul), el NSE tiene un impacto mayor sobre los años de escolaridad, mientras que en comunas con menos empleo (roja), su efecto es más débil. Esto confirma que los recursos familiares rinden más en contextos laborales favorables, ampliando así las desigualdades educativas.]{style="font-size: 80%;"}
+::: {.column width="50%"}
+```{r grafico-interaccion-h6-combined, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=5}
+# --- PAQUETES Y MODELO ---
+# 'm_final' ya debería estar en el entorno desde el chunk anterior o setup.
+library(sjPlot)
+library(ggplot2)
+
+# --- GRÁFICO PARA H6 ---
+plot_model(
+  m_final,
+  type  = "int",
+  terms = c("ind_conf_priv_c", "gasto_social_c") # VI Nivel 1, Moderador Nivel 2
+) +
+  labs(
+    title  = "H6: Interacción CSP x Gasto Social",
+    x      = "Confianza en el Sector Privado (CSP)",
+    y      = "Confianza Institucional (Predicha)",
+    colour = "Gasto Social (% PIB)"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom") # Mueve la leyenda abajo
+```
 :::
 :::::
 

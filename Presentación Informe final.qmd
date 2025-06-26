@@ -230,33 +230,44 @@ Aquí mis notas
 
 ------------------------------------------------------------------------
 
--   **Factores asociados L1:** Confianza en instituciones, Actitudes Pro- mercado, Variables de control.
+-   **Variable Independiente:** Indice Confianza en Instituciones Gubermanentales (CIG)
+
+-   **Varaibles Dependientes L1 (Individual):** Indice Confianza en Sector Privado (CSP), Indice Aceptación Desigualdad (AD).
+
+-   **Variables Contextuales L2 (Pais):** % de Gasto Social en el PIB (GS), Indice de Gini (GINI)
+
+-   **Variables de Control:** L1: Sexo, edad, nivel educativo(NE), posición politica(PP); L2: PIB per Capita(En miles de dolares)(PPP)
 
     Se utiliza la encuesta Latinobarómetro 2023. Los datos fueron procesados para seleccionar las variables de interés, tratar valores perdidos y recodificar ítems para la construcción de escalas e índices. Las Variables expresan la confianza que se tienen ante instituciones publicas y poderes del estado bajo el contexto del modelo neoliberal siendo parte de la base datos la division por sexo y edad siendo las que conforman las variables de control.
 
--   **Factores asociados L2:** País y Porcentaje de Gasto Social en el PIB, Indice de Gini
 
     > Las Variables se componen por cada Pais del contiente junto con el gasto social que realizan anualmente componiendo esta variable el indice de Gini y el PIB per capita.
 
   {data-background-color="#FF0000"}
 
 ::: {.center .middle}
-¿Cómo se asocian las actitudes individuales pro-mercado (divididas en dimensiones como la creencia en la primacía del mercado, la confianza en el sector privado y el apoyo a la apertura económica) con la confianza en instituciones gubernamentales clave (Poder Judicial, Gobierno, Congreso, Policía) en los ciudadanos de diversos países latinoamericanos, y **qué proporción de la varianza en esta confianza se debe a diferencias entre los países?**
+¿Cómo se asocian las actitudes individuales pro-mercado (confianza en el sector privado, la aceptación de la desigualdad) y el contexto socio-económico del pais (coeficiente de Gini, PIB per capita, % de Gasto social) con la confianza en instituciones gubernamentales (Poder Judicial, Gobierno y Congreso) en los ciudadanos de diversos países latinoamericanos, y **qué proporción de la varianza en esta confianza se debe a diferencias entre los países?**
 :::
 
 # Hipótesis:
 
 **Nivel 1:**
 
-$H_1$: (Nivel Individual):** Una mayor adhesión individual a la "Creencia en la Primacía y Eficiencia del Mercado" se asociará positivamente con la confianza en el Poder Judicial y la Policía. *(Nota: Dada la muy baja fiabilidad del índice (Alfa=0.246), esta hipótesis se explorará utilizando ítems individuales en el informe final).*
-$H_2$: (Nivel Individual):** Una mayor "Confianza individual en el Sector Privado y Actores Económicos" se asociará positivamente con la confianza en el Gobierno.
+$H_1$: Se espera que CSP afecte negativamente a CIG
 
-$H_3$:(Nivel Individual):** Un mayor "Apoyo individual a la Apertura Económica e Integración Global" se asociará positivamente con la confianza en el Congreso.
+$H_2$: Se espera que AD afecte negativamente a CIG
+
 **Nivel 2:**
 
-$H_4$: Existirá una varianza significativa en la confianza en el Poder Judicial, Gobierno, Congreso y Policía atribuible a las diferencias entre países latinoamericanos (ICC \> 0.05).
+$H_3$: Se espera que GS afecte positivamente a CIG
 
-$H_5$:En países con menor desigualdad (medida por el índice de Gini), la relación positiva entre la confianza individual en el mercado y la confianza en las instituciones estatales es más fuerte
+$H_4$: Se espera que un mayor GINI afecte negativamente a CIG
+
+**Interacción entre Niveles:**
+
+$H_5$: Se espera que el efecto de AD en CIG sea moderada por GINI
+
+$H_6$: Se espera que el efecto de CSP en CIG sea moderada por GS
 
 ------------------------------------------------------------------------
 
@@ -265,7 +276,7 @@ $H_5$:En países con menor desigualdad (medida por el índice de Gini), la relac
 
 ## Datos
 
-\[Se utilizó la base de datos del Latinobarometro del año 2023, tiene un diseño divido por país, sexo y edad. Para el analisis se uso una cantidad de 13.157 personas dividido en 17 paises de America Latina.\]
+\[Se utilizó la base de datos del Latinobarometro del año 2023, tiene un diseño divido por país, sexo y edad. Para el analisis se uso una cantidad de 12.023 personas dividido en 15 paises de America Latina, se excluyo a Guatemala y a Venezuela debido a falta de datos L2.\]
 
 ## Variables
 
@@ -379,7 +390,7 @@ $$
 + r_{ij}
 $$
 
-## Modelo 3 con variables independiente individual y grupal
+## Modelo 3 con variables independiente individual y contedtuales
 
 :::: {style="font-size:85%"}
 ::: {style="overflow-x: auto; white-space: nowrap;"}

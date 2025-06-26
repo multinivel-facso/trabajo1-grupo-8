@@ -363,48 +363,61 @@ Se uso Rstudio para lograr el análisis de datos, se uso
 
 El análisis de datos se realizó en Rstudio, utilizando \_lmer\_ para la construcción de los modelos, \_sjPlot\_ para la visualización de los datos y \_summary tools\_ para generar descriptivos univariados
 
-Se estimaron un total de 3 modelos, siguientes modelos:
+Se estimaron un total de 6 modelos, siguientes modelos:
 
-## Modelo nulo
-
-$$
-
-\text{conf}_{ij} = \gamma_{00} + u_{0j} + r_{ij}
+## Modelos de Nivel 1
+efecto negativo esperado
 
 $$
 
-
-## Modelo 1 con variables independientes individuales
-
-$$
-\text{conf}_{ij} = \beta_{0j} + \beta_{1j} \cdot \text{neolib}_{ij} + \beta_{2j} \cdot \text{edad}_{ij} + \beta_{3j} \cdot \text{genero}_{ij} + \beta_{4j} \cdot \text{educ}_{ij} + \beta_{5j} \cdot \text{ingreso}_{ij} + \beta_{6j} \cdot \text{ideo}_{ij} + r_{ij} 
-$$
-
-## Modelo 2 con variables independientes contextuales
+\text{CIG}_{ij} = \gamma_{00} + \gamma_{10} \cdot \text{CSP}_{ij} + u_{0j} + r_{ij}
 
 $$
-\text{esc}_{ij} \;=\; \gamma_{00}
-+ \gamma_{01}\,\text{prop_empleo_gmc}
-+ \gamma_{02}\,\text{n_escuelas_gmc}
-+ u_{0\text{comuna}}
-+ r_{ij}
+
+
+## Modelo 2 
+
 $$
+\text{CIG}_{ij} = \gamma_{00} + \gamma_{10} \cdot \text{AD}_{ij} + u_{0j} + r_{ij}
+$$
+
+
+## Nivel 2: Modelo con variables independientes contextuales
+
+$$
+\text{CIG}_{ij} = \gamma_{00} + \gamma_{01} \cdot \text{GS}_{j} + u_{0j} + r_{ij}
+$$
+
 
 ## Modelo 3 con variables independiente individual y contedtuales
 
 :::: {style="font-size:85%"}
 ::: {style="overflow-x: auto; white-space: nowrap;"}
 $$
-\text{conf}_{ij} = \gamma_{00} 
-+ \gamma_{10} \cdot \text{neolib}_{ij}
-+ \gamma_{20} \cdot \text{edad}_{ij}
-+ \gamma_{30} \cdot \text{genero}_{ij}
-+ \gamma_{40} \cdot \text{educ}_{ij}
-+ \gamma_{01} \cdot \text{GINI}_j
-+ \gamma_{02} \cdot \text{gasto}_j
-+ u_{0j} 
-+ r_{ij}
+\text{CIG}_{ij} = \gamma_{00} + \gamma_{01} \cdot \text{GINI}_{j} + u_{0j} + r_{ij}
 $$
+# Modelo 5 Interacción entre niveles
+
+$$
+\text{CIG}_{ij} = \gamma_{00} 
++ \gamma_{10} \cdot \text{AD}_{ij} 
++ \gamma_{01} \cdot \text{GINI}_{j} 
++ \gamma_{11} \cdot (\text{AD}_{ij} \times \text{GINI}_{j}) 
++ u_{0j} + r_{ij}
+$$
+
+
+#Modelo 6 
+
+$$
+\text{CIG}_{ij} = \gamma_{00} 
++ \gamma_{10} \cdot \text{CSP}_{ij} 
++ \gamma_{01} \cdot \text{GS}_{j} 
++ \gamma_{11} \cdot (\text{CSP}_{ij} \times \text{GS}_{j}) 
++ u_{0j} + r_{ij}
+$$
+
+
 :::
 ::::
 

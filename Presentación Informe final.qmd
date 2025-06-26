@@ -218,9 +218,6 @@ Santiago, 25 de Junio de 2025
 [Github repo](link%20al%20repo)
 ::::::
 
-::: notes
-Aquí mis notas
-:::
 
 # Introducción
 
@@ -248,35 +245,45 @@ Aquí mis notas
 ::: {.center .middle}
 ¿Cómo se asocian las actitudes individuales pro-mercado (confianza en el sector privado, la aceptación de la desigualdad) y el contexto socio-económico del pais (coeficiente de Gini, PIB per capita, % de Gasto social) con la confianza en instituciones gubernamentales (Poder Judicial, Gobierno y Congreso) en los ciudadanos de diversos países latinoamericanos, y **qué proporción de la varianza en esta confianza se debe a diferencias entre los países?**
 :::
+::: {.column width="40%"}
+```{r boxplot-intro, fig.height=4.5}
+ggplot(base_proc, aes(x = reorder(nombrepais, CIG, FUN = median), y = CIG)) +
+   geom_boxplot(fill = "skyblue", alpha = 0.7) +
+   coord_flip() +
+  labs(
+     title = "Confianza Institucional por País",
+    x = "", y = "Índice de Confianza (CIG)"
+   ) +
+   theme_minimal(base_size = 10)
+```
 
 # Hipótesis:
 
-**Nivel 1:**
+*   **Nivel 1 (Individual):**
+    *   **H1:** A mayor **Confianza en el Sector Privado (CSP)** ➔ **MENOR** Confianza Institucional (CIG).
+    *   **H2:** A mayor **Aceptación de la Desigualdad (AD)** ➔ **MENOR** Confianza Institucional (CIG).
 
-$H_1$: Se espera que CSP afecte negativamente a CIG
+*   **Nivel 2 (Contextual):**
+    *   **H3:** Un mayor **Gasto Social (GS)** ➔ **MAYOR** Confianza Institucional (CIG).
+    *   **H4:** Un mayor **Índice de GINI** ➔ **MENOR** Confianza Institucional (CIG).
 
-$H_2$: Se espera que AD afecte negativamente a CIG
-
-**Nivel 2:**
-
-$H_3$: Se espera que GS afecte positivamente a CIG
-
-$H_4$: Se espera que un mayor GINI afecte negativamente a CIG
-
-**Interacción entre Niveles:**
-
-$H_5$: Se espera que el efecto de AD en CIG sea moderada por GINI
-
-$H_6$: Se espera que el efecto de CSP en CIG sea moderada por GS
+*   **Interacción entre Niveles:**
+    *   **H5:** El efecto negativo de **AD** sobre CIG será **más fuerte** en países con mayor **GINI**.
+    *   **H6:** El efecto negativo de **CSP** sobre CIG será **más débil** en países con mayor **Gasto Social**.
 
 ------------------------------------------------------------------------
 
 
 # Metodología {data-background-color="#FF0000"}
 
-## Datos
-
-\[Se utilizó la base de datos del Latinobarometro del año 2023, tiene un diseño divido por país, sexo y edad. Para el analisis se uso una cantidad de 12.023 personas dividido en 15 paises de America Latina, se excluyo a Guatemala y a Venezuela debido a falta de datos L2.\]
+-   **Datos:** Encuesta **Latinobarómetro 2023**.
+-   **Muestra:** **12,023** individuos en **15** países.
+-   **Método:** Modelamiento multinivel progresivo.
+    1.  **Modelo Nulo (ICC):** ¿Vale la pena un modelo multinivel?
+    2.  **Modelo de Interceptos Aleatorios:** Añadimos efectos individuales (Nivel 1).
+    3.  **Modelo Multinivel Completo:** Añadimos efectos contextuales (Nivel 2).
+    4.  **Modelo de Coeficientes Aleatorios:** ¿Varían los efectos de CSP y AD entre países?
+    5.  **Modelo Final con Interacciones:** Probamos las hipótesis de moderación.
 
 ## Variables
 
@@ -441,24 +448,13 @@ $$
 
 ## Descriptivos
 
-Scatterplot: relación entre promedio comunal de escolaridad y tasa de empleo
-
-```{r Scatterplot}
-casen_educ %>%
-  group_by(comuna) %>%
-  summarise(
-    esc_prom = mean(esc, na.rm = TRUE),
-    prop_empleo = first(prop_empleo)
-  ) %>%
-  ggplot(aes(x = prop_empleo, y = esc_prom)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE, color = "steelblue") +
-  labs(
-    title = "Relación entre tasa de empleo comunal y escolaridad promedio",
-    x = "Tasa de empleo (proporción)",
-    y = "Años promedio de escolaridad"
-  ) +
-  theme_minimal()
+```{r tabla-descriptivos, layout="l-body-outset"}
+# Descomentar cuando tengas 'base_proc'
+# tbl_summary(
+#   base_proc,
+#   include = c(CIG, CSP, AD, edad, sexo, esc_pol_cat, gini, gasto_social),
+#   statistic = list(all_continuous() ~ "{mean} ({sd})", all_categorical() ~ "{n} ({p}%)")
+# ) %>% modify_caption("Tabla 1: Descriptivos de la muestra")
 ```
 
 ------------------------------------------------------------------------
@@ -486,33 +482,13 @@ casen_educ %>%
 
 ## Modelos
 
-```{r tabla_modelos, echo=FALSE, results='asis'}
-library(sjPlot)
-
-# 1. Genera la tabla SIN imprimirla
-html_tab <- tab_model(
-  m0, m1, m2, m3, m4, m5_H6,
-  show.ci  = FALSE,
-  show.se  = TRUE,
-  p.style  = "stars",
-  digits   = 3,
-  dv.labels = c(
-    "Nulo (ICC)", "L1 (centrado)", "L2 (centrado)",
-    "L1 + L2", "+ Pend. NSE", "+ Interacción H6"
-  ),
-  file = NA          # ← devuelve la lista, no la imprime
-)
-
-# 2. Compone la salida (solo UNA vez)
-salida <- paste0(
-  "<style>", html_tab$page.style, "</style>",
-  '<div class="hscroll small-table">', html_tab$page.content, "</div>"
-)
-
-knitr::asis_output(salida)
-invisible(NULL)      # evita ecos adicionales
+```{r tabla-modelos, results='asis'}
+# Aquí iría el código para generar los modelos m0 a m4 y luego la tabla.
+# m0 <- lmer(CIG ~ 1 + (1 | pais), data = base_proc)
+# m1 <- lmer(CIG ~ CSP_cmc + AD_cmc + sexo + ... + (1 | pais), data = base_proc)
+# ... etc.
+# tab_model(m0, m1, m2, m3, m4, show.icc = TRUE, show.r2 = TRUE)
 ```
-
 ------------------------------------------------------------------------
 
 ## Test de devianza

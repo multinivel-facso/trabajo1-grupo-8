@@ -15,7 +15,7 @@ format:
 editor: source
 ---
 
-# 
+
 
 ```{r paquetes y modelos}
 #| include: false
@@ -34,36 +34,167 @@ pacman::p_load(lme4,
                equatiomatic, knitr, kableExtra, htmltools) # paquetes a cargar
 
 
-casen_educ <- readRDS("output/casen_educ.rds")
+base_raw <- haven::read_sav("input/data/latinobarometro_2023.sav", user_na = TRUE) 
 
-# ---- centrados --------------------------------------------------------------
-casen_educ <- casen_educ %>%                 # CMC nivel-1
-  group_by(comuna) %>%
+#base_proc <- base_raw %>% 
+  select(
+    # ID Agregada
+    pais = IDENPA, 
+    # Nivel 1, Control
+    edad = EDAD, 
+    sexo = SEXO, 
+    niv_educ = REEEDUC.1, 
+    esc_pol = P16ST,
+    # Nivel 1, VD
+    conf_congreso = P13ST.D,
+    conf_gobierno = P13ST.E, 
+    conf_judicial = P13ST.F,
+    # Nivel 1, Indice Agentes Economicos
+    conf_cias_nac = P14ST.B,
+    conf_cias_int = P14ST.E,
+    conf_bancos = P14ST.F,
+    # Nivel 1, Desigualdad
+    neol_acept_des = P61ST,
+    neol_dist_ing = P17ST,
+    # Nivel 1, Sistema unico
+    neol_unico = P54ST.B, 
+  ) %>%
+  mutate(pais = haven::zap_labels(pais))
+
+# 4. Adición de Variables Nivel 2
+datos_pais <- data.frame(
+  # ID Agregada
+  pais = c(32, 68, 76, 152, 170, 188, 218, 222, 320, 340, 484, 604, 591, 600, 858, 862, 214), 
+  # Etiqueta Agregada
+  nombrepais = c("Argentina", "Bolivia", "Brasil", "Chile", "Colombia", "Costa Rica", "Ecuador", "El Salvador", 
+                 "Guatemala", "Honduras", "México", "Perú", "Panamá", "Paraguay", "Uruguay", "Venezuela", "Rep. Dominicana"),
+  # Nivel 2, % de Gasto Social en el PIB
+  gasto_social = c(37.84, 36.00, 45.31, 27.40, 35.45, 18.51, 39.45, 30.38, 13.72, 26.10, 28.59, 24.90, 21.49, 21.48, 30.52, 34.37, 19.13), # Datos extraidos de https://datosmacro.expansion.com/estado/gasto?anio=2023
+  # Nivel 2, Desigualdad
+  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 40.2, 48.9, 45.1, 40.6, 44.7, 37.0), #Datos de Guatemala y Nicaragua de 2014, Venezuela de 2006 # Datos extraidos de https://datosmacro.expansion.com/demografia/indice-gini
+  # Nivel 2. Control
+  pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 7126.00, 18686.41, 6276.35, 22797.81, NA, 10717.63) 
+)
+# 5. Merge de bases
+
+base_proc <- left_join(base_proc, datos_pais, by = "pais")
+
+# 6. Limpieza de Datos
+
+# # Revision de NAs
+# table(base_proc$nombrepais)
+# 
+# na_pais <- base_proc %>%
+#   group_by(nombrepais) %>%
+#   summarise(
+#     across(
+#       .cols = everything(), 
+#       .fns = ~sum(is.na(.)),
+#       .names = "na_{.col}" 
+#     )
+#   )
+# 
+# print(na_pais)
+##
+
+base_proc <- base_proc %>%
+  filter(!pais %in% c(320, 862)) # 320=Guatemala, 862=Venezuela
+
+base_proc <- na.omit(base_proc)
+
+## Revision de NAs
+#table(base_proc$nombrepais)
+
+# 7. Moficación y creacion de variables
+
+base_proc <- base_proc %>%
   mutate(
-    mean_nse_comuna = mean(nse_numerico, na.rm = TRUE),
-    nse_cmc         = nse_numerico - mean_nse_comuna
-  ) %>% ungroup() %>%                        # GMC nivel-2
-  mutate(
-    prop_empleo_gmc = prop_empleo - mean(prop_empleo, na.rm = TRUE),
-    n_escuelas_gmc  = n_escuelas  - mean(n_escuelas,  na.rm = TRUE)
+    conf_congreso = case_when(
+      conf_congreso == 1 ~ 4,
+      conf_congreso == 2 ~ 3,
+      conf_congreso == 3 ~ 2,
+      conf_congreso == 4 ~ 1
+      ),
+    conf_gobierno = case_when(
+      conf_gobierno == 1 ~ 4,
+      conf_gobierno == 2 ~ 3,
+      conf_gobierno == 3 ~ 2,
+      conf_gobierno == 4 ~ 1
+    ),
+    conf_judicial = case_when(
+      conf_judicial == 1 ~ 4,
+      conf_judicial == 2 ~ 3,
+      conf_judicial == 3 ~ 2,
+      conf_judicial == 4 ~ 1
+    ),
+    neol_unico = case_when(
+      neol_unico == 1 ~ 4,
+      neol_unico == 2 ~ 3,
+      neol_unico == 3 ~ 2,
+      neol_unico == 4 ~ 1
+    ),
+    neol_dist_ing = case_when(
+      neol_dist_ing == 1 ~ 4,
+      neol_dist_ing == 2 ~ 3,
+      neol_dist_ing == 3 ~ 2,
+      neol_dist_ing == 4 ~ 1
+    ),
+    conf_cias_nac = case_when(
+      conf_cias_nac == 1 ~ 4, 
+      conf_cias_nac == 2 ~ 3,
+      conf_cias_nac == 3 ~ 2, 
+      conf_cias_nac == 4 ~ 1
+    ),
+    conf_cias_int = case_when(
+      conf_cias_int == 1 ~ 4, 
+      conf_cias_int == 2 ~ 3,
+      conf_cias_int == 3 ~ 2, 
+      conf_cias_int == 4 ~ 1
+    ),
+    conf_bancos = case_when(
+      conf_bancos == 1 ~ 4, 
+      conf_bancos == 2 ~ 3,
+      conf_bancos == 3 ~ 2, 
+      conf_bancos == 4 ~ 1
+    ),
+    esc_pol_cat = factor(case_when(
+      esc_pol >= 1 & esc_pol <= 3 ~ "Izquierda",
+      esc_pol >= 4 & esc_pol <= 6 ~ "Centro",
+      esc_pol >= 7 & esc_pol <= 10 ~ "Derecha",
+      esc_pol == 97 ~ "Ninguna"
+    ), levels = c( "Ninguna", "Izquierda", "Centro", "Derecha"))
   )
 
-# ---- modelos ----------------------------------------------------------------
-m0    <- lmer(esc ~ 1 + (1 | comuna), data = casen_educ)
-m1    <- lmer(esc ~ female + nse_cmc + part_social_num + (1|comuna), data = casen_educ)
-m2    <- lmer(esc ~ prop_empleo_gmc + n_escuelas_gmc + (1|comuna),    data = casen_educ)
-m3    <- lmer(esc ~ female + nse_cmc + part_social_num +
-                     prop_empleo_gmc + n_escuelas_gmc + (1|comuna),   data = casen_educ)
-m4    <- lmer(esc ~ female + nse_cmc + part_social_num +
-                     prop_empleo_gmc + n_escuelas_gmc +
-                     (1 + nse_cmc | comuna),                          data = casen_educ)
-m5_H6 <- lmer(esc ~ nse_cmc * prop_empleo_gmc +
-                     part_social_num + n_escuelas_gmc + female +
-                     (1 + nse_cmc | comuna),                          data = casen_educ)
+# 8. Creación de Indices
 
+base_proc <- base_proc %>% mutate(
+  ind_conf_inst = rowMeans(select(., conf_congreso, conf_gobierno, conf_judicial)),
+  ind_conf_priv = rowMeans(select(., conf_bancos, conf_cias_int, conf_cias_nac)),
+  ind_desig = rowMeans(scale(select(., neol_dist_ing, neol_acept_des)))
+  )
 
+# 9. Centrado de Variables
+## Centrado al Promedio del Grupo (CGM) para variables L1 y Centrado al Promedio General (CMG) para variables L2
 
+base_proc <- base_proc %>% 
+  group_by(pais) %>%
+  mutate(
+    ind_conf_inst_c = ind_conf_inst - mean(ind_conf_inst),
+    ind_conf_priv_c = ind_conf_priv - mean(ind_conf_priv),
+    ind_desig_c = ind_desig - mean(ind_desig),
+    edad_c = edad - mean(edad),
+    niv_educ_c = niv_educ - mean(niv_educ)
+  ) %>%
+  ungroup() %>%
+  mutate(
+    gasto_social_c = gasto_social - mean(gasto_social),
+    gini_c = gini - mean(gini),
+    pib_per_capita_c = pib_per_capita - mean(pib_per_capita)
+  )
 
+# 10. Crear objetos para el reporte
+N_observaciones <- nrow(base_proc)
+N_paises <- length(unique(base_proc$pais))
 ```
 
 :::::: columns
@@ -107,7 +238,7 @@ Aquí mis notas
 
     > Las Variables se componen por cada Pais del contiente junto con el gasto social que realizan anualmente componiendo esta variable el indice de Gini y el PIB per capita.
 
-##  {data-background-color="#FF0000"}
+  {data-background-color="#FF0000"}
 
 ::: {.center .middle}
 ¿Cómo se asocian las actitudes individuales pro-mercado (divididas en dimensiones como la creencia en la primacía del mercado, la confianza en el sector privado y el apoyo a la apertura económica) con la confianza en instituciones gubernamentales clave (Poder Judicial, Gobierno, Congreso, Policía) en los ciudadanos de diversos países latinoamericanos, y **qué proporción de la varianza en esta confianza se debe a diferencias entre los países?**
@@ -186,7 +317,6 @@ base_proc <- base_raw %>%
     neol_unico = P54ST.B, 
   )
 
-)
 
 ### # 4. Adición de Variables Nivel 2
 datos_pais <- data.frame(
@@ -202,14 +332,14 @@ datos_pais <- data.frame(
   # Nivel 2. Control
   pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 2612.87, 18686.41, 6276.35, 22797.81, NA, 10717.63) 
   )
-)
+
 
 ### 5. Merge de bases
 
 base_proc <- left_join(base_proc, datos_pais, by = "pais")
 
-  )
-)
+  
+
 invisible(NULL)
 
 ```
@@ -533,38 +663,38 @@ tab_model(
 
 ## Referencias
 
-Agencia de Calidad de la Educación. (2015, agosto). Evolución de las brechas socioeconómicas de rendimiento en pruebas SIMCE. División de Estudios, Agencia de Calidad de la Educación.
+CEPAL (Comisión Económica para América Latina y el Caribe). (2021). *Panorama Social de América Latina 2020*. Santiago de Chile: CEPAL.
 
-Andréu, J. (2011). El análisis multinivel: una revisión actualizada en el ámbito sociológico. Metodología de Encuestas, 13, 161–176.
+Centro de Investigación y Docencia Económicas (CIDE). (2019). *Encuesta Nacional sobre Calidad e Impacto Gubernamental (ENCIG)*. México, D.F.: CIDE.
 
-Arita, M., Romano, A., García, A., & Félix, F. (2015). Condiciones de vida y bienestar subjetivo en Culiacán, México. Universidad Autónoma de Sinaloa.
+Fourcade-Gourinchas, M., & Babb, S. L. (2002). The Rebirth of the Liberal Creed: Paths to Neoliberalism in Four Countries. *American Journal of Sociology*, *108*(3), 533–579.
 
-Bellei Carvacho, C., Contreras, D., & Valenzuela Barros, J. P. (2008). La agenda pendiente en educación. Profesores, administradores y recursos: propuestas para la nueva arquitectura de la educación chilena. Universidad de Chile.
+Gárate, M. (2012). *La revolución capitalista de Chile (1973-2003)*. Santiago de Chile: Ediciones Universidad Alberto Hurtado.
 
-Bourdieu, P., & Passeron, J. C. (2001). La reproducción. Elementos para una teoría del sistema de enseñanza. Editorial Laia.
+Garretón, M. A. (2012). *Neoliberalismo corregido y progresismo limitado: Los gobiernos de la Concertación en Chile, 1990-2010*. Santiago de Chile: Editorial ARCIS; Buenos Aires: CLACSO.
 
-Bullones, E. (2022). Gestión educativa en valores para la paz comunitaria. Aula Virtual, 3(6), 150–160.
+Gerbner, G., & Gross, L. (1976). Living with Television: The Violence Profile. *Journal of Communication*, *26*(2), 173–199.
 
-Canales, A., & de Ibarrola, M. (2022). La segmentación del sistema escolar mexicano: un análisis territorial. Revista Mexicana de Investigación Educativa, 27(94), 1035–1060.
+Harvey, D. (2007). *Breve historia del neoliberalismo*. Madrid: Ediciones Akal.
 
-Cimadamore, A. D., & Cattani, A. D. (Coords.). (2008). Producción de pobreza y desigualdad en América Latina. Siglo del Hombre Editores.
+Instituto Nacional de Estadísticas (INE). (2024). *Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC) 2023: Principales resultados*. Recuperado de <https://www.ine.gob.cl/estadisticas/sociales/seguridad-ciudadana/encuesta-nacional-urbana-de-seguridad-ciudadana>
 
-Finch, W. H., Bolin, J. E., & Kelley, K. (2019). Multilevel modeling using R. Chapman and Hall/CRC.
+Kahan, D. M. (2001). Trust, Collective Action, and Law. *Boston University Law Review*, *81*(1), 333-352.
 
-Instituto Nacional de Evaluación Educativa. (2011). PIRLS–TIMSS 2011. Estudio Internacional de Progreso en Comprensión Lectora, Matemáticas y Ciencias. Volumen I: Informe español. IEA.<https://www.mecd.gob.es/inee>
+Corporación Latinobarómetro. (2023). *Latinobarómetro Estudio 2023: Libro de Códigos*. Santiago de Chile: Autor.
 
-Ministerio de Educación de Chile. (2023). Informe de resultados SIMCE y brechas por grupo socioeconómico. Santiago: MINEDUC.
+North, D. C. (1993). *Instituciones, cambio institucional y desempeño económico*. México, D.F.: Fondo de Cultura Económica.
 
-Ministerio de Desarrollo Social y Familia. (2022). Encuesta de Caracterización Socioeconómica Nacional (Casen) 2022. Gobierno de Chile.
+PNUD (Programa de las Naciones Unidas para el Desarrollo). (2004). *La democracia en América Latina: Hacia una democracia de ciudadanas y ciudadanos*. Buenos Aires: Aguilar, Altea, Taurus, Alfaguara / PNUD.
 
-OECD. (2021). Education at a Glance: OECD Indicators. OECD Publishing.<https://doi.org/10.1787/b35a14e5-en>
+Portes, A., & Hoffman, K. (2003). Latin American Class Structures: Their Composition and Change during the Neoliberal Era. *Latin American Research Review*, *38*(1), 41–82.
 
-Peláez González, C., & Rodríguez, S. A. (2020). Género, trabajo y educación: Diferencias entre hombres y mujeres en la entrada al primer empleo. Revista Interdisciplinaria de Estudios de Género de El Colegio de México, 6, e494.
+Rose-Ackerman, S. (2006). *Corruption and Government: Causes, Consequences, and Reform* (2nd ed.). Cambridge, UK: Cambridge University Press.
 
-Rivas Espinosa, A., & Terra Polanco, V. (2024). Percepciones de niñas y niños sobre su hábitat en contextos urbanos informales. Sociológica (Madrid), 39(1).
+Smulovitz, C., & Peruzzotti, E. (2000). Societal Accountability in Latin America. *Journal of Democracy*, *11*(4), 147-158.
 
-Romero, E., Alcaraz, S., & Hernández, M. (2020). Desigualdades educativas y respuesta institucional: Una investigación desde la perspectiva territorial. Profesorado, Revista de Currículum y Formación del Profesorado, 24(1), 1–20.
+Stiglitz, J. E. (2002). *El malestar en la globalización*. Madrid: Taurus.
 
-Soler Mata, J., & Fernández León, R. (2021). La evaluación educativa en España: Tensiones entre la evaluación estandarizada y la evaluación formativa. Revista de Educación, 393, 245–271.
+Valenzuela, S., Arriagada, A., & Scherman, A. (2012). The social media basis of youth protest behavior: The case of Chile. *Journal of Communication*, *62*(2), 299-314.
 
-Villalobos, C., & Mardones, S. P. (2022). ¿Quién, cómo y de qué se investiga en un sistema educativo mercantilizado? Un meta-análisis de la investigación sobre política educativa en el Chile post-dictadura (1990–2019). Education Policy Analysis Archives, 30, 160.
+Vosoughi, S., Roy, D., & Aral, S. (2018). The spread of true and false news online. *Science*, *359*(6380), 1146–1151.

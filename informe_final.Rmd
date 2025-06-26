@@ -68,9 +68,6 @@ Analizar la relación entre las actitudes económicas individuales y la confianz
 
 Las hipótesis de este estudio se estructuran en función de los niveles de análisis:
 
-*   **Hipótesis de Varianza Contextual (Nivel 2):**
-    *   **H1:** Existirá una varianza significativa en la confianza institucional que puede ser atribuida a diferencias sistemáticas entre los países (ICC > 0.05).
-
 *   **Hipótesis de Efectos Individuales (Nivel 1):**
     *   **H2:** A mayor confianza individual en el sector privado, se registrará una **menor** confianza en las instituciones estatales, controlando por otros factores.
 
@@ -81,7 +78,6 @@ Las hipótesis de este estudio se estructuran en función de los niveles de aná
 ### **3. Datos, Variables y Método**
 
 ```{r carga_datos_latinobarometro, include=FALSE}
-# --- PREPARACIÓN COMPLETA DE DATOS ---
 base_raw <- haven::read_sav("input/data/latinobarometro_2023.sav", user_na = TRUE) 
 base_proc <- base_raw %>% 
   select(
@@ -131,7 +127,11 @@ base_proc <- base_proc %>%
     gasto_social_c = gasto_social - mean(gasto_social, na.rm = TRUE),
     gini_c = gini - mean(gini, na.rm = TRUE),
     pib_per_capita_c = pib_per_capita - mean(pib_per_capita, na.rm = TRUE)
-  )
+  ) %>%
+  mutate(pib_per_capita_c_1000 = pib_per_capita_c / 1000)
+
+saveRDS(base_proc, file = "base.rds")
+
 ```
 
 ¡Absolutamente! Ahora nos enfocamos en la sección de "Datos, Variables y Método". La clave aquí es ser preciso, transparente y seguir la "receta" que hemos identificado en los prácticos del curso. He construido esta sección para que contenga toda la información requerida, incluyendo la descripción de la muestra, la operacionalización de las variables y una descripción clara de la estrategia analítica progresiva.
@@ -225,7 +225,6 @@ El análisis prosigue con la estimación de los modelos multinivel. El primer pa
 La Tabla 2 presenta los resultados de los tres modelos progresivos. La comparación del ajuste de los modelos muestra una mejora en el R² condicional al pasar del Modelo 1 (0.366) al Modelo 2 (0.372), lo que justifica la inclusión de una pendiente aleatoria. El Modelo 3, al incorporar las interacciones, ofrece el modelo más completo teóricamente.
 
 ```{r tabla-modelos-finales, results='asis', fig.cap='Tabla 2: Resultados de los Modelos Multinivel para Predecir la Confianza Institucional.'}
-# --- TABLA DE MODELOS AL ESTILO DEL CURSO CON sjPlot ---
 datos_modelo <- base_proc %>% filter(!is.na(esc_pol_cat))
 m1 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + (1 | pais), data = datos_modelo, REML = FALSE)
 m2 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + (1 + ind_conf_priv_c | pais), data = datos_modelo, REML = FALSE)
@@ -304,14 +303,17 @@ La Figura 2 es elocuente: aunque el efecto es consistentemente positivo, su magn
 
 #### **4.3. Análisis de Sensibilidad**
 
-Para asegurar la robustez de los resultados, se realizó un análisis de influencia para detectar si algún país en particular estaba determinando los hallazgos. Como se observa en la Figura 3, ningún país supera el umbral crítico (línea roja), lo que indica que los resultados no están siendo indebidamente influenciados por un único caso. Esto confiere una alta confianza a la estabilidad de los coeficientes estimados y a las conclusiones del estudio.
+#### **4.3. Análisis de Sensibilidad y Estabilidad del Modelo**
+
+Para evaluar la robustez de los hallazgos, se realizó un análisis de influencia para detectar si algún país en particular estaba determinando los resultados. Se calcularon las Distancias de Cook para cada país en el Modelo 3, que miden cuánto cambiarían los coeficientes si se excluyera cada caso.
 
 ```{r diagnostico-outliers, fig.cap='Figura 3: Diagnóstico de Países Influyentes (Distancia de Cook).'}
 # --- ANÁLISIS DE OUTLIERS ---
-pacman::p_load(influence.ME)
+# (El código se mantiene igual, ya que generó el gráfico correctamente)
+pacman::p_load(influence.ME, ggplot2)
 influencia_paises <- influence(m3, group = "pais")
 distancias_cook <- as.data.frame(cooks.distance(influencia_paises))
-names(distancias_cook) <- "cook.d" # Asignar un nombre de columna explícito
+names(distancias_cook) <- "cook.d" 
 distancias_cook$pais <- rownames(distancias_cook)
 distancias_cook <- distancias_cook %>% mutate(pais = as.numeric(pais)) %>% left_join(distinct(base_proc, pais, nombrepais), by = "pais")
 umbral <- 4 / length(unique(datos_modelo$pais))
@@ -321,10 +323,21 @@ ggplot(distancias_cook, aes(x = reorder(nombrepais, cook.d), y = cook.d)) +
   geom_hline(yintercept = umbral, linetype = "dashed", color = "red") +
   coord_flip() +
   scale_fill_manual(values = c("skyblue", "red")) +
-  labs(title = "Distancia de Cook por País", subtitle = "Mide la influencia de cada país en los coeficientes del modelo.", x = "País", y = "Distancia de Cook") +
+  labs(
+    title = "Distancia de Cook por País",
+    subtitle = "Mide la influencia de cada país en los coeficientes del modelo.",
+    x = "País",
+    y = "Distancia de Cook"
+  ) +
   geom_text(aes(label = round(cook.d, 3)), hjust = -0.2, size = 3) +
   theme_minimal()
 ```
+
+Como se observa en la Figura 3, el análisis de diagnóstico revela un **problema significativo de estabilidad en el modelo**. Un total de seis países (**Uruguay, El Salvador, Chile, Brasil, Bolivia y Ecuador**) superan el umbral crítico de influencia (línea roja), con Uruguay mostrando una Distancia de Cook excepcionalmente alta.
+
+Este resultado indica que los coeficientes estimados en el Modelo 3, particularmente los efectos de Nivel 2 y las interacciones, **no son robustos**. Son altamente sensibles a la composición específica de la muestra de países. La inclusión o exclusión de este grupo de casos influyentes podría cambiar drásticamente las conclusiones del estudio, incluyendo la magnitud y la significancia estadística de los predictores.
+
+Dada la alta influencia de múltiples casos, realizar una prueba de robustez excluyendo solo a uno de ellos (como Uruguay) sería insuficiente. La inestabilidad parece ser una característica estructural del modelo con los datos actuales. Esta falta de robustez es un hallazgo en sí mismo y debe ser considerado la principal limitación del análisis. Impide hacer inferencias generalizables sobre los efectos contextuales y de interacción, y sugiere que futuras investigaciones deberían, o bien ampliar la muestra de países para mitigar la influencia de casos individuales, o bien teorizar específicamente por qué este grupo de países se comporta de manera tan atípica. Por esta razón, las interpretaciones de los efectos del Modelo 3 deben ser tomadas con extrema cautela.
 
 ### **5. Discusión y Conclusión**
 

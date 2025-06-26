@@ -423,36 +423,195 @@ $$
 
 ------------------------------------------------------------------------
 
-## Boxplot
 
-escolaridad individual según cuartiles de escuelas comunales
+```{r heatmap-plot, echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, fig.width=8}
+# --- PAQUETES NECESARIOS ---
+pacman::p_load(dplyr, ggplot2, reshape2)
 
-```{r Boxplot}
-casen_educ %>%
-  mutate(
-    cuartil_escuelas = ntile(n_escuelas, 4)  # divide en 4 cuartiles
-  ) %>%
-  ggplot(aes(x = factor(cuartil_escuelas), y = esc)) +
-  geom_boxplot(fill = "lightgray", color = "black") +
-  labs(
-    title = "Distribución de escolaridad según cantidad de escuelas en la comuna",
-    x = "Cuartil de cantidad de escuelas",
-    y = "Años de escolaridad"
+# --- PREPARACIÓN DE DATOS ---
+# 1. Seleccionamos las variables numéricas de interés (Nivel 1 y Nivel 2)
+# Para las de Nivel 2, usamos distinct para tener un valor por país y luego las unimos
+df_nivel1 <- base_proc %>% select(CIG = ind_conf_inst, CSP = ind_conf_priv, AD = ind_desig)
+df_nivel2 <- base_proc %>% distinct(pais, .keep_all = TRUE) %>% select(GINI = gini, GS = gasto_social)
+
+# Nota: Esta correlación es exploratoria y mezcla niveles, pero es útil para una visión general.
+df_corr <- base_proc %>%
+  select(CIG = ind_conf_inst, CSP = ind_conf_priv, AD = ind_desig, GINI = gini, GS = gasto_social)
+
+# 2. Calculamos la matriz de correlación
+matriz_cor <- cor(df_corr, use = "pairwise.complete.obs")
+
+# 3. "Derretimos" la matriz para que sea compatible con ggplot2
+df_cor_larga <- reshape2::melt(matriz_cor)
+
+# --- CREACIÓN DEL GRÁFICO ---
+ggplot(df_cor_larga, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile(color = "white") +
+  # Usamos una escala de color divergente, ideal para correlaciones
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1, 1), space = "Lab",
+                       name="Correlación") +
+  # Añadimos el texto con los valores de la correlación
+  geom_text(aes(label = round(value, 2)), color = "black", size = 4) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    panel.grid.major = element_blank(),
+    legend.position = "bottom"
   ) +
-  theme_minimal()
+  coord_fixed() # Asegura que las celdas sean cuadradas
 ```
 
-\`
+---
+## Confianza Institucional por País
+---
 
-## Modelos
+```{r map-plot, echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, fig.width=9}
+# --- PAQUETES NECESARIOS ---
+pacman::p_load(dplyr, ggplot2, sf, rnaturalearth)
 
-```{r tabla-modelos, results='asis'}
-# Aquí iría el código para generar los modelos m0 a m4 y luego la tabla.
-# m0 <- lmer(CIG ~ 1 + (1 | pais), data = base_proc)
-# m1 <- lmer(CIG ~ CSP_cmc + AD_cmc + sexo + ... + (1 | pais), data = base_proc)
-# ... etc.
-# tab_model(m0, m1, m2, m3, m4, show.icc = TRUE, show.r2 = TRUE)
+# --- PREPARACIÓN DE DATOS ---
+# 1. Calculamos el promedio de CIG por país
+datos_mapa <- base_proc %>%
+  group_by(nombrepais) %>%
+  summarise(CIG_promedio = mean(ind_conf_inst, na.rm = TRUE), .groups = 'drop')
+
+# 2. Obtenemos los polígonos del mapa del mundo
+mapa_mundo <- ne_countries(scale = "medium", returnclass = "sf")
+
+# 3. Unimos nuestros datos con los polígonos del mapa
+# Usamos 'sovereignt' del mapa, que es el nombre en inglés, y lo hacemos coincidir
+# con nuestros nombres de países en español (puede requerir ajustes si los nombres no coinciden)
+# Para un match robusto, es mejor usar códigos de país como ISO_A3, pero esto funciona para una demo.
+mapa_final <- mapa_mundo %>%
+  mutate(nombre_mapa = case_when(
+    sovereignt == "Argentina" ~ "Argentina",
+    sovereignt == "Bolivia" ~ "Bolivia",
+    sovereignt == "Brazil" ~ "Brasil",
+    sovereignt == "Chile" ~ "Chile",
+    sovereignt == "Colombia" ~ "Colombia",
+    sovereignt == "Costa Rica" ~ "Costa Rica",
+    sovereignt == "Dominican Rep." ~ "Rep. Dominicana",
+    sovereignt == "Ecuador" ~ "Ecuador",
+    sovereignt == "El Salvador" ~ "El Salvador",
+    sovereignt == "Honduras" ~ "Honduras",
+    sovereignt == "Mexico" ~ "México",
+    sovereignt == "Panama" ~ "Panamá",
+    sovereignt == "Paraguay" ~ "Paraguay",
+    sovereignt == "Peru" ~ "Perú",
+    sovereignt == "Uruguay" ~ "Uruguay",
+    TRUE ~ NA_character_
+  )) %>%
+  left_join(datos_mapa, by = c("nombre_mapa" = "nombrepais")) %>%
+  filter(!is.na(CIG_promedio))
+
+# --- CREACIÓN DEL GRÁFICO ---
+ggplot(data = mapa_final) +
+  geom_sf(aes(fill = CIG_promedio), color = "black", linewidth = 0.2) +
+  # Usamos una escala de color viridis, buena para la visualización de datos
+  scale_fill_viridis_c(option = "plasma", name = "Confianza Promedio (CIG)") +
+  # Centramos el mapa en América Latina
+  coord_sf(xlim = c(-120, -30), ylim = c(-55, 35), expand = FALSE) +
+  theme_void() +
+  theme(legend.position = "bottom", legend.key.width = unit(2, "cm"))
 ```
+
+---
+## Distribución de la Confianza por País
+---
+
+```{r boxplot-plot, echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, fig.width=9}
+# --- PAQUETES NECESARIOS ---
+pacman::p_load(dplyr, ggplot2)
+
+# --- CREACIÓN DEL GRÁFICO ---
+ggplot(base_proc, aes(x = reorder(nombrepais, ind_conf_inst, FUN = median), y = ind_conf_inst)) +
+  geom_boxplot(fill = "skyblue", alpha = 0.7, color = "navy") +
+  # Invertimos los ejes para que los nombres de los países sean legibles
+  coord_flip() +
+  labs(
+    x = "",
+    y = "Índice de Confianza Institucional (CIG)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.major.y = element_blank(), # Limpiamos el fondo
+    panel.grid.minor.y = element_blank()
+  )
+
+---
+## Resultados: Modelos Multinivel
+---
+
+```{r tabla-modelos, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+# --- PAQUETES NECESARIOS ---
+pacman::p_load(lme4, sjPlot)
+
+# --- PASO 1: ESTIMAR LA SECUENCIA DE MODELOS ---
+# Nota: Usamos REML = FALSE para poder comparar modelos con LRT si fuera necesario.
+
+# Modelo 0: Nulo (Solo intercepto aleatorio)
+m0 <- lmer(ind_conf_inst ~ 1 + (1 | pais), data = base_proc, REML = FALSE)
+
+# Modelo 1: Efectos de Nivel 1 (Individuales)
+m1 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + sexo + edad_c + niv_educ_c + esc_pol_cat + (1 | pais), 
+           data = base_proc, REML = FALSE)
+
+# Modelo 2: Modelo Multinivel Completo (Añadimos Nivel 2)
+m2 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + sexo + edad_c + niv_educ_c + esc_pol_cat + 
+             gasto_social_c + gini_c + pib_per_capita_c + (1 | pais), 
+           data = base_proc, REML = FALSE)
+
+# Modelo 3: Coeficientes Aleatorios (Pendientes de CSP y AD varían)
+m3 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + sexo + edad_c + niv_educ_c + esc_pol_cat + 
+             gasto_social_c + gini_c + pib_per_capita_c + (1 + ind_conf_priv_c + ind_desig_c | pais), 
+           data = base_proc, REML = FALSE)
+
+# Modelo 4: Modelo Final con Interacciones
+m4 <- lmer(ind_conf_inst ~ ind_conf_priv_c * gasto_social_c + ind_desig_c * gini_c + 
+             sexo + edad_c + niv_educ_c + esc_pol_cat + pib_per_capita_c + 
+             (1 + ind_conf_priv_c + ind_desig_c | pais), 
+           data = base_proc, REML = FALSE)
+
+
+# --- PASO 2: CREAR LA TABLA CON SJPLOT ---
+tab_model(
+  m0, m1, m2, m3, m4,
+  # Títulos claros para cada columna que cuentan la historia del modelado
+  dv.labels = c("Modelo Nulo", "Nivel 1", "Nivel 1+2", "+ Pend. Aleatorias", "Interacciones"),
+  # Etiquetas personalizadas para los predictores
+  pred.labels = c(
+    "(Intercepto)", "Confianza Privados (CSP)", "Aceptación Desigualdad (AD)",
+    "Sexo (Mujer)", "Edad", "Nivel Educacional",
+    "Pos. Pol: Izquierda", "Pos. Pol: Centro", "Pos. Pol: Derecha",
+    "Gasto Social (GS)", "Índice GINI", "PIB per cápita",
+    "CSP x Gasto Social", "AD x GINI"
+  ),
+  # Opciones para hacer la tabla más compacta y legible
+  show.ci = 0.95,           # Mostrar Intervalos de Confianza
+  collapse.ci = TRUE,       # Unir IC en una sola columna [CI_low, CI_high]
+  p.style = "stars",        # Usar estrellas para significancia
+  # Información crucial del modelo multinivel
+  show.icc = TRUE,
+  show.r2 = TRUE,
+  show.re.var = TRUE,
+  # Títulos de las secciones de la tabla
+  string.pred = "Predictor",
+  string.ci = "IC 95%",
+  string.p = "p"
+)
+```
+
+::: {.callout-note appearance="simple"}
+### Interpretación Clave de los Resultados
+1.  **ICC (Modelo Nulo):** Un **19%** de la varianza en la confianza se debe a diferencias entre países, justificando el análisis multinivel.
+2.  **H1 y H2 Rechazadas:** Contrario a lo esperado, la Confianza en Privados (**β = 0.43**) y la Aceptación de la Desigualdad (**β = 0.21**) se asocian **positiva y significativamente** con la Confianza Institucional.
+3.  **H5 y H6 Rechazadas:** Las interacciones `CSP x Gasto Social` y `AD x GINI` no son estadísticamente significativas, indicando que estos factores contextuales no moderan las relaciones a nivel individual como se hipotetizó.
+:::
+```
+
 ------------------------------------------------------------------------
 
 ## Test de devianza

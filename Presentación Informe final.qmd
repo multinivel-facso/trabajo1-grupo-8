@@ -85,7 +85,7 @@ En este contexto, surge la pregunta sobre cómo las actitudes individuales hacia
 -   **Muestra:** 13,361 individuos en 15 países.
 -   **Variable Dependiente (VD):** Índice de Confianza Institucional \[CIG\].
 -   **Variables Independientes (Nivel 1):** Índice de Confianza en Sector Privado \[CSP\], Índice de Aceptación de la Desigualdad \[AD\], Sexo, Edad.
--   **Variables Clave (Nivel 2):** Gasto Social (% del PIB)\[GS\], Índice de Gini\[GINI\], PIB per cápita(En miles de dolare)\[PPC\].
+-   **Variables Contextuales (Nivel 2):** Gasto Social (% del PIB)\[GS\], Índice de Gini\[GINI\], PIB per cápita(En miles de dolares)\[PPC\].
 
 ------------------------------------------------------------------------
 
@@ -350,6 +350,7 @@ tab_model(
 )
 ```
 </div>
+
 
 ------------------------------------------------------------------------
 

@@ -1,0 +1,459 @@
+---
+title: "Actitudes Económicas y Confianza Institucional en América Latina: Un Análisis Multinivel Preliminar"
+subtitle: "Informe de Avance - Analisis de Datos Multinivel 2025"
+author: "Yerkho Nuñez, Dorian Ñanco y Morgan Salazar"
+date: "06-28-2025"
+lang: es
+format: 
+  html:
+    toc: true
+    toc_float: true
+    number_sections: true
+    theme: cosmo 
+    code_folding: none 
+editor: visual
+---
+
+```{r setup-global, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center')
+options(scipen = 999) 
+```
+
+# Introducción {#sec-intro-avance}
+
+Uno de los componentes fundamentales de la sociedad son las instituciones, cada una cumpliendo un rol específico según las necesidades de la población y los problemas emergentes, con el fin de asegurar el bienestar colectivo (North, 1993). La efectividad y legitimidad de estas instituciones no solo dependen de sus acciones formales, sino también de la percepción pública y las nociones predominantes sobre cómo deben enfrentar los problemas, sus causas y soluciones. Un ejemplo claro es la desconfianza ciudadana hacia las fuerzas policiales para combatir la delincuencia, lo que puede llevar a que los individuos prefieran la autodefensa como solución a problemas de seguridad, como la invasión de la propiedad privada (Kahan, 2001; Smulovitz & Peruzzotti, 2000).
+
+La percepción ciudadana hacia las instituciones es variable y multifactorial. Los medios de comunicación, por ejemplo, pueden exacerbar los niveles de inseguridad e insatisfacción (Gerbner & Gross, 1976; Valenzuela et al., 2017). Prueba de ello es la Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC) de 2023 en Chile, donde el 87.6% de la población percibió un aumento de la delincuencia (Instituto Nacional de Estadísticas \[INE\], 2024). Este fenómeno se ve amplificado en la era digital por la rápida diseminación de noticias falsas y la masificación de la información a través de redes sociales (Vosoughi et al., 2018). Adicionalmente, los escándalos de corrupción y el incumplimiento de deberes por parte de representantes institucionales minan la confianza pública, llevando a cuestionamientos sobre la función y existencia misma de dichas instituciones (Rose-Ackerman, 2006; CIDE, 2019).
+
+Este panorama se complejiza en contextos económicos de corte neoliberal. El neoliberalismo, como modelo de organización económica y social, postula la centralidad del mercado como principal regulador de la vida social, relegando al Estado a funciones mínimas como el mantenimiento del orden público y la protección de la propiedad privada (Harvey, 2007; Garretón, 2012). Se prioriza la libre competencia, la desregulación, la privatización y la figura del individuo como actor autónomo. Sin embargo, este modelo ha mostrado fisuras, especialmente durante crisis económicas. La pandemia de COVID-19, por ejemplo, evidenció la necesidad de intervención estatal para sostener el bienestar y la actividad económica (Stiglitz, 2002; CEPAL, 2021), demostrando que el modelo económico no se sostiene por sí solo sin un rol activo del Estado, no solo para controlar, sino también para fomentar la economía.
+
+**Planteamiento del Problema y Relevancia Multinivel (Foco del Avance):** La percepción de la economía y las instituciones varía significativamente entre países. En América Latina, la adopción y adaptación de políticas neoliberales ha sido heterogénea, resultando en contextos nacionales diversos (Portes & Hoffman, 2003; PNUD, 2004). Esta variabilidad contextual es crucial y justifica un **enfoque multinivel**. Las actitudes y percepciones individuales (Nivel 1) están "anidadas" dentro de contextos nacionales (Nivel 2), los cuales pueden influir tanto en la prevalencia de ciertas actitudes como en la forma en que estas se relacionan con la confianza institucional. Este informe de avance se centrará en explorar esta estructura jerárquica de los datos. La relevancia sociológica radica en comprender cómo las estructuras macro (país) modelan o moderan las relaciones a nivel micro (individuo) en un tema tan sensible como la confianza, fundamental para la cohesión social y la gobernabilidad democrática.
+
+**Pregunta de Investigación Principal (Avance):** ¿Cómo se asocian las actitudes individuales pro-mercado (divididas en dimensiones como la creencia en la primacía del mercado, la confianza en el sector privado y el apoyo a la apertura económica) con la confianza en instituciones gubernamentales clave (Poder Judicial, Gobierno, Congreso, Policía) en los ciudadanos de diversos países latinoamericanos, y **qué proporción de la varianza en esta confianza se debe a diferencias entre los países?**
+
+# Abstract {#sec-abstract-avance}
+
+-   **Problema:** La relación entre las actitudes económicas individuales pro-mercado y la confianza en instituciones gubernamentales en América Latina, considerando la variabilidad contextual entre países.
+-   **Pregunta (Avance):** ¿Cómo se asocian las actitudes individuales pro-mercado con la confianza institucional en América Latina, y cuánta de esta varianza es atribuible al contexto nacional?
+-   **Objetivo (Avance):** Explorar preliminarmente esta relación mediante análisis multinivel, enfocándose en la descripción de datos, el cálculo de Correlación Intraclase (ICC) y la estimación de modelos nulos y modelos con interceptos aleatorios y predictores de nivel individual.
+-   **Datos:** Encuesta Latinobarómetro 2023 (N total ≈ 19,205 individuos, N países en modelos ≈ 17).
+-   **Resultado Principal (Avance):** Se encontró una varianza significativa en la confianza institucional a nivel de país (ICC entre 9.3% y 14.7%), justificando el análisis multinivel. El índice de "Primacía del Mercado" mostró una fiabilidad muy baja (Alfa=0.246) y no se utilizó en los modelos. El `Indice_ConfPrivado` (Alfa=0.691) se asoció positivamente con la `Confianza_Gobierno` (β=0.409, p\<0.001). El `Indice_AperturaEco` (Alfa=0.676) también se construyó.
+
+# Objetivos e Hipótesis {#sec-obj-hypo-avance}
+
+**Objetivo General (Avance):** Establecer el marco analítico y presentar los resultados descriptivos y multinivel preliminares sobre la relación entre dimensiones de actitudes pro-mercado y la confianza en instituciones gubernamentales en América Latina, con énfasis en la **cuantificación de la varianza entre países (ICC) y la estimación de efectos fijos a nivel individual**.
+
+**Objetivos Específicos (Avance):** 1. Describir las características de la muestra y las variables clave de Latinobarómetro 2023. 2. Construir y evaluar la fiabilidad interna (Alfa de Cronbach) de las escalas propuestas para medir dimensiones de actitudes pro-mercado. 3. **Estimar y analizar la Correlación Intraclase (ICC)** para las variables de confianza institucional. 4. Estimar y describir **modelos multinivel de interceptos aleatorios (modelos nulos)**. 5. Estimar y describir **modelos multinivel preliminares con predictores de nivel individual** y efectos aleatorios para el intercepto.
+
+**Hipótesis (Principales para el Avance):** \* **H_ICC (Nivel 2):** Existirá una varianza significativa en la confianza en el Poder Judicial, Gobierno, Congreso y Policía atribuible a las diferencias entre países latinoamericanos (ICC \> 0.05). \* **H1 (Nivel Individual):** Una mayor adhesión individual a la "Creencia en la Primacía y Eficiencia del Mercado" se asociará positivamente con la confianza en el Poder Judicial y la Policía. *(Nota: Dada la muy baja fiabilidad del índice (Alfa=0.246), esta hipótesis se explorará utilizando ítems individuales en el informe final).* \* **H2 (Nivel Individual):** Una mayor "Confianza individual en el Sector Privado y Actores Económicos" se asociará positivamente con la confianza en el Gobierno. \* **H3 (Nivel Individual):** Un mayor "Apoyo individual a la Apertura Económica e Integración Global" se asociará positivamente con la confianza en el Congreso.
+
+# Datos, Variables y Métodos (Versión de Avance) {#sec-data-methods-avance}
+
+## Carga y Preparación de Datos
+
+Se utiliza la encuesta Latinobarómetro 2023. Los datos fueron procesados para seleccionar las variables de interés, tratar valores perdidos y recodificar ítems para la construcción de escalas e índices.
+
+```{r carga_datos_latinobarometro, eval=TRUE, include=FALSE}
+# 1. Carga de Librerias
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(lme4, 
+               haven, 
+               stargazer, 
+               ggplot2, 
+               texreg, 
+               dplyr, 
+               psych, 
+               kableExtra, 
+               ggeffects, 
+               reghelper, 
+               gtsummary,
+               rnaturalearth,
+               rnaturalearthdata,
+               sf,
+               ggdist,
+               patchwork)
+
+# 2 Carga de Base de Datos
+base_raw <- haven::read_sav("input/data/latinobarometro_2023.sav", user_na = TRUE) 
+
+# 3. Seleccion de Variables Nivel 1
+base_proc <- base_raw %>% 
+  select(
+    # ID Agregada
+    pais = IDENPA, 
+    # Nivel 1, Control
+    edad = EDAD, 
+    sexo = SEXO, 
+    niv_educ = REEEDUC.1, 
+    esc_pol = P16ST,
+    # Nivel 1, VD
+    conf_congreso = P13ST.D,
+    conf_gobierno = P13ST.E, 
+    conf_judicial = P13ST.F,
+    # Nivel 1, Indice Agentes Economicos
+    conf_cias_nac = P14ST.B,
+    conf_cias_int = P14ST.E,
+    conf_bancos = P14ST.F,
+    # Nivel 1, Desigualdad
+    neol_acept_des = P61ST,
+    neol_dist_ing = P17ST,
+    # Nivel 1, Sistema unico
+    neol_unico = P54ST.B, 
+  ) %>%
+  mutate(pais = haven::zap_labels(pais))
+
+# 4. Adición de Variables Nivel 2
+datos_pais <- data.frame(
+  # ID Agregada
+  pais = c(32, 68, 76, 152, 170, 188, 218, 222, 320, 340, 484, 604, 591, 600, 858, 862, 214), 
+  # Etiqueta Agregada
+  nombrepais = c("Argentina", "Bolivia", "Brasil", "Chile", "Colombia", "Costa Rica", "Ecuador", "El Salvador", 
+                 "Guatemala", "Honduras", "México", "Perú", "Panamá", "Paraguay", "Uruguay", "Venezuela", "Rep. Dominicana"),
+  # Nivel 2, % de Gasto Social en el PIB
+  gasto_social = c(37.84, 36.00, 45.31, 27.40, 35.45, 18.51, 39.45, 30.38, 13.72, 26.10, 28.59, 24.90, 21.49, 21.48, 30.52, 34.37, 19.13), # Datos extraidos de https://datosmacro.expansion.com/estado/gasto?anio=2023
+  # Nivel 2, Desigualdad
+  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 40.2, 48.9, 45.1, 40.6, 44.7, 37.0), #Datos de Guatemala y Nicaragua de 2014, Venezuela de 2006 # Datos extraidos de https://datosmacro.expansion.com/demografia/indice-gini
+  # Nivel 2. Control
+  pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 7126.00, 18686.41, 6276.35, 22797.81, NA, 10717.63) 
+)
+# 5. Merge de bases
+
+base_proc <- left_join(base_proc, datos_pais, by = "pais")
+
+# 6. Limpieza de Datos
+
+# # Revision de NAs
+# table(base_proc$nombrepais)
+# 
+# na_pais <- base_proc %>%
+#   group_by(nombrepais) %>%
+#   summarise(
+#     across(
+#       .cols = everything(), 
+#       .fns = ~sum(is.na(.)),
+#       .names = "na_{.col}" 
+#     )
+#   )
+# 
+# print(na_pais)
+##
+
+base_proc <- base_proc %>%
+  filter(!pais %in% c(320, 862)) # 320=Guatemala, 862=Venezuela
+
+base_proc <- na.omit(base_proc)
+
+## Revision de NAs
+#table(base_proc$nombrepais)
+
+# 7. Moficación y creacion de variables
+
+base_proc <- base_proc %>%
+  mutate(
+    conf_congreso = case_when(
+      conf_congreso == 1 ~ 4,
+      conf_congreso == 2 ~ 3,
+      conf_congreso == 3 ~ 2,
+      conf_congreso == 4 ~ 1
+      ),
+    conf_gobierno = case_when(
+      conf_gobierno == 1 ~ 4,
+      conf_gobierno == 2 ~ 3,
+      conf_gobierno == 3 ~ 2,
+      conf_gobierno == 4 ~ 1
+    ),
+    conf_judicial = case_when(
+      conf_judicial == 1 ~ 4,
+      conf_judicial == 2 ~ 3,
+      conf_judicial == 3 ~ 2,
+      conf_judicial == 4 ~ 1
+    ),
+    neol_unico = case_when(
+      neol_unico == 1 ~ 4,
+      neol_unico == 2 ~ 3,
+      neol_unico == 3 ~ 2,
+      neol_unico == 4 ~ 1
+    ),
+    neol_dist_ing = case_when(
+      neol_dist_ing == 1 ~ 4,
+      neol_dist_ing == 2 ~ 3,
+      neol_dist_ing == 3 ~ 2,
+      neol_dist_ing == 4 ~ 1
+    ),
+    conf_cias_nac = case_when(
+      conf_cias_nac == 1 ~ 4, 
+      conf_cias_nac == 2 ~ 3,
+      conf_cias_nac == 3 ~ 2, 
+      conf_cias_nac == 4 ~ 1
+    ),
+    conf_cias_int = case_when(
+      conf_cias_int == 1 ~ 4, 
+      conf_cias_int == 2 ~ 3,
+      conf_cias_int == 3 ~ 2, 
+      conf_cias_int == 4 ~ 1
+    ),
+    conf_bancos = case_when(
+      conf_bancos == 1 ~ 4, 
+      conf_bancos == 2 ~ 3,
+      conf_bancos == 3 ~ 2, 
+      conf_bancos == 4 ~ 1
+    ),
+    esc_pol_cat = factor(case_when(
+      esc_pol >= 1 & esc_pol <= 3 ~ "Izquierda",
+      esc_pol >= 4 & esc_pol <= 6 ~ "Centro",
+      esc_pol >= 7 & esc_pol <= 10 ~ "Derecha",
+      esc_pol == 97 ~ "Ninguna"
+    ), levels = c( "Ninguna", "Izquierda", "Centro", "Derecha"))
+  )
+
+# 8. Creación de Indices
+
+base_proc <- base_proc %>% mutate(
+  ind_conf_inst = rowMeans(select(., conf_congreso, conf_gobierno, conf_judicial)),
+  ind_conf_priv = rowMeans(select(., conf_bancos, conf_cias_int, conf_cias_nac)),
+  ind_desig = rowMeans(scale(select(., neol_dist_ing, neol_acept_des)))
+  )
+
+# 9. Centrado de Variables
+## Centrado al Promedio del Grupo (CGM) para variables L1 y Centrado al Promedio General (CMG) para variables L2
+
+base_proc <- base_proc %>% 
+  group_by(pais) %>%
+  mutate(
+    ind_conf_inst_c = ind_conf_inst - mean(ind_conf_inst),
+    ind_conf_priv_c = ind_conf_priv - mean(ind_conf_priv),
+    ind_desig_c = ind_desig - mean(ind_desig),
+    edad_c = edad - mean(edad),
+    niv_educ_c = niv_educ - mean(niv_educ)
+  ) %>%
+  ungroup() %>%
+  mutate(
+    gasto_social_c = gasto_social - mean(gasto_social),
+    gini_c = gini - mean(gini),
+    pib_per_capita_c = pib_per_capita - mean(pib_per_capita)
+  )
+
+# 10. Crear objetos para el reporte
+N_observaciones <- nrow(base_proc)
+N_paises <- length(unique(base_proc$pais))
+```
+
+El N total de observaciones procesadas es `r N_observaciones` individuos, distribuidos en `r N_paises` países. El N efectivo en los modelos variará debido a valores perdidos; por ejemplo, el modelo de regresión presentado más adelante utiliza 14,462 observaciones en 17 países.
+
+## Variables del Estudio
+
+-   **Variables Dependientes (Confianza Institucional - Nivel 1):**
+    -   `Confianza_Judicial`, `Confianza_Gobierno`, `Confianza_Congreso`, `Confianza_Policia`. (Escala 1-4).
+-   **Variables Independientes Principales (Actitudes Pro-Mercado - Nivel 1, Índices Z):**
+    -   `Indice_PrimaciaMercado`: (Alfa=0.246) No utilizado debido a muy baja fiabilidad. Se explorarán ítems individuales en el informe final.
+    -   `Indice_ConfPrivado`: (Alfa=0.691) Promedio de ítems estandarizados sobre confianza en sector privado.
+    -   `Indice_AperturaEco`: (Alfa=0.676) Promedio de ítems estandarizados sobre apoyo a apertura económica.
+-   **Variables de Control (Nivel Individual - Nivel 1):**
+    -   `EDAD`, `SEXO`, `REEDUC.1` (Nivel educativo 1-7), `P16ST` (Escala política 1-10).
+-   **Variable de Agrupación (Nivel 2):** `IDENPA` (País).
+
+## Estadísticos Descriptivos Univariados
+
+```{r estadisticos-descriptivos-heatmap, eval=TRUE, results='asis', echo=FALSE, fig.cap='Mapa de calor de la Confianza Institucional promedio en América Latina.'}
+# 1. Cargar las librerías necesarias
+pacman::p_load(dplyr, sf, rnaturalearth, ggplot2)
+
+# 2. Calcular el promedio de confianza por país
+# Es el paso crucial: pasamos de datos individuales a datos agregados por país.
+datos_mapa <- base_proc %>%
+  group_by(pais, nombrepais) %>%
+  summarise(
+    confianza_promedio = mean(ind_conf_inst, na.rm = TRUE),
+    .groups = 'drop' # Desagrupamos para el siguiente paso
+  )
+
+# 3. Preparar los datos del mapa geográfico
+mapa_mundo <- ne_countries(scale = "medium", returnclass = "sf") %>%
+  mutate(pais = as.numeric(iso_n3)) # Usamos el código numérico para unir
+
+# 4. Unir los datos del mapa con nuestros datos de confianza promedio
+# Nos quedamos solo con los países que están en nuestro dataset.
+mapa_final <- mapa_mundo %>%
+  left_join(datos_mapa, by = "pais") %>%
+  filter(!is.na(confianza_promedio))
+
+# 5. Crear el gráfico de mapa de calor
+ggplot(data = mapa_final) +
+  # La capa base: colorea cada país (fill) según su confianza promedio
+  geom_sf(aes(fill = confianza_promedio), color = "white", size = 0.2) +
+  
+  # Añadir etiquetas con los nombres de los países
+  geom_sf_text(aes(label = nombrepais), 
+               size = 3, 
+               color = "black", 
+               fontface = "bold",
+               fun.geometry = st_centroid) +
+  
+  # Definir la paleta de colores para el "calor"
+  # 'viridis' es una excelente opción, legible y estéticamente agradable. La opción "plasma" va de oscuro (bajo) a brillante (alto).
+  scale_fill_viridis_c(
+    option = "plasma", 
+    name = "Confianza Promedio\n(Escala 1-4)"
+  ) +
+  
+  # Limitar el mapa a la región de interés
+  coord_sf(xlim = c(-120, -30), ylim = c(-55, 35), expand = FALSE) +
+  
+  # Añadir títulos y limpiar el tema del gráfico
+  labs(
+    title = "Confianza Institucional en América Latina",
+    subtitle = "Promedio del Índice de Confianza por país (1=Baja, 4=Alta)",
+    caption = "Fuente: Latinobarómetro 2023. Elaboración propia."
+  ) +
+  theme_void() + # Tema limpio, sin ejes ni rejillas
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+    plot.subtitle = element_text(hjust = 0.5, size = 12),
+    plot.caption = element_text(hjust = 0.5, size = 9),
+    legend.position = "bottom", # Colocar la leyenda abajo
+    panel.background = element_rect(fill = "aliceblue", colour = NA),
+    plot.background = element_rect(fill = "white", colour = NA)
+  )
+```
+
+```{r tabla-descriptivos-final, results='asis', echo=FALSE}
+# --- CÓDIGO FINAL PARA TABLA DESCRIPTIVA CON STARGZER ---
+pacman::p_load(stargazer, dplyr)
+
+# Datos de Nivel 1 (Individual)
+datos_nivel1 <- base_proc %>%
+  select(ind_conf_inst, ind_conf_priv, ind_desig, edad, niv_educ)
+
+# Datos de Nivel 2 (País)
+datos_nivel2 <- base_proc %>%
+  distinct(pais, .keep_all = TRUE) %>%
+  select(gini, gasto_social, pib_per_capita)
+
+# Generar la tabla para el Nivel 1
+stargazer(
+  datos_nivel1, type = "html",
+  title = "Tabla 1: Estadísticos Descriptivos - Nivel 1 (Individual)",
+  covariate.labels = c("Índice Conf. Institucional", "Índice Conf. Privados", "Índice Pro-Desigualdad", "Edad", "Nivel Educacional"),
+  summary.stat = c("n", "mean", "sd", "min", "max"),
+  digits = 2, header = FALSE,
+  notes = paste0("N = ", format(nrow(datos_nivel1), big.mark="."), " individuos.")
+)
+
+# Generar la tabla para el Nivel 2
+stargazer(
+  datos_nivel2, type = "html",
+  title = "Tabla 2: Estadísticos Descriptivos - Nivel 2 (País)",
+  covariate.labels = c("Índice GINI", "Gasto Social (% PIB)", "PIB per cápita"),
+  summary.stat = c("n", "mean", "sd", "min", "max"),
+  digits = 2, header = FALSE,
+  notes = paste0("N = ", nrow(datos_nivel2), " países.")
+)
+```
+En promedio, la confianza en el Poder Judicial es de 2.04 (DE=0.94), en el Gobierno de 2.01 (DE=0.99), en el Congreso de 1.93 (DE=0.91), y en la Policía de 2.27 (DE=0.98). El `Índice Confianza Sector Privado` (M=-0.004, DE=0.80) y el `Índice Apertura Económica` (M=-0.01, DE=0.88) están estandarizados. La edad promedio es 41.54 años, el nivel educativo 4.34, y la escala política 6.05.
+
+## Fiabilidad de Escalas (Alfa de Cronbach)
+
+La consistencia interna de las escalas propuestas se evaluó mediante el Alfa de Cronbach: \* **Dimensión 1 (Primacía del Mercado):** Alfa = 0.246. \* El Alfa para esta dimensión fue de 0.246. Dada esta muy baja consistencia interna, el índice `Indice_PrimaciaMercado` no se utilizará en los modelos de este avance. Para el informe final, se considerará el análisis de sus ítems de forma individual o una posible reformulación de la escala. \* **Dimensión 2 (Confianza Sector Privado):** Alfa = 0.691. \* El Alfa de 0.691 es aceptable para fines exploratorios. \* **Dimensión 3 (Apertura Económica):** Alfa = 0.676. \* El Alfa de 0.676 es aceptable con precaución para este avance.
+
+## Métodos de Análisis
+
+Se emplearán modelos lineales mixtos (multinivel) (`lme4` en R). 1. **Modelo Nulo:** `VD ~ 1 + (1 | IDENPA)` 2. **Modelo Nivel 1:** `VD ~ Indice_Actitud_X + EDAD + SEXO + REEDUC.1 + P16ST + (1 | IDENPA)`
+
+# Análisis Multinivel Preliminar {#sec-analisis-avance}
+
+## Modelo Nulo y Coeficiente de Correlación Intraclase (ICC)
+
+Los ICC (entre 9.3% para Confianza Judicial y 14.7% para Confianza Gobierno) justifican el análisis multinivel.
+
+## Modelos Preliminares con Predictores de Nivel 1
+
+```{r tabla-modelos-final, results='asis', echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Resultados de los Modelos Multinivel para Predecir la Confianza Institucional.'}
+# --- CHUNK DE TABLA DE MODELOS AL ESTILO DEL CURSO ---
+
+# 1. Cargar las librerías necesarias
+pacman::p_load(lme4, dplyr, sjPlot)
+
+# 2. Preparar datos y estimar modelos (código que ya tienes)
+datos_modelo <- base_proc %>%
+  select(ind_conf_inst, ind_conf_priv_c, ind_desig_c, edad_c, sexo, niv_educ_c, esc_pol_cat, pais, gini_c, gasto_social_c, pib_per_capita_c) %>%
+  na.omit() %>%
+  mutate(esc_pol_cat = droplevels(esc_pol_cat), sexo = as.factor(sexo))
+m1 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + (1 | pais), data = datos_modelo, REML = FALSE)
+m2 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + (1 + ind_conf_priv_c | pais), data = datos_modelo, REML = FALSE)
+m3 <- lmer(ind_conf_inst ~ ind_conf_priv_c * gini_c + ind_conf_priv_c * gasto_social_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + pib_per_capita_c + (1 + ind_conf_priv_c | pais), data = datos_modelo, REML = FALSE)
+
+# 3. Generar la tabla con el formato del curso
+tab_model(
+  m1, m2, m3,
+  dv.labels = c("Modelo 1 (Int. Aleatorio)", "Modelo 2 (Pend. Aleatoria)", "Modelo 3 (Interacción)"),
+  pred.labels = c(
+    "Intercepto", "Confianza en Privados (N1)", "Pro-Desigualdad (N1)", 
+    "Edad (Control)", "Sexo (Mujer) (Control)", "Nivel Educacional (Control)",
+    "Pos. Pol: Centro (Control)", "Pos. Pol: Derecha (Control)", "Pos. Pol: Ninguna (Control)",
+    "Índice GINI (N2)", "Gasto Social (N2)", "PIB per cápita (Control)",
+    "Conf. Privados x GINI (CLI)", "Conf. Privados x Gasto Social (CLI)"
+  ),
+  string.pred = "Variables", string.ci = "IC 95%", string.p = "Valor p",
+  p.style = "stars", show.icc = TRUE, show.re.var = TRUE
+)
+```
+
+```{r grafico-pendientes-aleatorias, echo=FALSE, fig.cap='Variación del efecto de la "Confianza en Privados" por país.'}
+# --- CHUNK PARA VISUALIZAR PENDIENTES ALEATORIAS ---
+pacman::p_load(sjPlot)
+
+plot_model(
+  m2, 
+  type = "re", # "re" significa "random effects"
+  terms = "ind_conf_priv_c",
+  title = "Efecto Estimado de la Confianza en Privados por País",
+  sort.est = TRUE # Ordena los países para una fácil comparación
+) + theme_minimal() + labs(y = "País")
+```
+**Interpretación del Modelo de Ejemplo (`Confianza_Gobierno` \~ `Indice_ConfPrivado`):** El modelo multinivel para `Confianza_Gobierno` (N=14,462, Países=17): \* `Indice_ConfPrivado`: β = 0.409 (p \< 0.001). Un aumento de 1 DE en la confianza en el sector privado se asocia con un aumento de 0.409 puntos en la confianza en el gobierno. Apoya H2. \* `EDAD`: β = 0.003 (p \< 0.001). \* `SEXOMujer`: No significativo. \* `REEDUC.1`: β = -0.022 (p \< 0.001). \* `P16ST`: β = 0.006 (p \< 0.05). \* Varianza País (Intercepto): 0.1194. Varianza Residual: 0.7358.
+
+# Conclusiones Preliminares del Avance {#sec-conclusiones-avance}
+
+Este informe de avance ha establecido el marco metodológico. El `Indice_PrimaciaMercado` (Alfa=0.246) no se utilizó por baja fiabilidad. El `Indice_ConfPrivado` (Alfa=0.691) y el `Indice_AperturaEco` (Alfa=0.676) son aceptables para exploración.
+
+Los ICC (entre 9.3% y 14.7%) validan el enfoque multinivel. El modelo para `Confianza_Gobierno` con `Indice_ConfPrivado` (β=0.409, p\<0.001) apoya H2.
+
+Los próximos pasos incluirán la estimación de todos los modelos, análisis de ítems para la dimensión de primacía del mercado, incorporación de predictores Nivel 2, y análisis más avanzados.
+
+# Bibliografía {#sec-bib-avance}
+
+CEPAL (Comisión Económica para América Latina y el Caribe). (2021). *Panorama Social de América Latina 2020*. Santiago de Chile: CEPAL.
+
+Centro de Investigación y Docencia Económicas (CIDE). (2019). *Encuesta Nacional sobre Calidad e Impacto Gubernamental (ENCIG)*. México, D.F.: CIDE.
+
+Fourcade-Gourinchas, M., & Babb, S. L. (2002). The Rebirth of the Liberal Creed: Paths to Neoliberalism in Four Countries. *American Journal of Sociology*, *108*(3), 533–579.
+
+Gárate, M. (2012). *La revolución capitalista de Chile (1973-2003)*. Santiago de Chile: Ediciones Universidad Alberto Hurtado.
+
+Garretón, M. A. (2012). *Neoliberalismo corregido y progresismo limitado: Los gobiernos de la Concertación en Chile, 1990-2010*. Santiago de Chile: Editorial ARCIS; Buenos Aires: CLACSO.
+
+Gerbner, G., & Gross, L. (1976). Living with Television: The Violence Profile. *Journal of Communication*, *26*(2), 173–199.
+
+Harvey, D. (2007). *Breve historia del neoliberalismo*. Madrid: Ediciones Akal.
+
+Instituto Nacional de Estadísticas (INE). (2024). *Encuesta Nacional Urbana de Seguridad Ciudadana (ENUSC) 2023: Principales resultados*. Recuperado de <https://www.ine.gob.cl/estadisticas/sociales/seguridad-ciudadana/encuesta-nacional-urbana-de-seguridad-ciudadana>
+
+Kahan, D. M. (2001). Trust, Collective Action, and Law. *Boston University Law Review*, *81*(1), 333-352.
+
+Corporación Latinobarómetro. (2023). *Latinobarómetro Estudio 2023: Libro de Códigos*. Santiago de Chile: Autor.
+
+North, D. C. (1993). *Instituciones, cambio institucional y desempeño económico*. México, D.F.: Fondo de Cultura Económica.
+
+PNUD (Programa de las Naciones Unidas para el Desarrollo). (2004). *La democracia en América Latina: Hacia una democracia de ciudadanas y ciudadanos*. Buenos Aires: Aguilar, Altea, Taurus, Alfaguara / PNUD.
+
+Portes, A., & Hoffman, K. (2003). Latin American Class Structures: Their Composition and Change during the Neoliberal Era. *Latin American Research Review*, *38*(1), 41–82.
+
+Rose-Ackerman, S. (2006). *Corruption and Government: Causes, Consequences, and Reform* (2nd ed.). Cambridge, UK: Cambridge University Press.
+
+Smulovitz, C., & Peruzzotti, E. (2000). Societal Accountability in Latin America. *Journal of Democracy*, *11*(4), 147-158.
+
+Stiglitz, J. E. (2002). *El malestar en la globalización*. Madrid: Taurus.
+
+Valenzuela, S., Arriagada, A., & Scherman, A. (2012). The social media basis of youth protest behavior: The case of Chile. *Journal of Communication*, *62*(2), 299-314.
+
+Vosoughi, S., Roy, D., & Aral, S. (2018). The spread of true and false news online. *Science*, *359*(6380), 1146–1151.

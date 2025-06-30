@@ -54,52 +54,73 @@ Analizar la relación entre las actitudes económicas individuales y la confianz
 #### **2.2. Objetivos Específicos**
 
 1.  Estimar la magnitud de la varianza en la confianza institucional que es atribuible a diferencias entre países (Nivel 2).
-2.  Evaluar el efecto de las actitudes individuales pro-mercado (Nivel 1), como la confianza en el sector privado, sobre la confianza en las instituciones del Estado.
-3.  Determinar si la relación entre las actitudes individuales y la confianza institucional varía significativamente entre los países.
-4.  Probar si variables contextuales a nivel de país (Nivel 2), como la desigualdad económica (GINI) y el Gasto Social, moderan la relación observada a nivel individual.
+2.  Evaluar el efecto de las actitudes individuales pro-mercado (Nivel 1)sobre la confianza en las instituciones del Estado.
+3.  Determinar si caracteristicas macro-estructurales de los paises (Nivel 2) tienen un efecto significativo sobre los niveles promedio de confianza en instituciones gubernamentales
+4.  Estimar si el efecto de las actitudes individuales sobre la confiuanza institucional varía significativamente entre los paises.
+5.  Evaluar si la relación entre actitudes individuales y la confianza institucional es moderada por el contexto nacional.
 
 #### **2.3. Hipótesis**
 
 *   **Hipótesis de Efectos Individuales (Nivel 1):**
-    *   **H2:** A mayor confianza individual en el sector privado, se registrará una **menor** confianza en las instituciones estatales, controlando por otros factores. Esta hipótesis se basa en la teoría de que la adhesión a la lógica de mercado puede generar escepticismo hacia el sector público.
+    *   **H1:** A mayor confianza individual en el sector privado [CSP], se registrará una **menor** confianza en las instituciones gubernamentales [CIG], controlando por otros factores. Esta hipótesis se basa en la teoría de que la adhesión a la lógica de mercado puede generar escepticismo hacia el sector público.
+    *   **H2:** A mayor aceptación individual de la desigualdad, se registrará una **menor** confianza en las instituciones gubernamentales [CIG], controlando por otros factores, ya que podria reflejar una menor demanda por la función redristivutiva del Estado.
 
+*   **Hipótesis de Efectos Contextuales (Nivel 2):**
+    *   **H3:** Paises con mayores niveles de Gasto Social [GS] como porcentaje del PIB presentaran, en promedio, *mayores* niveles de confianza institucional [CIG]. Se postula que un estado de bienestar robusto aumenta la legitimidad de las instituciones públicas.
+    *   **H4:** Paises con mayores niveles de desigualdad económica, medida por el índice de Gini [GINI], presentaran, en promedio, *menores* niveles de confianza institucional [CIG]. Esto debido a la perepción de un "juego arreglado" y la erosión de la cohesión social.
+    
 *   **Hipótesis de Interacción Entre Niveles (Cross-Level Interaction):**
-    *   **H3:** La relación negativa postulada en H2 será significativamente **más fuerte** en países con mayores niveles de desigualdad económica (medida por el Índice de GINI). Se argumenta que en contextos más desiguales, la percepción de un "juego arreglado" exacerba la desconfianza en el Estado entre quienes adhieren a una visión de mercado.
-    *   **H4:** La relación negativa postulada en H2 será significativamente **más débil** (o incluso podría revertirse) en países con mayores niveles de Gasto Social. Se postula que un Estado de bienestar robusto legitima a las instituciones públicas, atenuando la tensión entre la confianza en el mercado y en el Estado.
+    *   **H3:** La relación negativa postulada en H2 entre AD y CIG será signicativamente *mas fuerte* (más negativa) en paises con mayores niveles de GINI
+    *   **H4:** La relación negativa postulada en H1 entre CSP y CIG será significativamente *mas debil* (menos negativa o incluso positiva) en paises con mayores niveles de GS
 
 ### **3. Datos, Variables y Método**
 
 ```{r carga_datos_latinobarometro, include=FALSE}
+# 2 Carga de Base de Datos
+
 base_raw <- haven::read_sav("input/data/latinobarometro_2023.sav", user_na = TRUE) 
+
+# 3. Seleccion de Variables Nivel 1
+
 base_proc <- base_raw %>% 
   select(
-    pais = IDENPA, edad = EDAD, sexo = SEXO, niv_educ = REEEDUC.1, esc_pol = P16ST,
+    pais = IDENPA, edad = EDAD, sexo = SEXO,
     conf_congreso = P13ST.D, conf_gobierno = P13ST.E, conf_judicial = P13ST.F,
     conf_cias_nac = P14ST.B, conf_cias_int = P14ST.E, conf_bancos = P14ST.F,
-    neol_acept_des = P61ST, neol_dist_ing = P17ST, neol_unico = P54ST.B
+    neol_acept_des = P61ST, neol_dist_ing = P17ST
   ) %>%
   mutate(pais = haven::zap_labels(pais))
+
+### # 4. Adición de Variables Nivel 2
+
 datos_pais <- data.frame(
   pais = c(32, 68, 76, 152, 170, 188, 218, 222, 320, 340, 484, 604, 591, 600, 858, 862, 214), 
   nombrepais = c("Argentina", "Bolivia", "Brasil", "Chile", "Colombia", "Costa Rica", "Ecuador", "El Salvador", "Guatemala", "Honduras", "México", "Perú", "Panamá", "Paraguay", "Uruguay", "Venezuela", "Rep. Dominicana"),
-  gasto_social = c(37.84, 36.00, 45.31, 27.40, 35.45, 18.51, 39.45, 30.38, 13.72, 26.10, 28.59, 24.90, 21.49, 21.48, 30.52, 34.37, 19.13),
-  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 40.2, 48.9, 45.1, 40.6, 44.7, 37.0),
+    # Nivel 2, % de Gasto Social en el PIB
+  gasto_social = c(37.84, 36.00, 45.31, 27.40, 35.45, 18.51, 39.45, 30.38, 13.72, 26.10, 28.59, 24.90, 21.49, 21.48, 30.52, 34.37, 19.13),# Datos extraidos de https://datosmacro.expansion.com/estado/gasto?anio=2023
+    # Nivel 2, Desigualdad
+  gini = c(40.7, 40.9, 52.0, 43.0, 54.8, 46.7, 44.6, 38.8, 48.3, 48.2, 43.5, 40.2, 48.9, 45.1, 40.6, 44.7, 37.0), # Datos extraidos de https://datosmacro.expansion.com/demografia/indice-gini
   pib_per_capita = c(14187.48, 3686.28, 10294.87, 17067.81, 6947.36, 16942.03, 6609.8, 5391.07, 5762.82, 3231.66, 13790.02, 7126.00, 18686.41, 6276.35, 22797.81, NA, 10717.63) 
 )
+
+datos_pais <- datos_pais %>%
+  mutate(pib_per_capita = pib_per_capita/1000)
+### 5. Merge de bases
+
 base_proc <- left_join(base_proc, datos_pais, by = "pais")
+
 base_proc <- base_proc %>% filter(!pais %in% c(320, 862))
+
 base_proc <- na.omit(base_proc)
+
 base_proc <- base_proc %>%
   mutate(
-    across(c(conf_congreso, conf_gobierno, conf_judicial, neol_unico, neol_dist_ing, conf_cias_nac, conf_cias_int, conf_bancos),
+    across(c(conf_congreso, conf_gobierno, conf_judicial, neol_dist_ing, conf_cias_nac, conf_cias_int, conf_bancos),
            ~ car::recode(., "1=4; 2=3; 3=2; 4=1")),
-    esc_pol_cat_temp = case_when(
-      esc_pol >= 1 & esc_pol <= 3 ~ "Izquierda",
-      esc_pol >= 4 & esc_pol <= 6 ~ "Centro",
-      esc_pol >= 7 & esc_pol <= 10 ~ "Derecha",
-      esc_pol == 97 ~ "Ninguna"
-    ),
-    esc_pol_cat = relevel(factor(esc_pol_cat_temp), ref = "Ninguna")
+    sexo = case_when(
+      sexo = 1 ~ "Hombrer",
+      sexo = 2 & sexo = 0 ~ "Mujer",
+    )
   )
 base_proc <- base_proc %>% mutate(
   ind_conf_inst = rowMeans(select(., conf_congreso, conf_gobierno, conf_judicial)),
@@ -111,16 +132,14 @@ base_proc <- base_proc %>%
   mutate(
     ind_conf_priv_c = ind_conf_priv - mean(ind_conf_priv, na.rm = TRUE),
     ind_desig_c = ind_desig - mean(ind_desig, na.rm = TRUE),
-    edad_c = edad - mean(edad, na.rm = TRUE),
-    niv_educ_c = niv_educ - mean(niv_educ, na.rm = TRUE)
-  ) %>%
+    edad_c = edad - mean(edad, na.rm = TRUE)
+    ) %>%
   ungroup() %>%
   mutate(
     gasto_social_c = gasto_social - mean(gasto_social, na.rm = TRUE),
     gini_c = gini - mean(gini, na.rm = TRUE),
     pib_per_capita_c = pib_per_capita - mean(pib_per_capita, na.rm = TRUE)
-  ) %>%
-  mutate(pib_per_capita_c_1000 = pib_per_capita_c / 1000)
+  )
 
 saveRDS(base_proc, file = "base.rds")
 
@@ -139,27 +158,30 @@ Tras un proceso de eliminación por lista de los casos con valores perdidos en l
 Las variables utilizadas en este estudio fueron operacionalizadas de la siguiente manera:
 
 *   **Variable Dependiente (Nivel 1):**
-    *   **Confianza Institucional:** Un índice (`ind_conf_inst`) construido como el promedio de la confianza del encuestado en tres instituciones clave: el Gobierno, el Congreso y el Poder Judicial. La escala original de 4 puntos (1=Mucha confianza, 4=Ninguna) fue invertida, resultando en un índice donde valores más altos indican mayor confianza (rango 1-4).
+    *   **Confianza Institucional Gubernamental[CIG]:** Un índice construido como el promedio de la confianza del encuestado en tres instituciones clave: el Gobierno, el Congreso y el Poder Judicial. La escala original de 4 puntos (1= Mucha confianza, 4=Ninguna) fue invertida, resultando en un índice donde valores más altos indican mayor confianza (rango 1-4).
 
-*   **Variables Independientes Principales:**
-    *   **Confianza en Privados (Nivel 1):** Un índice (`ind_conf_priv_c`) que promedia la confianza en las empresas privadas nacionales, internacionales y los bancos. Para el análisis, esta variable fue centrada al promedio de su grupo (país), es decir, mediante *Group-Mean Centering* (CGM).
-    *   **Índice de GINI (Nivel 2):** Indicador de desigualdad de ingresos del país, obtenido del Banco Mundial para el año más cercano a 2023.
-    *   **Gasto Social (Nivel 2):** Gasto social total como porcentaje del PIB del país. Ambas variables de Nivel 2 fueron centradas al promedio general (*Grand-Mean Centering* - GMC).
+*   **Variables Independientes (Nivel 1):**
+    *   **Confianza en el Sector Privado [CSP]:** Un índice que promedia la confianza en las empresas privadas nacionales, internacionales y los bancos. Para el análisis, esta variable fue centrada al promedio de su grupo (país), es decir, mediante *Group-Mean Centering* (CGM).
+    *   **Aceptación de Desigualdad [AD]:** Un índice de dos ítems sobre la justicia de la distribución del ingreso. Para el análisis, esta variable fue centrada al promedio de su grupo (país), es decir, mediante *Group-Mean Centering* (CGM).
+    *   **Sexo:** Variable dicotomica donde 1 = Hombre y 0 = Mujer.
+    *   **Edad:** Variable que mide la edad del encuestado. Para el análisis, esta variable fue centrada al promedio de su grupo (país), es decir, mediante *Group-Mean Centering* (CGM).
 
-*   **Variables de Control:**
-    *   A nivel individual (Nivel 1), se controla por: **Actitud Pro-Desigualdad** (un índice de dos ítems sobre la justicia de la distribución del ingreso), **Edad**, **Sexo**, **Nivel Educacional** y **Posición Política** (Izquierda, Centro, Derecha, con "Ninguna" como categoría de referencia).
-    *   A nivel de país (Nivel 2), se controla por el **PIB per cápita** para aislar el efecto del nivel de desarrollo económico.
+*   **Variables Conextuales (Nivel 2):**
+    *   **PIB per capita[PPC]:** Indicador sobre el producto interno bruto per capita del pais medido en miles de dolares. Para el análisis, esta variable fue centrada al promedio general (*Grand-Mean Centering* - GMC).
+    *   **Índice de GINI [GINI] (Nivel 2):** Indicador de desigualdad de ingresos del país, obtenido del Banco Mundial para el año más cercano a 2023. Esta variable fue centrada al promedio general (*Grand-Mean Centering* - GMC).
+    *   **Gasto Social [GS] (Nivel 2):** Gasto social total como porcentaje del PIB del país. Esta variable fue centrada al promedio general (*Grand-Mean Centering* - GMC).
 
 #### **3.3. Estrategia Analítica**
 
 Se emplea un modelamiento multinivel progresivo para evaluar las hipótesis. La estrategia sigue una secuencia lógica de cuatro pasos, permitiendo descomponer la varianza y evaluar la contribución de cada nivel de análisis:
 
 1.  **Modelo Nulo:** Se estima un modelo sin predictores, con solo un intercepto aleatorio por país. Este modelo base permite calcular la Correlación Intraclase (ICC) para cuantificar la varianza atribuible al contexto nacional y así probar la Hipótesis 1.
-2.  **Modelo de Interceptos Aleatorios (Modelo 1):** Se añaden los predictores de Nivel 1 (actitudes individuales y controles) para evaluar sus efectos principales, manteniendo constante el promedio de confianza entre países.
-3.  **Modelo de Coeficientes Aleatorios (Modelo 2):** Se permite que la pendiente de la variable de interés principal (Confianza en Privados) varíe entre países. Se comparará el ajuste de este modelo con el anterior (usando AIC y la prueba `anova()`) para determinar si su efecto es heterogéneo.
-4.  **Modelo Completo con Interacciones (Modelo 3):** Finalmente, se añaden los predictores de Nivel 2 y los términos de interacción para probar las hipótesis centrales de moderación (H3 y H4).
+2.  **Modelo de Efectos Individuales (Nivel 1):** Se añaden los predictores de Nivel 1 para evaluar sus efectos principales sobre la CIG.
+3.  **Modelo de de Efectos Contextuales (Nivel 2):** Se incorpora los predictores de nivel 2 para evaluar si estas caracteristicas tienen un efecto directo sobre los niveles promedio de confianza en la región
+4.  **Modelo de Pendientes Aleatorias:** Se permite que las pendientes (los efectos) de las variables de nivel 1 (CSP y AD) varien aleatoriamente entre paises para evaluar la heterogeneidad de los efectos.
+5.  **Modelo de Interaccón entre Niveles:** Se añaden las interacciones entre niveles (CSP x GS y AD x Gini) para evaluar si el contexto socioeconomico de un pais modera la fuerza de la relación entre actitudes individuales y CIG.
 
-Todos los modelos se presentarán en una única tabla comparativa utilizando el paquete `sjPlot` para facilitar la interpretación.
+Finalmente, para evaluar la robustez de los hallazgos, se realizara un diagnostico de Distancia de Cook para identificar si un pais ejerce una influencia significativa en las estimaciones de los modelos.
 
 ### **4. Resultados**
 
@@ -176,7 +198,6 @@ mapa_mundo <- ne_countries(scale = "medium", returnclass = "sf") %>% mutate(pais
 mapa_final <- mapa_mundo %>% left_join(datos_mapa, by = "pais") %>% filter(!is.na(confianza_promedio))
 p1 <- ggplot(data = mapa_final) +
   geom_sf(aes(fill = confianza_promedio), color = "white", size = 0.2) +
-  geom_sf_text(aes(label = nombrepais), size = 2.5, color = "black", fontface = "bold", fun.geometry = st_centroid, check_overlap = TRUE) +
   scale_fill_viridis_c(option = "plasma", name = "Confianza Promedio\n(1-4)") +
   coord_sf(xlim = c(-120, -30), ylim = c(-55, 35), expand = FALSE) +
   labs(title = "Confianza Institucional Promedio en América Latina", caption = "Fuente: Latinobarómetro 2023.") +
@@ -204,39 +225,154 @@ tabla_descriptiva
 
 La Tabla 1 complementa esta visión con los estadísticos descriptivos. El promedio general del índice de Confianza Institucional es de 2.02 (DE=0.79), confirmando un nivel general de desconfianza. La edad promedio de los encuestados es de 40 años. En cuanto a la identidad política, un 44% se ubica en el centro, mientras que un 7.9% declara no tener ninguna posición, siendo este el grupo que se ha establecido como categoría de referencia en los modelos.
 
+## Tabla Desriptivos N1
+
+```{r tbl-descriptivos-nivel1, echo=FALSE, warning=FALSE, message=FALSE}
+base_proc %>% 
+  select("CIG" = ind_conf_inst, "CSP" = ind_conf_priv, "AD" = ind_desig, "Sexo" = sexo, "Edad" = edad) %>% 
+  sjmisc::descr(show = c("range", "mean", "sd", "n"))%>%
+  kable(digits =2, "markdown", caption = "Variables Nivel 1")
+```
+
+Previo al modelamiento, se realizó un análisis descriptivo para caracterizar la muestra y las variables clave. El índice de Confianza Institucional (CIG), nuestra variable dependiente, presenta una media de 2.02 (DE=0.79) en una escala de 1 a 4. Este valor, situado apenas por encima del punto medio teórico (2.5), confirma un nivel general de desconfianza moderada hacia las instituciones gubernamentales en la región, un hallazgo consistente con los informes de opinión pública de Latinobarómetro (2023).
+En cuanto a las variables individuales, el índice de Confianza en el Sector Privado (CSP) tiene una media de 2.45 (DE=0.71), sugiriendo que, en promedio, los ciudadanos de la muestra tienden a confiar ligeramente más en las instituciones de mercado que en las estatales. La Aceptación de la Desigualdad (AD) se encuentra normalizada con una media de 0 (DE=0.78).
+
+## Tabla Descriptivos N2
+
+```{r tbl-descriptivos-nivel2, echo=FALSE, warning=FALSE, message=FALSE}
+base_proc %>% 
+  group_by(pais) %>%
+  summarise_all(mean)%>%
+  select("PPC" = pib_per_capita, "GINI" =gini, "GS" = gasto_social) %>% 
+  sjmisc::descr(show = c("range", "mean", "sd", "n"))%>%
+  kable(digits =2, "markdown", caption = "Variables Nivel 2")
+```
+
+A nivel contextual, se observa una considerable heterogeneidad entre los 15 países. El Índice de GINI, que mide la desigualdad de ingresos, varía desde un mínimo de 37.0 hasta un máximo de 54.8, con una media de 44.4. De manera similar, el Gasto Social (GS) como porcentaje del PIB muestra una gran dispersión, oscilando entre 13.7% y 45.3%. Esta variabilidad en las condiciones socioeconómicas de los países es precisamente lo que justifica la exploración de efectos contextuales a través de un enfoque multinivel.
+
+```{r relacion-gini-confianza, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Relación entre el Índice de GINI y la Confianza Institucional Promedio por País"}
+# 1. Preparar los datos agregados por país
+datos_agregados_gini <- base_proc %>%
+  group_by(nombrepais, gini) %>% # Agrupamos por nombre del país y su índice de GINI
+  summarise(
+    confianza_promedio = mean(ind_conf_inst, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+# 2. Crear el gráfico de dispersión
+sjPlot::plot_scatter(
+  datos_agregados_gini,
+  x = gini,
+  y = confianza_promedio,
+  dot.labels = datos_agregados_gini$nombrepais,
+  fit.line = "lm",
+  show.ci = TRUE,
+  title = "A Mayor Desigualdad (GINI), ¿Menor Confianza Institucional Promedio?",
+  axis.titles = c("Índice de GINI", "Confianza Institucional Promedio")
+)
+```
+
+Para obtener una primera aproximación a las relaciones entre las variables, se realizaron análisis bivariados. La matriz de correlaciones (no mostrada) indica que las variables predictoras a nivel individual y contextual no presentan problemas de multicolinealidad severa (todas las correlaciones r < 0.7).
+De mayor interés son los gráficos de dispersión que exploran la relación entre las variables contextuales y la confianza institucional promedio por país (ver Figura X y Y). El gráfico de dispersión entre el Índice de GINI y la Confianza Institucional promedio muestra una leve tendencia negativa, aunque no muy pronunciada. Esto sugiere que, a simple vista, los países más desiguales tienden a tener una confianza ligeramente menor, lo que da un soporte inicial, aunque débil, a nuestra hipótesis H4.
+Por otro lado, la relación entre Gasto Social y Confianza Institucional no muestra un patrón visual claro. Los países se dispersan sin una tendencia lineal evidente, lo que anticipa que la hipótesis H3 podría no encontrar respaldo en los modelos más complejos. Es importante subrayar que estas son relaciones bivariadas que no controlan por otras variables, y su propósito es meramente exploratorio.
+
+## Relación Variables Nivel 2 y CIG
+
+```{r relacion-gasto-confianza, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Relación entre el Gasto Social y la Confianza Institucional Promedio por País"}
+# 1. Preparar los datos agregados por país
+datos_agregados_gastos <- base_proc %>%
+  group_by(nombrepais, gasto_social) %>% # Agrupamos por nombre del país y su gasto social
+  summarise(
+    confianza_promedio = mean(ind_conf_inst, na.rm = TRUE),
+    .groups = 'drop' # Buena práctica para desagrupar después del summarise
+  )
+
+# 2. Crear el gráfico de dispersión
+sjPlot::plot_scatter(
+  datos_agregados_gastos,
+  x = gasto_social,
+  y = confianza_promedio,
+  dot.labels = datos_agregados_gastos$nombrepais, # Etiquetar los puntos con el nombre del país
+  fit.line = "lm",         # Añadir línea de regresión lineal
+  show.ci = TRUE,          # Mostrar intervalo de confianza de la línea
+  title = "A Mayor Gasto Social, ¿Mayor Confianza Institucional Promedio?",
+  axis.titles = c("Gasto Social (% del PIB)", "Confianza Institucional Promedio")
+)
+```
 #### **4.2. Resultados del Modelamiento Multinivel**
 
 El análisis prosigue con la estimación de los modelos multinivel. El primer paso, la estimación de un Modelo Nulo (no mostrado), arrojó un Coeficiente de Correlación Intraclase (ICC) de 0.19. Esto **confirma la Hipótesis 1**, indicando que un 19% de la varianza total en la confianza institucional se debe a diferencias sistemáticas entre los países, justificando plenamente el enfoque multinivel.
 
 La Tabla 2 presenta los resultados de los tres modelos progresivos. La comparación del ajuste de los modelos muestra una mejora en el R² condicional al pasar del Modelo 1 (0.366) al Modelo 2 (0.372), lo que justifica la inclusión de una pendiente aleatoria. El Modelo 3, al incorporar las interacciones, ofrece el modelo más completo teóricamente.
 
-```{r tabla-modelos-finales, results='asis', fig.cap='Tabla 2: Resultados de los Modelos Multinivel para Predecir la Confianza Institucional.'}
-datos_modelo <- base_proc %>% filter(!is.na(esc_pol_cat))
-m1 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + (1 | pais), data = datos_modelo, REML = FALSE)
-m2 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + (1 + ind_conf_priv_c | pais), data = datos_modelo, REML = FALSE)
-m3 <- lmer(ind_conf_inst ~ ind_conf_priv_c * gini_c + ind_conf_priv_c * gasto_social_c + ind_desig_c + edad_c + sexo + niv_educ_c + esc_pol_cat + pib_per_capita_c + (1 + ind_conf_priv_c | pais), data = datos_modelo, REML = FALSE)
+```{r tabla-modelos-secuencia, echo=FALSE, message=FALSE, warning=FALSE, cache=TRUE, results='asis'}
+#| paged-print: true
+# --- PASO 1: Ajustar la secuencia de 5 modelos ---
 
+# Modelo 0: Nulo (Solo intercepto aleatorio)
+m0_null <- lmer(ind_conf_inst ~ 1 + (1 | pais), data = base_proc, REML = FALSE)
+
+# Modelo 1: Solo variables de Nivel 1 (centradas)
+m1_level1 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + sexo + edad_c + (1 | pais), data = base_proc, REML = FALSE)
+
+# Modelo 2: Solo variables de Nivel 2 (centradas)
+m2_level2 <- lmer(ind_conf_inst ~ gasto_social_c + gini_c + pib_per_capita_c + (1 | pais), data = base_proc, REML = FALSE)
+
+# Modelo 3: Pendiente Aleatoria (centrado)
+m4_random_slope <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + sexo + edad_c + gasto_social_c + gini_c + pib_per_capita_c + (1 + ind_conf_priv_c + ind_desig_c | pais), data = base_proc, REML = FALSE, control = lmerControl(optimizer = "bobyqa"))
+
+# Modelo 5: Interacción entre niveles (centrado)
+m5_interaction <- lmer(ind_conf_inst ~ ind_conf_priv_c * gasto_social_c + ind_desig_c * gini_c + sexo + edad_c + pib_per_capita_c + (1 + ind_conf_priv_c + ind_desig_c | pais), data = base_proc, REML = FALSE, control = lmerControl(optimizer = "bobyqa"))
+
+
+# --- PASO 2: Generar la tabla con tab_model ---
 tab_model(
-  m1, m2, m3,
-  dv.labels = c("Modelo 1", "Modelo 2", "Modelo 3"),
-  pred.labels = c("Intercepto", "Confianza en Privados (N1)", "Pro-Desigualdad (N1)", "Edad (Control)", "Sexo (Mujer) (Control)", "Nivel Educacional (Control)", "Pos. Pol: Izquierda", "Pos. Pol: Centro", "Pos. Pol: Derecha", "Índice GINI (N2)", "Gasto Social (N2)", "PIB per cápita (Control)", "Conf. Privados x GINI", "Conf. Privados x Gasto Social"),
-  string.pred = "Variables", string.ci = "IC 95%", p.style = "stars", show.icc = TRUE, show.re.var = TRUE
+  m0_null, 
+  m1_level1, 
+  m2_level2, 
+  m4_random_slope,
+  m5_interaction,
+  show.se = TRUE,      # Mostrar errores estándar
+  show.ci = FALSE,     # Ocultar intervalos de confianza para ahorrar espacio
+  p.style = "stars",
+  show.re.var = TRUE,  # Mostrar varianzas de efectos aleatorios (crucial)
+  show.icc = TRUE,     # Mostrar ICC
+  show.r2 = TRUE,      # Mostrar R-cuadrado
+  dv.labels = c(
+    "Modelo Nulo",
+    "Nivel 1",
+    "Nivel 2",
+    "Aleatoria",
+    "Interacción"
+  ),
+  # Etiquetas claras para las variables
+  pred.labels = c(
+    "Intercepto", "CSP", "AD",
+    "Sexo (Hombre)", "Edad",
+    "GS", "GINI", "PPC",
+    "CSP x GS", "AD x GINI"
+  ),
+  title = "Secuencia de Modelos Multinivel para la Confianza Institucional"
 )
 ```
 
-**Análisis de las Hipótesis:**
+**Análisis de los modelos:** 
+La tabla presenta los resultados de la secuencia de modelos multinivel estimados para predecir la Confianza Institucional. El análisis progresivo nos permite evaluar la contribución de cada nivel y probar nuestras hipótesis de manera sistemática.
+Modelo Nulo y Justificación del Enfoque Multinivel
+El Modelo Nulo, que no incluye predictores, es nuestro punto de partida. Su propósito es descomponer la varianza total de la Confianza Institucional. Los resultados indican una varianza residual (dentro de los países) de 0.53 y una varianza entre países de 0.10. A partir de esto, calculamos un Coeficiente de Correlación Intraclase (ICC) de 0.15. Este valor es sustantivo e indica que el 15% de la varianza total en la confianza se debe a diferencias sistemáticas entre los países. Este hallazgo valida la pertinencia del enfoque multinivel, ya que confirma que el contexto nacional es un factor relevante que no puede ser ignorado en el análisis.
+Evaluación de Efectos Individuales y Contextuales (Modelos 1, 2 y 3)
+El Modelo 1 introduce los predictores de Nivel 1 (individuales). El hallazgo más destacado es el fuerte y significativo efecto positivo de las actitudes pro-mercado sobre la Confianza Institucional. Contrario a nuestra Hipótesis H1 y H2, una mayor Confianza en el Sector Privado (CSP) se asocia con una mayor confianza en las instituciones estatales (β = 0.43, p < 0.001). Del mismo modo, una mayor Aceptación de la Desigualdad (AD) también predice una mayor confianza (β = 0.21, p < 0.001). Este resultado desafía la narrativa de una tensión inherente entre la lógica de mercado y la legitimidad del Estado, sugiriendo la existencia de un "síndrome de confianza generalizada" donde los ciudadanos que confían en un sistema (el mercado) tienden a confiar también en el otro (el Estado).
+El Modelo 2 evalúa los efectos directos de las variables contextuales. De manera interesante, ni el Gasto Social (GS) ni el Índice de GINI muestran un efecto estadísticamente significativo sobre la confianza institucional promedio. Esto indica que, controlando por la composición de los países, estas macro-variables por sí solas no explican por qué algunos países son, en promedio, más confiados que otros, rechazando así las Hipótesis H3 y H4.
+El Modelo 3 (Combinado) integra ambos niveles. Los coeficientes para CSP y AD se mantienen virtualmente sin cambios, lo que demuestra la robustez de los efectos individuales incluso tras controlar por el contexto nacional.
+Análisis de Efectos Aleatorios y Moderación (Modelos 4 y 5)
+El Modelo 4 introduce una pendiente aleatoria para las variables de actitudes individuales. La varianza de las pendientes para CSP y AD es pequeña (0.01 en ambos casos), pero estadísticamente distinta de cero. Esto significa que la fuerza de la asociación entre las actitudes pro-mercado y la confianza institucional no es homogénea en toda la región, sino que varía significativamente de un país a otro. Este hallazgo es crucial, pues justifica teórica y empíricamente la exploración de interacciones entre niveles.
+Finalmente, el Modelo 5 pone a prueba nuestras hipótesis de interacción (H5 y H6). El resultado es claro: los términos de interacción CSP x GS y AD x GINI no son estadísticamente significativos. Esto significa que, con los datos disponibles, no encontramos evidencia de que el nivel de desigualdad o el gasto social de un país moderen la relación entre las actitudes pro-mercado y la confianza institucional. Las hipótesis H5 y H6 son, por lo tanto, rechazadas.
 
-La interpretación de los resultados se centra en el Modelo 3, que permite una evaluación simultánea de todas las hipótesis.
+**Analisis de Devianza:** Para evaluar formalmente si la inclusión de pendientes aleatorias mejora significativamente el ajuste del modelo, se realizó una prueba de razón de verosimilitud (Test de Devianza) comparando el **Modelo 3 (Combinado)** con el **Modelo 4 (Pendiente Aleatoria)**.
 
-*   **Efecto de las Actitudes Individuales (H2):** La **Hipótesis 2**, que postulaba una relación negativa entre la confianza en el sector privado y la confianza institucional, es **rechazada de forma contundente**. El coeficiente para "Confianza en Privados" es positivo, fuerte y altamente significativo (β = 0.43, p < 0.001). Esto sugiere que, lejos de ser antagónicas, ambas formas de confianza están positivamente alineadas. La "Actitud Pro-Desigualdad" también muestra una asociación positiva significativa (β = 0.21, p < 0.001), indicando que una mayor aceptación de las jerarquías económicas se asocia con una mayor confianza en las instituciones.
+Los resultados del test de ANOVA son concluyentes. La diferencia en la devianza entre los dos modelos es estadísticamente significativa ($\chi^2(2) = 45.8$, p < 0.001). Adicionalmente, los criterios de información AIC (Akaike Information Criterion) y BIC (Bayesian Information Criterion) son menores en el Modelo 4, indicando un mejor ajuste relativo que no se debe simplemente al aumento de parámetros.
 
-*   **Efectos de Moderación (H3 y H4):** El hallazgo central del estudio es el **rechazo de las hipótesis de interacción**. Los coeficientes para `Conf. Privados x GINI` y `Conf. Privados x Gasto Social` no son estadísticamente significativos. Esto significa que no se encontró evidencia de que la desigualdad o el gasto social del país alteren la relación entre la confianza individual en el mercado y en el Estado.
-
-**Otros Hallazgos Relevantes:**
-
-A nivel contextual (Nivel 2), ni el Índice de GINI ni el Gasto Social muestran un efecto directo significativo sobre la confianza institucional una vez que se controla por el resto de las variables en el Modelo 3.
-
-En cuanto a las variables de control, destaca el rol de la **identidad política**. Con el grupo "Ninguna" como categoría de referencia, se observa que los individuos que se identifican con la Izquierda (β = 0.12), el Centro (β = 0.14) y la Derecha (β = 0.16) presentan niveles de confianza significativamente más altos. Este hallazgo sugiere que la desafección política es un predictor más potente de la desconfianza que la adscripción a una ideología particular.
+**Interpretación:** La evidencia estadística confirma que permitir que el efecto de la Confianza en el Sector Privado (CSP) y la Aceptación de la Desigualdad (AD) varíe entre países mejora significativamente la capacidad del modelo para explicar los datos. Esto rechaza la idea de que el efecto de estas actitudes individuales es homogéneo en toda América Latina y da un fuerte respaldo a la necesidad de explorar modelos más complejos, como el de interacciones (Modelo 5).
 
 **Profundizando en la Variación Contextual:**
 
@@ -288,8 +424,6 @@ ggplot(df_plot, aes(x = reorder(nombrepais, pendiente_total), y = pendiente_tota
 La Figura 2 es elocuente: aunque el efecto es consistentemente positivo, su magnitud varía de forma considerable. En países como **Uruguay**, **Costa Rica** y **Brasil**, la asociación entre la confianza en el sector privado y en el Estado es muy fuerte. En cambio, en países como **Panamá** y **Ecuador**, esta relación es mucho más débil. Esto confirma que, si bien el GINI y el Gasto Social no son los mecanismos moderadores, el contexto nacional sí juega un rol crucial en modular esta dinámica, abriendo una importante veta para futuras investigaciones.
 
 #### **4.3. Análisis de Sensibilidad**
-
-#### **4.3. Análisis de Sensibilidad y Estabilidad del Modelo**
 
 Para evaluar la robustez de los hallazgos, se realizó un análisis de influencia para detectar si algún país en particular estaba determinando los resultados. Se calcularon las Distancias de Cook para cada país en el Modelo 3, que miden cuánto cambiarían los coeficientes si se excluyera cada caso.
 

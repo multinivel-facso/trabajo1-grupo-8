@@ -1,0 +1,404 @@
+---
+format:
+  revealjs:
+    slide-level: 2
+    theme: serif
+    incremental: true
+    slide-number: true
+    auto-stretch: true
+    transition: fade
+    transition-speed: slow
+    scrollable: true
+    scrollOverflow: true
+    center: true
+    self-contained: true
+    editor: source
+    title-slide: false
+lang: es
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  lme4, haven, car, # Data processing
+  ggplot2, dplyr, reshape2, sf, rnaturalearth, influence.ME, # Analysis & Viz
+  texreg, performance, knitr# Table generation & model stats
+)
+
+# --- Carga y procesamiento de datos (chunk sin cambios) ---
+base_proc <- readRDS(file = "base.rds")
+```
+
+## **Actitudes Pro-Mercado y Contexto Económico: Influencia en la Confianza Institucional en América Latina**
+
+**Yerkho Nuñez, Dorian Ñanco y Morgan Salazar**
+
+**Análisis de datos multinivel - 2025**
+
+27 de Junio de 2025
+
+------------------------------------------------------------------------
+
+## Introducción
+
+::: columns
+**Problema de estudio:**
+
+La confianza en las instituciones es un pilar fundamental para la gobernabilidad y la cohesión social Sin embargo, la región ha experimentado históricamente bajos niveles de confianza, a menudo exacerbados por factores como la desigualdad estructural y los procesos de reforma neoliberal (CEPAL, 2021; Portes & Hoffman, 2003).
+
+En este contexto, surge la pregunta sobre cómo las actitudes individuales hacia el mercado y el modelo económico predominante se relacionan con la percepción de legitimidad de las instituciones públicas (Fourcade-Gourinchas & Babb, 2002).
+:::
+
+------------------------------------------------------------------------
+
+::: {.center .middle}
+[¿De que manera las actitudes pro-mercado individuales y el contexto economico del pais afectan la confianza en instituciones gubernamentales en America Latina?]{style="font-size: 200%;"}
+:::
+
+------------------------------------------------------------------------
+
+## Hipótesis {.smaller}
+
+### Nivel 1 (Individual):
+
+**H1:** A mayor *Confianza en Sector Privado (CSP)* ➔ Menor Confianza Institucional (CIG).
+
+**H2:** A mayor *Aceptación de la Desigualdad (AD)* ➔ Menor Confianza Institucional (CIG).
+
+### Nivel 2 (Contextual):
+
+**H3:** A mayor *Gasto Social (GS)* ➔ Menor Confianza Institucional (CIG).
+
+**H4:** Un mayor *Índice de GINI* ➔ Menor Confianza Institucional (CIG).
+
+## Interacción entre Niveles:
+
+**H5:** El efecto de AD sobre CIG será más negativo en países con mayor GINI.
+
+**H6:** El efecto de CSP sobre CIG será menos negativo en países con mayor Gasto Social.
+
+------------------------------------------------------------------------
+
+## Metodología: Datos y Variables {.smaller}
+
+-   **Fuente de Datos:** Encuesta Latinobarómetro 2023 y DatosMacro.
+-   **Muestra:** 13,361 individuos en 15 países.
+-   **Variable Dependiente (VD):** Índice de Confianza Institucional \[CIG\].
+-   **Variables Independientes (Nivel 1):** Índice de Confianza en Sector Privado \[CSP\], Índice de Aceptación de la Desigualdad \[AD\], Sexo, Edad.
+-   **Variables Contextuales (Nivel 2):** Gasto Social (% del PIB)\[GS\], Índice de Gini\[GINI\], PIB per cápita(En miles de dolares)\[PPC\].
+
+------------------------------------------------------------------------
+
+## Metodología: Modelos Estadísticos {.smaller}
+
+## Modelo 1: Variables Individuales.
+
+$$
+\text{CIG}_{ij} \;=\; \gamma_{00}
++ \gamma_{10}\,(\text{CSP}_{ij})
++ \gamma_{20}\,(\text{AD}_{ij})
++ \gamma_{30}\,(\text{Sexo}_{ij})
++ \\
++ \gamma_{40}\,(\text{Edad}_{ij})
++ u_{0\text{j}}
++ e_{ij}
+$$
+
+## Modelo 2: Variables Contextuales
+
+$$
+\text{CIG}_{ij} \;=\; \gamma_{00}
++ \gamma_{01}\,(\text{GINI}_{j})
++ \gamma_{02}\,(\text{GS}_{j})
++ \gamma_{03}\,(\text{PPC}_{j})
++ u_{0\text{j}}
++ e_{ij}
+$$
+
+## Modelo 3: Multinivel
+
+$$
+\text{CIG}_{ij} \;=\; \gamma_{00}
++ \gamma_{10}\,(\text{CSP}_{ij})
++ \gamma_{20}\,(\text{AD}_{ij})
++ \gamma_{30}\,(\text{Sexo}_{ij})
++ \\
++ \gamma_{40}\,(\text{Edad}_{ij})
++ \gamma_{01}\,(\text{GINI}_{j})
++ \gamma_{02}\,(\text{GS}_{j})
++ \gamma_{03}\,(\text{PPC}_{j})
++ u_{0\text{j}}
++ e_{ij}
+$$
+
+------------------------------------------------------------------------
+
+## Modelo 4: Pendiente Aleatoria
+
+$$
+\text{CIG}_{ij} \;=\; \gamma_{00}
++ \gamma_{10}\,(\text{CSP}_{ij})
++ \gamma_{20}\,(\text{AD}_{ij})
++ \gamma_{30}\,(\text{Sexo}_{ij})
++ \\
++ \gamma_{40}\,(\text{Edad}_{ij})
++ \gamma_{01}\,(\text{GINI}_{j})
++ \gamma_{02}\,(\text{GS}_{j})
++ \gamma_{03}\,(\text{PPC}_{j})
++ u_{0j}
++ \\
++ u_{1j}(\text{CSP}_{ij})
++ u_{2j}(\text{AD}_{ij})
++ e_{ij}
+$$
+
+## Modelo 5: Interacción entre Niveles
+
+$$
+\text{CIG}_{ij} \;=\; \gamma_{00}
++ \gamma_{10}\,(\text{CSP}_{ij})
++ \gamma_{20}\,(\text{AD}_{ij})
++ \gamma_{30}\,(\text{Sexo}_{ij})
++ \\
++ \gamma_{40}\,(\text{Edad}_{ij})
++ \gamma_{01}\,(\text{GINI}_{j})
++ \gamma_{02}\,(\text{GS}_{j})
++\\
++ \gamma_{03}\,(\text{PPC}_{j})
++ \gamma_{11}\,(\text{CSP}_{ij} \cdot \text{GS}_{j})
++ \gamma_{21}\,(\text{AD}_{ij} \cdot \text{GINI}_{j})
++ u_{0j}
++ \\
++ u_{1j}(\text{CSP}_{ij})
++ u_{2j}(\text{AD}_{ij})
++ e_{ij}
+$$
+
+------------------------------------------------------------------------
+
+```{r boxplot-justificacion, echo=FALSE}
+ggplot(base_proc, aes(x = reorder(nombrepais, ind_conf_inst, FUN = median), y = ind_conf_inst)) +
+  geom_boxplot(fill = "skyblue", alpha = 0.7) +
+  coord_flip() +
+  labs(title = "Distribución De CIG por Pais", x = "", y = "Índice de Confianza Institucional") +
+  theme_minimal(base_size = 14)
+```
+
+------------------------------------------------------------------------
+
+## Tabla Desriptivos N1
+
+```{r tbl-descriptivos-nivel1, echo=FALSE, warning=FALSE, message=FALSE}
+base_proc %>% 
+  select("CIG" = ind_conf_inst, "CSP" =ind_conf_priv, "AD" = ind_desig, "NE" = niv_educ, "Sexo" = sexo, "Edad" = edad) %>% 
+  sjmisc::descr(show = c("range", "mean", "sd", "n"))%>%
+  kable(digits =2, "markdown", caption = "Variables Nivel 1")
+```
+
+------------------------------------------------------------------------
+
+## Tabla Descriptivos N2
+
+```{r tbl-descriptivos-nivel2, echo=FALSE, warning=FALSE, message=FALSE}
+base_proc %>% 
+  group_by(pais) %>%
+  summarise_all(mean)%>%
+  select("PPC" = pib_per_capita, "GINI" =gini, "GS" = gasto_social) %>% 
+  sjmisc::descr(show = c("range", "mean", "sd", "n"))%>%
+  kable(digits =2, "markdown", caption = "Variables Nivel 2")
+```
+
+------------------------------------------------------------------------
+
+## Relación Variables Nivel 2 y CIG
+
+```{r relacion-gini-confianza, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Relación entre el Índice de GINI y la Confianza Institucional Promedio por País"}
+# 1. Preparar los datos agregados por país
+datos_agregados_gini <- base_proc %>%
+  group_by(nombrepais, gini) %>% # Agrupamos por nombre del país y su índice de GINI
+  summarise(
+    confianza_promedio = mean(ind_conf_inst, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+# 2. Crear el gráfico de dispersión
+sjPlot::plot_scatter(
+  datos_agregados_gini,
+  x = gini,
+  y = confianza_promedio,
+  dot.labels = datos_agregados_gini$nombrepais,
+  fit.line = "lm",
+  show.ci = TRUE,
+  title = "A Mayor Desigualdad (GINI), ¿Menor Confianza Institucional Promedio?",
+  axis.titles = c("Índice de GINI", "Confianza Institucional Promedio")
+)
+```
+
+------------------------------------------------------------------------
+
+## Relación Variables Nivel 2 y CIG
+
+```{r relacion-gasto-confianza, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Relación entre el Gasto Social y la Confianza Institucional Promedio por País"}
+# 1. Preparar los datos agregados por país
+datos_agregados_gastos <- base_proc %>%
+  group_by(nombrepais, gasto_social) %>% # Agrupamos por nombre del país y su gasto social
+  summarise(
+    confianza_promedio = mean(ind_conf_inst, na.rm = TRUE),
+    .groups = 'drop' # Buena práctica para desagrupar después del summarise
+  )
+
+# 2. Crear el gráfico de dispersión
+sjPlot::plot_scatter(
+  datos_agregados_gastos,
+  x = gasto_social,
+  y = confianza_promedio,
+  dot.labels = datos_agregados_gastos$nombrepais, # Etiquetar los puntos con el nombre del país
+  fit.line = "lm",         # Añadir línea de regresión lineal
+  show.ci = TRUE,          # Mostrar intervalo de confianza de la línea
+  title = "A Mayor Gasto Social, ¿Mayor Confianza Institucional Promedio?",
+  axis.titles = c("Gasto Social (% del PIB)", "Confianza Institucional Promedio")
+)
+```
+
+------------------------------------------------------------------------
+
+## Modelos {.smaller}
+
+<div style="max-height: 80vh; overflow-y: auto; overflow-x: hidden;">
+```{r tabla-modelos-secuencia, echo=FALSE, message=FALSE, warning=FALSE, cache=TRUE, results='asis'}
+#| paged-print: true
+# --- PASO 1: Ajustar la secuencia de 6 modelos ---
+
+# Modelo 0: Nulo (Solo intercepto aleatorio)
+m0_null <- lmer(ind_conf_inst ~ 1 + (1 | pais), data = base_proc, REML = FALSE)
+
+# Modelo 1: Solo variables de Nivel 1 (centradas)
+m1_level1 <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + sexo + edad_c + (1 | pais), data = base_proc, REML = FALSE)
+
+# Modelo 2: Solo variables de Nivel 2 (centradas)
+m2_level2 <- lmer(ind_conf_inst ~ gasto_social_c + gini_c + pib_per_capita_c + (1 | pais), data = base_proc, REML = FALSE)
+
+# Modelo 3: Modelo Combinado (Nivel 1 + Nivel 2, centrado)
+m3_combined <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + sexo + edad_c + gasto_social_c + gini_c + pib_per_capita_c + (1 | pais), data = base_proc, REML = FALSE)
+
+# Modelo 4: Pendiente Aleatoria (centrado)
+# Permitimos que el efecto de las actitudes individuales varíe entre países
+m4_random_slope <- lmer(ind_conf_inst ~ ind_conf_priv_c + ind_desig_c + sexo + edad_c + gasto_social_c + gini_c + pib_per_capita_c + (1 + ind_conf_priv_c + ind_desig_c | pais), data = base_proc, REML = FALSE, control = lmerControl(optimizer = "bobyqa"))
+
+# Modelo 5: Interacción entre niveles (centrado)
+m5_interaction <- lmer(ind_conf_inst ~ ind_conf_priv_c * gasto_social_c + ind_desig_c * gini_c + sexo + edad_c + pib_per_capita_c + (1 + ind_conf_priv_c + ind_desig_c | pais), data = base_proc, REML = FALSE, control = lmerControl(optimizer = "bobyqa"))
+
+
+# --- PASO 2: Generar la tabla con tab_model ---
+tab_model(
+  m0_null, 
+  m1_level1, 
+  m2_level2, 
+  show.se = TRUE,      # Mostrar errores estándar
+  show.ci = FALSE,     # Ocultar intervalos de confianza para ahorrar espacio
+  p.style = "stars",
+  show.re.var = TRUE,  # Mostrar varianzas de efectos aleatorios (crucial)
+  show.icc = TRUE,     # Mostrar ICC
+  show.r2 = TRUE,      # Mostrar R-cuadrado
+  dv.labels = c(
+    "Modelo Nulo",
+    "Nivel 1",
+    "Nivel 2"
+  ),
+  # Etiquetas claras para las variables
+  pred.labels = c(
+    "Intercepto", "CSP", "AD",
+    "Sexo (Mujer)", "Edad",
+    "GS", "GINI", "PPC",
+    "CSP x GS", "AD x GINI"
+  ),
+  title = "Secuencia de Modelos Multinivel para la Confianza Institucional"
+)
+```
+</div>
+------------------------------------------------------------------------
+
+
+## Modelos {.smaller}
+
+<div style="max-height: 80vh; overflow-y: auto; overflow-x: hidden;">
+```{r tabla-modelos-secuencia_2, echo=FALSE, message=FALSE, warning=FALSE, cache=TRUE, results='asis'}
+#| paged-print: true
+tab_model(
+  m3_combined, 
+  m4_random_slope, 
+  m5_interaction,
+  show.se = TRUE,      # Mostrar errores estándar
+  show.ci = FALSE,     # Ocultar intervalos de confianza para ahorrar espacio
+  p.style = "stars",
+  show.re.var = TRUE,  # Mostrar varianzas de efectos aleatorios (crucial)
+  show.icc = TRUE,     # Mostrar ICC
+  show.r2 = TRUE,      # Mostrar R-cuadrado
+  dv.labels = c(
+    "Combinado",
+    "Pendiente Aleatoria",
+    "Interacción"
+  ),
+  # Etiquetas claras para las variables
+  pred.labels = c(
+    "Intercepto", "CSP", "AD",
+    "Sexo (Mujer)", "Edad",
+    "GS", "GINI", "PPC",
+    "CSP x GS", "AD x GINI"
+  ),
+  title = "Secuencia de Modelos Multinivel para la Confianza Institucional"
+)
+```
+</div>
+
+
+------------------------------------------------------------------------
+
+## Analisis de influencias
+
+```{r cook-plot-final, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5}
+influencia <- influence(m5_interaction, group = "pais")
+dist_cook <- as.data.frame(cooks.distance(influencia))
+names(dist_cook) <- "cook.d"
+dist_cook$pais_id <- as.numeric(rownames(dist_cook))
+df_nombres <- distinct(base_proc, pais, nombrepais)
+dist_cook <- left_join(dist_cook, df_nombres, by = c("pais_id" = "pais"))
+umbral <- 4 / n_distinct(base_proc$pais)
+ggplot(dist_cook, aes(x = reorder(nombrepais, cook.d), y = cook.d)) +
+  geom_col(aes(fill = cook.d > umbral), show.legend = FALSE) +
+  geom_hline(yintercept = umbral, linetype = "dashed", color = "red") +
+  geom_text(aes(label = round(cook.d, 2)), hjust = -0.3, size = 3) +
+  coord_flip() +
+  scale_fill_manual(values = c("skyblue", "firebrick")) +
+  scale_y_continuous(expand = expansion(mult = c(0.05, 0.15))) +
+  labs(subtitle = "Distancia de Cook por país.", x = "", y = "Distancia de Cook") +
+  theme_minimal(base_size = 12)
+```
+
+------------------------------------------------------------------------
+
+## Conclusiones {.smaller}
+
+------------------------------------------------------------------------
+
+## Referencias {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+CEPAL (Comisión Económica para América Latina y el Caribe). (2021). *Panorama Social de América Latina 2020*.
+
+Harvey, D. (2007). *Breve historia del neoliberalismo*.
+
+Kahan, D. M. (2001). Trust, Collective Action, and Law. *Boston University Law Review, 81*(1).
+
+Corporación Latinobarómetro. (2023). *Latinobarómetro Estudio 2023: Libro de Códigos*.
+:::
+
+::: {.column width="50%"}
+North, D. C. (1993). *Instituciones, cambio institucional y desempeño económico*.
+
+Portes, A., & Hoffman, K. (2003). Latin American Class Structures. *Latin American Research Review, 38*(1).
+
+Smulovitz, C., & Peruzzotti, E. (2000). Societal Accountability in Latin America. *Journal of Democracy, 11*(4).
+:::
+:::::

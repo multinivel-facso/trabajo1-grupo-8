@@ -2,7 +2,7 @@
 title: "Actitudes Neoliberales y Confianza Institucional en América Latina: Un Análisis Multinivel"
 subtitle: "Informe Final - Análisis de Datos Multinivel 2025"
 author: "Yerkho Nuñez, Dorian Ñanco y Morgan Salazar"
-date: "28 de junio de 2025"
+date: "06-30-2025"
 lang: es
 format: 
   html:
@@ -20,7 +20,7 @@ options(scipen = 999)
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(
   lme4, haven, dplyr, ggeffects, ggplot2, 
-  rnaturalearth, sf, gtsummary, sjPlot, car
+  rnaturalearth, sf, gtsummary, sjPlot, car, kableExtra
 )
 ```
 
@@ -70,8 +70,8 @@ Analizar la relación entre las actitudes económicas individuales y la confianz
     *   **H4:** Paises con mayores niveles de desigualdad económica, medida por el índice de Gini [GINI], presentaran, en promedio, *menores* niveles de confianza institucional [CIG]. Esto debido a la perepción de un "juego arreglado" y la erosión de la cohesión social.
     
 *   **Hipótesis de Interacción Entre Niveles (Cross-Level Interaction):**
-    *   **H3:** La relación negativa postulada en H2 entre AD y CIG será signicativamente *mas fuerte* (más negativa) en paises con mayores niveles de GINI
-    *   **H4:** La relación negativa postulada en H1 entre CSP y CIG será significativamente *mas debil* (menos negativa o incluso positiva) en paises con mayores niveles de GS
+    *   **H5:** La relación negativa postulada en H2 entre AD y CIG será signicativamente *mas fuerte* (más negativa) en paises con mayores niveles de GINI
+    *   **H6:** La relación negativa postulada en H1 entre CSP y CIG será significativamente *mas debil* (menos negativa o incluso positiva) en paises con mayores niveles de GS
 
 ### **3. Datos, Variables y Método**
 
@@ -118,8 +118,8 @@ base_proc <- base_proc %>%
     across(c(conf_congreso, conf_gobierno, conf_judicial, neol_dist_ing, conf_cias_nac, conf_cias_int, conf_bancos),
            ~ car::recode(., "1=4; 2=3; 3=2; 4=1")),
     sexo = case_when(
-      sexo = 1 ~ "Hombrer",
-      sexo = 2 & sexo = 0 ~ "Mujer",
+      sexo == 1 ~ 1,
+      sexo == 2 ~ 0,
     )
   )
 base_proc <- base_proc %>% mutate(
@@ -144,8 +144,6 @@ base_proc <- base_proc %>%
 saveRDS(base_proc, file = "base.rds")
 
 ```
-
-### **3. Datos, Variables y Método**
 
 #### **3.1. Fuente de Datos y Muestra**
 
@@ -203,24 +201,6 @@ p1 <- ggplot(data = mapa_final) +
   labs(title = "Confianza Institucional Promedio en América Latina", caption = "Fuente: Latinobarómetro 2023.") +
   theme_void() + theme(plot.title = element_text(hjust = 0.5, face = "bold"), legend.position = "right")
 print(p1)
-
-tabla_descriptiva <- base_proc %>%
-  select(
-    `Confianza Institucional` = ind_conf_inst, `Confianza en Privados` = ind_conf_priv,
-    `Actitud Pro-Desigualdad` = ind_desig, `Edad` = edad,
-    `Posición Política` = esc_pol_cat, `Sexo` = sexo,
-    `Índice de GINI` = gini, `Gasto Social (% PIB)` = gasto_social
-  ) %>%
-  tbl_summary(
-    type = list(all_continuous() ~ "continuous2"),
-    statistic = list(all_continuous() ~ c("{mean} ({sd})", "{min} – {max}"), all_categorical() ~ "{n} (%)"),
-    digits = all_continuous() ~ 2, missing = "no"
-  ) %>%
-  modify_header(label = "**Variable**", stat_0 = "**Estadísticos**") %>%
-  modify_caption("**Tabla 1: Estadísticos Descriptivos**") %>%
-  bold_labels()
-
-tabla_descriptiva
 ```
 
 La Tabla 1 complementa esta visión con los estadísticos descriptivos. El promedio general del índice de Confianza Institucional es de 2.02 (DE=0.79), confirmando un nivel general de desconfianza. La edad promedio de los encuestados es de 40 años. En cuanto a la identidad política, un 44% se ubica en el centro, mientras que un 7.9% declara no tener ninguna posición, siendo este el grupo que se ha establecido como categoría de referencia en los modelos.
@@ -272,9 +252,7 @@ sjPlot::plot_scatter(
 )
 ```
 
-Para obtener una primera aproximación a las relaciones entre las variables, se realizaron análisis bivariados. La matriz de correlaciones (no mostrada) indica que las variables predictoras a nivel individual y contextual no presentan problemas de multicolinealidad severa (todas las correlaciones r < 0.7).
-De mayor interés son los gráficos de dispersión que exploran la relación entre las variables contextuales y la confianza institucional promedio por país (ver Figura X y Y). El gráfico de dispersión entre el Índice de GINI y la Confianza Institucional promedio muestra una leve tendencia negativa, aunque no muy pronunciada. Esto sugiere que, a simple vista, los países más desiguales tienden a tener una confianza ligeramente menor, lo que da un soporte inicial, aunque débil, a nuestra hipótesis H4.
-Por otro lado, la relación entre Gasto Social y Confianza Institucional no muestra un patrón visual claro. Los países se dispersan sin una tendencia lineal evidente, lo que anticipa que la hipótesis H3 podría no encontrar respaldo en los modelos más complejos. Es importante subrayar que estas son relaciones bivariadas que no controlan por otras variables, y su propósito es meramente exploratorio.
+Los gráficos de dispersión bivariados ofrecen una primera mirada a las hipótesis contextuales. La relación entre **GINI y CIG** muestra una leve tendencia negativa, mientras que la relación entre **GS y CIG** no presenta un patrón claro. Estos gráficos exploratorios sugieren que las relaciones contextuales podrían no ser tan directas como se hipotetizó, algo que los modelos multinivel nos permitirán evaluar formalmente.
 
 ## Relación Variables Nivel 2 y CIG
 
@@ -356,87 +334,37 @@ tab_model(
 )
 ```
 
-**Análisis de los modelos:** 
-La tabla presenta los resultados de la secuencia de modelos multinivel estimados para predecir la Confianza Institucional. El análisis progresivo nos permite evaluar la contribución de cada nivel y probar nuestras hipótesis de manera sistemática.
-Modelo Nulo y Justificación del Enfoque Multinivel
-El Modelo Nulo, que no incluye predictores, es nuestro punto de partida. Su propósito es descomponer la varianza total de la Confianza Institucional. Los resultados indican una varianza residual (dentro de los países) de 0.53 y una varianza entre países de 0.10. A partir de esto, calculamos un Coeficiente de Correlación Intraclase (ICC) de 0.15. Este valor es sustantivo e indica que el 15% de la varianza total en la confianza se debe a diferencias sistemáticas entre los países. Este hallazgo valida la pertinencia del enfoque multinivel, ya que confirma que el contexto nacional es un factor relevante que no puede ser ignorado en el análisis.
-Evaluación de Efectos Individuales y Contextuales (Modelos 1, 2 y 3)
-El Modelo 1 introduce los predictores de Nivel 1 (individuales). El hallazgo más destacado es el fuerte y significativo efecto positivo de las actitudes pro-mercado sobre la Confianza Institucional. Contrario a nuestra Hipótesis H1 y H2, una mayor Confianza en el Sector Privado (CSP) se asocia con una mayor confianza en las instituciones estatales (β = 0.43, p < 0.001). Del mismo modo, una mayor Aceptación de la Desigualdad (AD) también predice una mayor confianza (β = 0.21, p < 0.001). Este resultado desafía la narrativa de una tensión inherente entre la lógica de mercado y la legitimidad del Estado, sugiriendo la existencia de un "síndrome de confianza generalizada" donde los ciudadanos que confían en un sistema (el mercado) tienden a confiar también en el otro (el Estado).
-El Modelo 2 evalúa los efectos directos de las variables contextuales. De manera interesante, ni el Gasto Social (GS) ni el Índice de GINI muestran un efecto estadísticamente significativo sobre la confianza institucional promedio. Esto indica que, controlando por la composición de los países, estas macro-variables por sí solas no explican por qué algunos países son, en promedio, más confiados que otros, rechazando así las Hipótesis H3 y H4.
-El Modelo 3 (Combinado) integra ambos niveles. Los coeficientes para CSP y AD se mantienen virtualmente sin cambios, lo que demuestra la robustez de los efectos individuales incluso tras controlar por el contexto nacional.
-Análisis de Efectos Aleatorios y Moderación (Modelos 4 y 5)
-El Modelo 4 introduce una pendiente aleatoria para las variables de actitudes individuales. La varianza de las pendientes para CSP y AD es pequeña (0.01 en ambos casos), pero estadísticamente distinta de cero. Esto significa que la fuerza de la asociación entre las actitudes pro-mercado y la confianza institucional no es homogénea en toda la región, sino que varía significativamente de un país a otro. Este hallazgo es crucial, pues justifica teórica y empíricamente la exploración de interacciones entre niveles.
-Finalmente, el Modelo 5 pone a prueba nuestras hipótesis de interacción (H5 y H6). El resultado es claro: los términos de interacción CSP x GS y AD x GINI no son estadísticamente significativos. Esto significa que, con los datos disponibles, no encontramos evidencia de que el nivel de desigualdad o el gasto social de un país moderen la relación entre las actitudes pro-mercado y la confianza institucional. Las hipótesis H5 y H6 son, por lo tanto, rechazadas.
+El **Modelo Nulo** confirma la pertinencia del enfoque multinivel, arrojando un Coeficiente de Correlación Intraclase (ICC) de **0.15**. Esto significa que el 15% de la varianza total en la confianza se debe a diferencias sistemáticas entre los países, un hallazgo que valida nuestra primera hipótesis sobre la importancia del contexto nacional.
 
+El **Modelo 1 (Nivel 1)** introduce los predictores individuales. El hallazgo más destacado es el fuerte y significativo efecto positivo de las actitudes pro-mercado. Contrario a nuestras **Hipótesis H1 y H2**, una mayor **Confianza en el Sector Privado (CSP)** se asocia con una *mayor* confianza institucional (β = 0.43, p < 0.001). Del mismo modo, una mayor **Aceptación de la Desigualdad (AD)** también predice una mayor confianza (β = 0.21, p < 0.001). Este resultado desafía la narrativa de una tensión entre la lógica de mercado y la del Estado, sugiriendo la existencia de un "síndrome de confianza generalizada".
+
+El **Modelo 2 (Nivel 2)** evalúa los efectos directos de las variables contextuales. De manera interesante, ni el **Gasto Social (GS)** ni el **Índice de GINI** muestran un efecto estadísticamente significativo sobre la confianza promedio, rechazando así las **Hipótesis H3 y H4**.
+
+El **Modelo 4 (Pendiente Aleatoria)** es crucial. Permite que el efecto de `CSP` y `AD` varíe entre países. La varianza de estas pendientes (ej. $\tau_{11}$ para `CSP` es 0.01) es estadísticamente distinta de cero. Esto confirma que la fuerza de la asociación entre las actitudes pro-mercado y la confianza **no es homogénea en toda la región**, sino que varía significativamente de un país a otro, justificando la búsqueda de moderadores.
+
+Finalmente, el **Modelo 5 (Interacción)** pone a prueba las hipótesis de moderación. Los términos de interacción `CSP x GS` y `AD x GINI` no son estadísticamente significativos. Por lo tanto, **se rechazan las Hipótesis H5 y H6**. No encontramos evidencia de que la desigualdad o el gasto social del país alteren la relación entre las actitudes pro-mercado y la confianza institucional."
 **Analisis de Devianza:** Para evaluar formalmente si la inclusión de pendientes aleatorias mejora significativamente el ajuste del modelo, se realizó una prueba de razón de verosimilitud (Test de Devianza) comparando el **Modelo 3 (Combinado)** con el **Modelo 4 (Pendiente Aleatoria)**.
 
 Los resultados del test de ANOVA son concluyentes. La diferencia en la devianza entre los dos modelos es estadísticamente significativa ($\chi^2(2) = 45.8$, p < 0.001). Adicionalmente, los criterios de información AIC (Akaike Information Criterion) y BIC (Bayesian Information Criterion) son menores en el Modelo 4, indicando un mejor ajuste relativo que no se debe simplemente al aumento de parámetros.
 
-**Interpretación:** La evidencia estadística confirma que permitir que el efecto de la Confianza en el Sector Privado (CSP) y la Aceptación de la Desigualdad (AD) varíe entre países mejora significativamente la capacidad del modelo para explicar los datos. Esto rechaza la idea de que el efecto de estas actitudes individuales es homogéneo en toda América Latina y da un fuerte respaldo a la necesidad de explorar modelos más complejos, como el de interacciones (Modelo 5).
+La evidencia estadística confirma que permitir que el efecto de la Confianza en el Sector Privado (CSP) y la Aceptación de la Desigualdad (AD) varíe entre países mejora significativamente la capacidad del modelo para explicar los datos. Esto rechaza la idea de que el efecto de estas actitudes individuales es homogéneo en toda América Latina y da un fuerte respaldo a la necesidad de explorar modelos más complejos, como el de interacciones (Modelo 5).
 
-**Profundizando en la Variación Contextual:**
+#### ***4.3: Analsis de Devianza**
 
-Aunque las interacciones no fueron significativas, el Modelo 2 reveló que el efecto de la "Confianza en Privados" no es homogéneo en toda la región (τ₁₁ = 0.01). La Figura 2 visualiza esta variación, mostrando el efecto estimado de esta variable para cada país.
 
-```{r grafico-pendientes-aleatorias, fig.cap='Figura 2: Variación del efecto de la "Confianza en Privados" por país.'}
-# --- GRÁFICO DE ORUGA CON NOMBRES DE PAÍS ---
+#### **4.4. Análisis de Sensibilidad**
 
-# 1. Extraer efectos aleatorios
-efectos_aleatorios <- ranef(m2, condVar = TRUE)
-df_efectos <- as.data.frame(efectos_aleatorios$pais)
-df_efectos$pais_id <- as.numeric(rownames(df_efectos))
-# Renombrar columnas para claridad
-names(df_efectos) <- c("intercepto_desv", "pendiente_desv", "pais_id")
-
-# 2. Obtener efectos fijos (promedio)
-efectos_fijos <- fixef(m2)
-
-# 3. Calcular la pendiente total para cada país
-df_efectos$pendiente_total <- efectos_fijos["ind_conf_priv_c"] + df_efectos$pendiente_desv
-
-# 4. Unir con los nombres de los países
-df_nombres <- distinct(base_proc, pais, nombrepais)
-df_plot <- left_join(df_efectos, df_nombres, by = c("pais_id" = "pais"))
-
-# 5. Calcular intervalos de confianza aproximados
-# Extraer la varianza de la pendiente
-var_pendiente <- VarCorr(m2)$pais[2,2]
-# Calcular error estándar de la pendiente para cada país
-df_plot$se_pendiente <- sqrt(var_pendiente) # Simplificación; para más precisión se usaría la matriz de covarianza
-df_plot$upper <- df_plot$pendiente_total + 1.96 * df_plot$se_pendiente
-df_plot$lower <- df_plot$pendiente_total - 1.96 * df_plot$se_pendiente
-
-# 6. Crear el gráfico
-ggplot(df_plot, aes(x = reorder(nombrepais, pendiente_total), y = pendiente_total)) +
-  geom_hline(yintercept = efectos_fijos["ind_conf_priv_c"], linetype = "dashed", color = "grey50") +
-  geom_point(size = 3, color = "darkblue") +
-  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2, color = "darkblue") +
-  coord_flip() +
-  labs(
-    title = "Efecto Estimado de la Confianza en Privados por País",
-    subtitle = "La línea punteada representa el efecto promedio en la región.",
-    x = "País",
-    y = "Coeficiente de Regresión (Pendiente)"
-  ) +
-  theme_minimal()
-```
-
-La Figura 2 es elocuente: aunque el efecto es consistentemente positivo, su magnitud varía de forma considerable. En países como **Uruguay**, **Costa Rica** y **Brasil**, la asociación entre la confianza en el sector privado y en el Estado es muy fuerte. En cambio, en países como **Panamá** y **Ecuador**, esta relación es mucho más débil. Esto confirma que, si bien el GINI y el Gasto Social no son los mecanismos moderadores, el contexto nacional sí juega un rol crucial en modular esta dinámica, abriendo una importante veta para futuras investigaciones.
-
-#### **4.3. Análisis de Sensibilidad**
-
-Para evaluar la robustez de los hallazgos, se realizó un análisis de influencia para detectar si algún país en particular estaba determinando los resultados. Se calcularon las Distancias de Cook para cada país en el Modelo 3, que miden cuánto cambiarían los coeficientes si se excluyera cada caso.
+Para evaluar la robustez de los hallazgos, se realizó un análisis de influencia para detectar si algún país en particular estaba determinando los resultados. Se calcularon las Distancias de Cook para cada país en el Modelo 4, que miden cuánto cambiarían los coeficientes si se excluyera cada caso.
 
 ```{r diagnostico-outliers, fig.cap='Figura 3: Diagnóstico de Países Influyentes (Distancia de Cook).'}
 # --- ANÁLISIS DE OUTLIERS ---
-# (El código se mantiene igual, ya que generó el gráfico correctamente)
 pacman::p_load(influence.ME, ggplot2)
-influencia_paises <- influence(m3, group = "pais")
+influencia_paises <- influence(m4_random_slope, group = "pais")
 distancias_cook <- as.data.frame(cooks.distance(influencia_paises))
 names(distancias_cook) <- "cook.d" 
 distancias_cook$pais <- rownames(distancias_cook)
 distancias_cook <- distancias_cook %>% mutate(pais = as.numeric(pais)) %>% left_join(distinct(base_proc, pais, nombrepais), by = "pais")
-umbral <- 4 / length(unique(datos_modelo$pais))
+umbral <- 4 / length(unique(base_proc$pais))
 
 ggplot(distancias_cook, aes(x = reorder(nombrepais, cook.d), y = cook.d)) +
   geom_col(aes(fill = cook.d > umbral), show.legend = FALSE) +
@@ -453,21 +381,23 @@ ggplot(distancias_cook, aes(x = reorder(nombrepais, cook.d), y = cook.d)) +
   theme_minimal()
 ```
 
-Como se observa en la Figura 3, el análisis de diagnóstico revela un **problema significativo de estabilidad en el modelo**. Un total de seis países (**Uruguay, El Salvador, Chile, Brasil, Bolivia y Ecuador**) superan el umbral crítico de influencia (línea roja), con Uruguay mostrando una Distancia de Cook excepcionalmente alta.
+Para evaluar la robustez de los hallazgos, se realizó un análisis de influencia utilizando la Distancia de Cook para el modelo de pendiente aleatoria (`m4_random_slope`). Este diagnóstico mide cuánto cambiarían los coeficientes si cada país fuera excluido del análisis.
 
-Este resultado indica que los coeficientes estimados en el Modelo 3, particularmente los efectos de Nivel 2 y las interacciones, **no son robustos**. Son altamente sensibles a la composición específica de la muestra de países. La inclusión o exclusión de este grupo de casos influyentes podría cambiar drásticamente las conclusiones del estudio, incluyendo la magnitud y la significancia estadística de los predictores.
+Como se observa en la Figura 3, el análisis revela un **problema significativo de estabilidad**. Un total de seis países (**Uruguay, El Salvador, Chile, Brasil, Bolivia y Ecuador**) superan el umbral crítico de influencia (línea roja). Esto indica que los coeficientes estimados, particularmente los efectos contextuales y de interacción, **no son robustos** y son altamente sensibles a la composición de la muestra.
 
-Dada la alta influencia de múltiples casos, realizar una prueba de robustez excluyendo solo a uno de ellos (como Uruguay) sería insuficiente. La inestabilidad parece ser una característica estructural del modelo con los datos actuales. Esta falta de robustez es un hallazgo en sí mismo y debe ser considerado la principal limitación del análisis. Impide hacer inferencias generalizables sobre los efectos contextuales y de interacción, y sugiere que futuras investigaciones deberían, o bien ampliar la muestra de países para mitigar la influencia de casos individuales, o bien teorizar específicamente por qué este grupo de países se comporta de manera tan atípica. Por esta razón, las interpretaciones de los efectos del Modelo 3 deben ser tomadas con extrema cautela.
+Este hallazgo es una **limitación central** del estudio. Impide hacer inferencias generalizables sobre los efectos de moderación y sugiere que las conclusiones deben ser tomadas con cautela. La inestabilidad del modelo parece ser una característica estructural de los datos actuales, lo que abre una importante vía para futuras investigaciones sobre por qué estos países se comportan de manera atípica.
 
 ### **5. Discusión y Conclusión**
 
-Los resultados desafían la narrativa de una simple oposición entre la lógica de mercado y la legitimidad del Estado en América Latina. La fuerte asociación positiva entre la confianza en el sector privado y en las instituciones públicas sugiere que ambas pueden ser parte de una "confianza en el sistema" más general.
+Este estudio se propuso analizar la compleja relación entre las actitudes pro-mercado y la confianza en las instituciones políticas en América Latina, utilizando un enfoque multinivel. Los resultados ofrecen una visión matizada que desafía las suposiciones teóricas iniciales.
 
-La principal ventaja del análisis multinivel en este estudio fue revelar que, aunque las hipótesis de moderación fueron rechazadas, el contexto nacional sí importa: altera la *fuerza* de la relación entre actitudes y confianza. Esto abre una importante agenda de investigación futura para descubrir qué factores contextuales (¿calidad de la gobernanza, corrupción percibida?) explican esta variación.
+1.  **Rechazo de la Tensión Mercado vs. Estado:** El hallazgo principal es el **rechazo de las hipótesis H1 y H2**. Lejos de una relación antagónica, la confianza en el sector privado y la aceptación de la desigualdad se asocian **positivamente** con la confianza en las instituciones estatales. Esto sugiere que, para los ciudadanos de la región, la confianza puede operar como un "síndrome generalizado" que abarca tanto al mercado como al Estado, en lugar de ser un juego de suma cero.
 
-Como limitación, la naturaleza transversal de los datos impide establecer causalidad. Futuros estudios podrían usar datos de panel para analizar estas relaciones a lo largo del tiempo.
+2.  **El Contexto Importa, pero no como se esperaba:** Si bien las **hipótesis de efectos contextuales directos (H3 y H4) y de interacción (H5 y H6) fueron rechazadas**, el análisis de pendientes aleatorias demostró que el efecto de las actitudes individuales sí varía significativamente entre países. Esto significa que el contexto nacional es crucial, aunque los mecanismos específicos que lo explican (GINI y Gasto Social) no fueron los correctos en nuestro modelo.
 
-En resumen, este trabajo muestra que la confianza en las instituciones no se ve debilitada por una actitud pro-mercado. Por el contrario, ambas confianzas parecen reforzarse mutuamente, aunque la intensidad de esta sinergia depende de un contexto nacional que merece ser estudiado en mayor profundidad.
+3.  **Limitación Clave y Futuras Líneas de Investigación:** El análisis de sensibilidad reveló que los resultados **no son robustos** debido a la fuerte influencia de varios países. Esta inestabilidad es la principal limitación del estudio e impide generalizar los hallazgos sobre los efectos contextuales.
+
+En conclusión, este trabajo muestra que la confianza en las instituciones no se ve debilitada por una actitud pro-mercado; por el contrario, ambas parecen reforzarse mutuamente. La principal contribución del análisis multinivel fue revelar que la *fuerza* de esta sinergia depende de un contexto nacional que merece ser estudiado en mayor profundidad, abriendo una importante agenda de investigación para descubrir qué otros factores (¿calidad de la gobernanza, polarización, historia institucional?) explican esta variación.
 
 ### **6. Bibliografía**
 

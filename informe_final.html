@@ -35,6 +35,35 @@ ul.task-list li input[type="checkbox"] {
 <link href="informe_final_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="informe_final_files/libs/bootstrap/bootstrap-32162a2fca7cb0439643f2faaab1edf3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -47,11 +76,17 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract"><strong>Abstract</strong></a></li>
-  <li><a href="#introducción-confianza-mercado-y-legitimidad-en-américa-latina" id="toc-introducción-confianza-mercado-y-legitimidad-en-américa-latina" class="nav-link" data-scroll-target="#introducción-confianza-mercado-y-legitimidad-en-américa-latina"><strong>1. Introducción: Confianza, Mercado y Legitimidad en América Latina</strong></a></li>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link" data-scroll-target="#introducción"><strong>1. Introducción</strong></a></li>
   <li><a href="#objetivos-e-hipótesis" id="toc-objetivos-e-hipótesis" class="nav-link" data-scroll-target="#objetivos-e-hipótesis"><strong>2. Objetivos e Hipótesis</strong></a></li>
   <li><a href="#datos-variables-y-método" id="toc-datos-variables-y-método" class="nav-link" data-scroll-target="#datos-variables-y-método"><strong>3. Datos, Variables y Método</strong></a></li>
-  <li><a href="#datos-variables-y-método-1" id="toc-datos-variables-y-método-1" class="nav-link" data-scroll-target="#datos-variables-y-método-1"><strong>3. Datos, Variables y Método</strong></a></li>
   <li><a href="#resultados" id="toc-resultados" class="nav-link" data-scroll-target="#resultados"><strong>4. Resultados</strong></a></li>
+  <li><a href="#tabla-desriptivos-n1" id="toc-tabla-desriptivos-n1" class="nav-link" data-scroll-target="#tabla-desriptivos-n1">Tabla Desriptivos N1</a></li>
+  <li><a href="#tabla-descriptivos-n2" id="toc-tabla-descriptivos-n2" class="nav-link" data-scroll-target="#tabla-descriptivos-n2">Tabla Descriptivos N2</a></li>
+  <li><a href="#relación-variables-nivel-2-y-cig" id="toc-relación-variables-nivel-2-y-cig" class="nav-link" data-scroll-target="#relación-variables-nivel-2-y-cig">Relación Variables Nivel 2 y CIG</a>
+  <ul class="collapse">
+  <li><a href="#discusión-y-conclusión" id="toc-discusión-y-conclusión" class="nav-link" data-scroll-target="#discusión-y-conclusión"><strong>5. Discusión y Conclusión</strong></a></li>
+  <li><a href="#bibliografía" id="toc-bibliografía" class="nav-link" data-scroll-target="#bibliografía"><strong>6. Bibliografía</strong></a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -77,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Fecha de publicación</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
+      <p class="date">30 de junio de 2025</p>
     </div>
   </div>
   
@@ -92,12 +127,9 @@ ul.task-list li input[type="checkbox"] {
 <section id="abstract" class="level3">
 <h3 class="anchored" data-anchor-id="abstract"><strong>Abstract</strong></h3>
 <p>Este estudio investiga la relación entre las actitudes económicas individuales y la confianza en las instituciones políticas, examinando si esta dinámica es moderada por el contexto socioeconómico en América Latina. A partir de una muestra final de <strong>12,023 individuos en 15 países</strong> de la encuesta Latinobarómetro 2023, se estimaron modelos de regresión multinivel. Los resultados revelan una significativa varianza contextual (ICC = 0.19), indicando que el 19% de la varianza en la confianza se debe a diferencias entre países. Contrario a la hipótesis teórica inicial, una mayor confianza individual en el sector privado se asocia <strong>positivamente</strong> con una mayor confianza en las instituciones estatales (β = 0.43, p &lt; 0.001). La hipótesis central de que la desigualdad (GINI) o el gasto social moderan esta relación fue <strong>rechazada</strong>. Sin embargo, el análisis de efectos aleatorios confirma que la fuerza de esta asociación positiva varía significativamente entre países. Estos hallazgos sugieren que, más que un antagonismo, existe una sinergia en la confianza ciudadana hacia las instituciones del mercado y del Estado, aunque la naturaleza de esta sinergia depende del contexto nacional específico.</p>
-<hr>
-<p>¡Excelente! Procedo a redactar la sección combinada de <strong>Introducción y Marco Teórico</strong>, cumpliendo con el requisito de las ~1000 palabras y siguiendo la estructura solicitada. Esta sección está diseñada para ser copiada y pegada directamente en tu <code>.Rmd</code>, reemplazando las secciones 1 y 2 de la plantilla anterior.</p>
-<hr>
 </section>
-<section id="introducción-confianza-mercado-y-legitimidad-en-américa-latina" class="level3">
-<h3 class="anchored" data-anchor-id="introducción-confianza-mercado-y-legitimidad-en-américa-latina"><strong>1. Introducción: Confianza, Mercado y Legitimidad en América Latina</strong></h3>
+<section id="introducción" class="level3">
+<h3 class="anchored" data-anchor-id="introducción"><strong>1. Introducción</strong></h3>
 <p>La confianza en las instituciones constituye una piedra angular para el funcionamiento de las sociedades modernas. Desde una perspectiva sociológica, no es simplemente una actitud individual, sino un mecanismo de reducción de la complejidad que permite la cooperación social y la estabilidad del orden político (Luhmann, 1979). Instituciones robustas y confiables, como las define Douglas North (1993), establecen “las reglas del juego” que facilitan la interacción económica y política, reduciendo la incertidumbre. En el contexto de América Latina, una región marcada por historias de inestabilidad política y crisis económicas, la confianza ciudadana en las instituciones es un recurso tan escaso como vital. Su erosión, documentada extensamente (Corporación Latinobarómetro, 2023), no solo obstaculiza la gobernabilidad democrática, sino que también fomenta la búsqueda de soluciones al margen de la legalidad, desde la evasión de impuestos hasta la justicia por mano propia (Kahan, 2001; Smulovitz &amp; Peruzzotti, 2000).</p>
 <p>La desconfianza en la región es un fenómeno multifactorial, alimentado por escándalos de corrupción que revelan la captura del Estado por intereses privados (Rose-Ackerman, 2006; CIDE, 2019), por la percepción de una inseguridad creciente, a menudo amplificada por los medios de comunicación (Gerbner &amp; Gross, 1976), y por la rápida diseminación de desinformación en un ecosistema digital fragmentado (Vosoughi et al., 2018). Sin embargo, este estudio argumenta que, más allá de estos factores coyunturales, la crisis de confianza puede estar ligada a transformaciones estructurales más profundas, vinculadas al modelo de desarrollo hegemónico en las últimas décadas: el neoliberalismo.</p>
 <p>El neoliberalismo, como proyecto político-económico, postula la centralidad del mercado como el mecanismo óptimo para la asignación de recursos, promoviendo la desregulación, la privatización y un rol subsidiario para el Estado (Harvey, 2007). Este modelo no solo reconfiguró las economías latinoamericanas, sino que también transformó las subjetividades, entronizando al “individuo emprendedor” como figura ideal. Teóricos críticos como Stiglitz (2002) y Garretón (2012) han señalado que esta primacía del mercado genera tensiones de legitimidad para el Estado. Si el mercado es el motor del progreso, y el individuo el único responsable de su éxito o fracaso, ¿cuál es el rol de las instituciones públicas? ¿Son vistas como un apoyo necesario, como un obstáculo burocrático, o como un actor irrelevante?</p>
@@ -117,39 +149,35 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="objetivos-específicos"><strong>2.2. Objetivos Específicos</strong></h4>
 <ol type="1">
 <li>Estimar la magnitud de la varianza en la confianza institucional que es atribuible a diferencias entre países (Nivel 2).</li>
-<li>Evaluar el efecto de las actitudes individuales pro-mercado (Nivel 1), como la confianza en el sector privado, sobre la confianza en las instituciones del Estado.</li>
-<li>Determinar si la relación entre las actitudes individuales y la confianza institucional varía significativamente entre los países.</li>
-<li>Probar si variables contextuales a nivel de país (Nivel 2), como la desigualdad económica (GINI) y el Gasto Social, moderan la relación observada a nivel individual.</li>
+<li>Evaluar el efecto de las actitudes individuales pro-mercado (Nivel 1)sobre la confianza en las instituciones del Estado.</li>
+<li>Determinar si caracteristicas macro-estructurales de los paises (Nivel 2) tienen un efecto significativo sobre los niveles promedio de confianza en instituciones gubernamentales</li>
+<li>Estimar si el efecto de las actitudes individuales sobre la confiuanza institucional varía significativamente entre los paises.</li>
+<li>Evaluar si la relación entre actitudes individuales y la confianza institucional es moderada por el contexto nacional.</li>
 </ol>
 </section>
 <section id="hipótesis" class="level4">
 <h4 class="anchored" data-anchor-id="hipótesis"><strong>2.3. Hipótesis</strong></h4>
-<p>Las hipótesis de este estudio se estructuran en función de los niveles de análisis:</p>
 <ul>
-<li><strong>Hipótesis de Varianza Contextual (Nivel 2):</strong>
-<ul>
-<li><strong>H1:</strong> Existirá una varianza significativa en la confianza institucional que puede ser atribuida a diferencias sistemáticas entre los países (ICC &gt; 0.05).</li>
-</ul></li>
 <li><strong>Hipótesis de Efectos Individuales (Nivel 1):</strong>
 <ul>
-<li><strong>H2:</strong> A mayor confianza individual en el sector privado, se registrará una <strong>menor</strong> confianza en las instituciones estatales, controlando por otros factores.</li>
+<li><strong>H1:</strong> A mayor confianza individual en el sector privado [CSP], se registrará una <strong>menor</strong> confianza en las instituciones gubernamentales [CIG], controlando por otros factores. Esta hipótesis se basa en la teoría de que la adhesión a la lógica de mercado puede generar escepticismo hacia el sector público.</li>
+<li><strong>H2:</strong> A mayor aceptación individual de la desigualdad, se registrará una <strong>menor</strong> confianza en las instituciones gubernamentales [CIG], controlando por otros factores, ya que podria reflejar una menor demanda por la función redristivutiva del Estado.</li>
+</ul></li>
+<li><strong>Hipótesis de Efectos Contextuales (Nivel 2):</strong>
+<ul>
+<li><strong>H3:</strong> Paises con mayores niveles de Gasto Social [GS] como porcentaje del PIB presentaran, en promedio, <em>mayores</em> niveles de confianza institucional [CIG]. Se postula que un estado de bienestar robusto aumenta la legitimidad de las instituciones públicas.</li>
+<li><strong>H4:</strong> Paises con mayores niveles de desigualdad económica, medida por el índice de Gini [GINI], presentaran, en promedio, <em>menores</em> niveles de confianza institucional [CIG]. Esto debido a la perepción de un “juego arreglado” y la erosión de la cohesión social.</li>
 </ul></li>
 <li><strong>Hipótesis de Interacción Entre Niveles (Cross-Level Interaction):</strong>
 <ul>
-<li><strong>H3:</strong> La relación negativa postulada en H2 será significativamente <strong>más fuerte</strong> en países con mayores niveles de desigualdad (GINI).</li>
-<li><strong>H4:</strong> La relación negativa postulada en H2 será significativamente <strong>más débil</strong> en países con mayores niveles de Gasto Social.</li>
+<li><strong>H5:</strong> La relación negativa postulada en H2 entre AD y CIG será signicativamente <em>mas fuerte</em> (más negativa) en paises con mayores niveles de GINI</li>
+<li><strong>H6:</strong> La relación negativa postulada en H1 entre CSP y CIG será significativamente <em>mas debil</em> (menos negativa o incluso positiva) en paises con mayores niveles de GS</li>
 </ul></li>
 </ul>
 </section>
 </section>
 <section id="datos-variables-y-método" class="level3">
 <h3 class="anchored" data-anchor-id="datos-variables-y-método"><strong>3. Datos, Variables y Método</strong></h3>
-<p>¡Absolutamente! Ahora nos enfocamos en la sección de “Datos, Variables y Método”. La clave aquí es ser preciso, transparente y seguir la “receta” que hemos identificado en los prácticos del curso. He construido esta sección para que contenga toda la información requerida, incluyendo la descripción de la muestra, la operacionalización de las variables y una descripción clara de la estrategia analítica progresiva.</p>
-<p>Esta sección está lista para ser copiada y pegada, e incluye los chunks de R que generarán el mapa y la tabla de descriptivos.</p>
-<hr>
-</section>
-<section id="datos-variables-y-método-1" class="level3">
-<h3 class="anchored" data-anchor-id="datos-variables-y-método-1"><strong>3. Datos, Variables y Método</strong></h3>
 <section id="fuente-de-datos-y-muestra" class="level4">
 <h4 class="anchored" data-anchor-id="fuente-de-datos-y-muestra"><strong>3.1. Fuente de Datos y Muestra</strong></h4>
 <p>Este estudio utiliza datos de la ola 2023 de la encuesta <strong>Latinobarómetro</strong>, una de las fuentes más completas para el estudio de la opinión pública en América Latina. La base de datos original contiene información de 17 países de la región. Para asegurar la calidad y comparabilidad de los datos, se tomaron decisiones de exclusión. Primero, se constató que <strong>Nicaragua</strong> no fue incluida en esta ola de la encuesta. Adicionalmente, <strong>Venezuela</strong> fue eliminada por la falta de datos disponibles para el PIB per cápita y <strong>Guatemala</strong> fue excluida por la antigüedad de sus datos de GINI (2014), que no correspondían al periodo de la encuesta.</p>
@@ -161,18 +189,20 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>Variable Dependiente (Nivel 1):</strong>
 <ul>
-<li><strong>Confianza Institucional:</strong> Un índice (<code>ind_conf_inst</code>) construido como el promedio de la confianza del encuestado en tres instituciones clave: el Gobierno, el Congreso y el Poder Judicial. La escala original de 4 puntos (1=Mucha confianza, 4=Ninguna) fue invertida, resultando en un índice donde valores más altos indican mayor confianza (rango 1-4).</li>
+<li><strong>Confianza Institucional Gubernamental[CIG]:</strong> Un índice construido como el promedio de la confianza del encuestado en tres instituciones clave: el Gobierno, el Congreso y el Poder Judicial. La escala original de 4 puntos (1= Mucha confianza, 4=Ninguna) fue invertida, resultando en un índice donde valores más altos indican mayor confianza (rango 1-4).</li>
 </ul></li>
-<li><strong>Variables Independientes Principales:</strong>
+<li><strong>Variables Independientes (Nivel 1):</strong>
 <ul>
-<li><strong>Confianza en Privados (Nivel 1):</strong> Un índice (<code>ind_conf_priv_c</code>) que promedia la confianza en las empresas privadas nacionales, internacionales y los bancos. Para el análisis, esta variable fue centrada al promedio de su grupo (país), es decir, mediante <em>Group-Mean Centering</em> (CGM).</li>
-<li><strong>Índice de GINI (Nivel 2):</strong> Indicador de desigualdad de ingresos del país, obtenido del Banco Mundial para el año más cercano a 2023.</li>
-<li><strong>Gasto Social (Nivel 2):</strong> Gasto social total como porcentaje del PIB del país. Ambas variables de Nivel 2 fueron centradas al promedio general (<em>Grand-Mean Centering</em> - GMC).</li>
+<li><strong>Confianza en el Sector Privado [CSP]:</strong> Un índice que promedia la confianza en las empresas privadas nacionales, internacionales y los bancos. Para el análisis, esta variable fue centrada al promedio de su grupo (país), es decir, mediante <em>Group-Mean Centering</em> (CGM).</li>
+<li><strong>Aceptación de Desigualdad [AD]:</strong> Un índice de dos ítems sobre la justicia de la distribución del ingreso. Para el análisis, esta variable fue centrada al promedio de su grupo (país), es decir, mediante <em>Group-Mean Centering</em> (CGM).</li>
+<li><strong>Sexo:</strong> Variable dicotomica donde 1 = Hombre y 0 = Mujer.</li>
+<li><strong>Edad:</strong> Variable que mide la edad del encuestado. Para el análisis, esta variable fue centrada al promedio de su grupo (país), es decir, mediante <em>Group-Mean Centering</em> (CGM).</li>
 </ul></li>
-<li><strong>Variables de Control:</strong>
+<li><strong>Variables Conextuales (Nivel 2):</strong>
 <ul>
-<li>A nivel individual (Nivel 1), se controla por: <strong>Actitud Pro-Desigualdad</strong> (un índice de dos ítems sobre la justicia de la distribución del ingreso), <strong>Edad</strong>, <strong>Sexo</strong>, <strong>Nivel Educacional</strong> y <strong>Posición Política</strong> (Izquierda, Centro, Derecha, con “Ninguna” como categoría de referencia).</li>
-<li>A nivel de país (Nivel 2), se controla por el <strong>PIB per cápita</strong> para aislar el efecto del nivel de desarrollo económico.</li>
+<li><strong>PIB per capita[PPC]:</strong> Indicador sobre el producto interno bruto per capita del pais medido en miles de dolares. Para el análisis, esta variable fue centrada al promedio general (<em>Grand-Mean Centering</em> - GMC).</li>
+<li><strong>Índice de GINI [GINI] (Nivel 2):</strong> Indicador de desigualdad de ingresos del país, obtenido del Banco Mundial para el año más cercano a 2023. Esta variable fue centrada al promedio general (<em>Grand-Mean Centering</em> - GMC).</li>
+<li><strong>Gasto Social [GS] (Nivel 2):</strong> Gasto social total como porcentaje del PIB del país. Esta variable fue centrada al promedio general (<em>Grand-Mean Centering</em> - GMC).</li>
 </ul></li>
 </ul>
 </section>
@@ -181,11 +211,12 @@ ul.task-list li input[type="checkbox"] {
 <p>Se emplea un modelamiento multinivel progresivo para evaluar las hipótesis. La estrategia sigue una secuencia lógica de cuatro pasos, permitiendo descomponer la varianza y evaluar la contribución de cada nivel de análisis:</p>
 <ol type="1">
 <li><strong>Modelo Nulo:</strong> Se estima un modelo sin predictores, con solo un intercepto aleatorio por país. Este modelo base permite calcular la Correlación Intraclase (ICC) para cuantificar la varianza atribuible al contexto nacional y así probar la Hipótesis 1.</li>
-<li><strong>Modelo de Interceptos Aleatorios (Modelo 1):</strong> Se añaden los predictores de Nivel 1 (actitudes individuales y controles) para evaluar sus efectos principales, manteniendo constante el promedio de confianza entre países.</li>
-<li><strong>Modelo de Coeficientes Aleatorios (Modelo 2):</strong> Se permite que la pendiente de la variable de interés principal (Confianza en Privados) varíe entre países. Se comparará el ajuste de este modelo con el anterior (usando AIC y la prueba <code>anova()</code>) para determinar si su efecto es heterogéneo.</li>
-<li><strong>Modelo Completo con Interacciones (Modelo 3):</strong> Finalmente, se añaden los predictores de Nivel 2 y los términos de interacción para probar las hipótesis centrales de moderación (H3 y H4).</li>
+<li><strong>Modelo de Efectos Individuales (Nivel 1):</strong> Se añaden los predictores de Nivel 1 para evaluar sus efectos principales sobre la CIG.</li>
+<li><strong>Modelo de de Efectos Contextuales (Nivel 2):</strong> Se incorpora los predictores de nivel 2 para evaluar si estas caracteristicas tienen un efecto directo sobre los niveles promedio de confianza en la región</li>
+<li><strong>Modelo de Pendientes Aleatorias:</strong> Se permite que las pendientes (los efectos) de las variables de nivel 1 (CSP y AD) varien aleatoriamente entre paises para evaluar la heterogeneidad de los efectos.</li>
+<li><strong>Modelo de Interaccón entre Niveles:</strong> Se añaden las interacciones entre niveles (CSP x GS y AD x Gini) para evaluar si el contexto socioeconomico de un pais modera la fuerza de la relación entre actitudes individuales y CIG.</li>
 </ol>
-<p>Todos los modelos se presentarán en una única tabla comparativa utilizando el paquete <code>sjPlot</code> para facilitar la interpretación.</p>
+<p>Finalmente, para evaluar la robustez de los hallazgos, se realizara un diagnostico de Distancia de Cook para identificar si un pais ejerce una influencia significativa en las estimaciones de los modelos.</p>
 </section>
 </section>
 <section id="resultados" class="level3">
@@ -203,1088 +234,422 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 </div>
-<div class="cell-output-display">
-<div id="rtndrnlqic" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rtndrnlqic table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#rtndrnlqic thead, #rtndrnlqic tbody, #rtndrnlqic tfoot, #rtndrnlqic tr, #rtndrnlqic td, #rtndrnlqic th {
-  border-style: none;
-}
-
-#rtndrnlqic p {
-  margin: 0;
-  padding: 0;
-}
-
-#rtndrnlqic .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#rtndrnlqic .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#rtndrnlqic .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#rtndrnlqic .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#rtndrnlqic .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#rtndrnlqic .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#rtndrnlqic .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#rtndrnlqic .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#rtndrnlqic .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#rtndrnlqic .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#rtndrnlqic .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#rtndrnlqic .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#rtndrnlqic .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#rtndrnlqic .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#rtndrnlqic .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#rtndrnlqic .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#rtndrnlqic .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#rtndrnlqic .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#rtndrnlqic .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#rtndrnlqic .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#rtndrnlqic .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#rtndrnlqic .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#rtndrnlqic .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#rtndrnlqic .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#rtndrnlqic .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#rtndrnlqic .gt_left {
-  text-align: left;
-}
-
-#rtndrnlqic .gt_center {
-  text-align: center;
-}
-
-#rtndrnlqic .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#rtndrnlqic .gt_font_normal {
-  font-weight: normal;
-}
-
-#rtndrnlqic .gt_font_bold {
-  font-weight: bold;
-}
-
-#rtndrnlqic .gt_font_italic {
-  font-style: italic;
-}
-
-#rtndrnlqic .gt_super {
-  font-size: 65%;
-}
-
-#rtndrnlqic .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#rtndrnlqic .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#rtndrnlqic .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#rtndrnlqic .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#rtndrnlqic .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#rtndrnlqic .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#rtndrnlqic .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#rtndrnlqic .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#rtndrnlqic div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<caption><strong>Tabla 1: Estadísticos Descriptivos</strong></caption>
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="gt_col_headings header">
-<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Variable</strong></th>
-<th id="stat_0" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>Estadísticos</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
-</tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="odd">
-<td class="gt_row gt_left" headers="label" style="font-weight: bold">Confianza Institucional</td>
-<td class="gt_row gt_center" headers="stat_0"><br>
-</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Mean (SD)</td>
-<td class="gt_row gt_center" headers="stat_0">2.02 (0.79)</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Min – Max</td>
-<td class="gt_row gt_center" headers="stat_0">1.00 – 4.00</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label" style="font-weight: bold">Confianza en Privados</td>
-<td class="gt_row gt_center" headers="stat_0"><br>
-</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Mean (SD)</td>
-<td class="gt_row gt_center" headers="stat_0">2.45 (0.71)</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Min – Max</td>
-<td class="gt_row gt_center" headers="stat_0">1.00 – 4.00</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label" style="font-weight: bold">Actitud Pro-Desigualdad</td>
-<td class="gt_row gt_center" headers="stat_0"><br>
-</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Mean (SD)</td>
-<td class="gt_row gt_center" headers="stat_0">0.00 (0.78)</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Min – Max</td>
-<td class="gt_row gt_center" headers="stat_0">-1.22 – 2.29</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label" style="font-weight: bold">EDAD Edad</td>
-<td class="gt_row gt_center" headers="stat_0"><br>
-</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Mean (SD)</td>
-<td class="gt_row gt_center" headers="stat_0">40.11 (15.95)</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Min – Max</td>
-<td class="gt_row gt_center" headers="stat_0">16.00 – 92.00</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label" style="font-weight: bold">Posición Política</td>
-<td class="gt_row gt_center" headers="stat_0"><br>
-</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Ninguna</td>
-<td class="gt_row gt_center" headers="stat_0">952 (%)</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Centro</td>
-<td class="gt_row gt_center" headers="stat_0">5,316 (%)</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Derecha</td>
-<td class="gt_row gt_center" headers="stat_0">4,086 (%)</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Izquierda</td>
-<td class="gt_row gt_center" headers="stat_0">1,669 (%)</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label" style="font-weight: bold">SEXO Sexo entrevistado</td>
-<td class="gt_row gt_center" headers="stat_0"><br>
-</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
-<td class="gt_row gt_center" headers="stat_0">6,769 (%)</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
-<td class="gt_row gt_center" headers="stat_0">6,592 (%)</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label" style="font-weight: bold">Índice de GINI</td>
-<td class="gt_row gt_center" headers="stat_0"><br>
-</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Mean (SD)</td>
-<td class="gt_row gt_center" headers="stat_0">44.42 (4.97)</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Min – Max</td>
-<td class="gt_row gt_center" headers="stat_0">37.00 – 54.80</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label" style="font-weight: bold">Gasto Social (% PIB)</td>
-<td class="gt_row gt_center" headers="stat_0"><br>
-</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Mean (SD)</td>
-<td class="gt_row gt_center" headers="stat_0">29.85 (7.76)</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Min – Max</td>
-<td class="gt_row gt_center" headers="stat_0">18.51 – 45.31</td>
-</tr>
-</tbody><tfoot class="gt_footnotes">
-<tr class="odd">
-<td colspan="2" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> n (%)</td>
-</tr>
-</tfoot>
-
-</table>
-
-</div>
-<p>Figura 1: Mapa de Confianza Institucional Promedio y Estadísticos Descriptivos de las Variables del Estudio.</p>
-</div>
 </div>
 <p>La Tabla 1 complementa esta visión con los estadísticos descriptivos. El promedio general del índice de Confianza Institucional es de 2.02 (DE=0.79), confirmando un nivel general de desconfianza. La edad promedio de los encuestados es de 40 años. En cuanto a la identidad política, un 44% se ubica en el centro, mientras que un 7.9% declara no tener ninguna posición, siendo este el grupo que se ha establecido como categoría de referencia en los modelos.</p>
 </section>
-<section id="resultados-del-modelamiento-multinivel" class="level4">
-<h4 class="anchored"><strong>4.2. Resultados del Modelamiento Multinivel</strong></h4>
-<p>El análisis prosigue con la estimación de los modelos multinivel. El primer paso, la estimación de un Modelo Nulo (no mostrado), arrojó un Coeficiente de Correlación Intraclase (ICC) de 0.19. Esto <strong>confirma la Hipótesis 1</strong>, indicando que un 19% de la varianza total en la confianza institucional se debe a diferencias sistemáticas entre los países, justificando plenamente el enfoque multinivel.</p>
-<p>La Tabla 2 presenta los resultados de los tres modelos progresivos. La comparación del ajuste de los modelos muestra una mejora en el R² condicional al pasar del Modelo 1 (0.366) al Modelo 2 (0.372), lo que justifica la inclusión de una pendiente aleatoria. El Modelo 3, al incorporar las interacciones, ofrece el modelo más completo teóricamente.</p>
+</section>
+<section id="tabla-desriptivos-n1" class="level2">
+<h2 class="anchored" data-anchor-id="tabla-desriptivos-n1">Tabla Desriptivos N1</h2>
 <div class="cell" data-layout-align="center">
-<table style="border-collapse:collapse; border:none;">
-<tbody><tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
-&nbsp;
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Modelo 1
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Modelo 2
-</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-Modelo 3
-</th>
+<div id="tbl-descriptivos-nivel1" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-descriptivos-nivel1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;1: Variables Nivel 1
+</figcaption>
+<div aria-describedby="tbl-descriptivos-nivel1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">var</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: left;">range</th>
 </tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
-Variables
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-IC 95%
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-IC 95%
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-Estimates
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
-IC 95%
-</td>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">CIG</td>
+<td style="text-align: right;">14533</td>
+<td style="text-align: right;">2.01</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: left;">3 (1-4)</td>
 </tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Intercepto
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.90 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.74&nbsp;–&nbsp;2.07
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.90 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.73&nbsp;–&nbsp;2.06
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.90 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-1.74&nbsp;–&nbsp;2.05
-</td>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">CSP</td>
+<td style="text-align: right;">14533</td>
+<td style="text-align: right;">2.44</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: left;">3 (1-4)</td>
 </tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Confianza en Privados (N1)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.43 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.41&nbsp;–&nbsp;0.44
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.43 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.38&nbsp;–&nbsp;0.47
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.43 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-0.38&nbsp;–&nbsp;0.47
-</td>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">AD</td>
+<td style="text-align: right;">14533</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: left;">3.52 (-1.21-2.31)</td>
 </tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Pro-Desigualdad (N1)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.21 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.19&nbsp;–&nbsp;0.23
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.21 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.19&nbsp;–&nbsp;0.22
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.21 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-0.19&nbsp;–&nbsp;0.22
-</td>
+<tr class="even">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Sexo</td>
+<td style="text-align: right;">14533</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: left;">1 (0-1)</td>
 </tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Edad (Control)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.00 <sup></sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.00&nbsp;–&nbsp;0.00
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.00 <sup></sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.00&nbsp;–&nbsp;0.00
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.00 <sup></sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
--0.00&nbsp;–&nbsp;0.00
-</td>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Edad</td>
+<td style="text-align: right;">14533</td>
+<td style="text-align: right;">40.33</td>
+<td style="text-align: right;">16.06</td>
+<td style="text-align: left;">76 (16-92)</td>
 </tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sexo (Mujer) (Control)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.01 <sup></sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.02&nbsp;–&nbsp;0.03
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.01 <sup></sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.01&nbsp;–&nbsp;0.03
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.01 <sup></sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
--0.01&nbsp;–&nbsp;0.03
-</td>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Previo al modelamiento, se realizó un análisis descriptivo para caracterizar la muestra y las variables clave. El índice de Confianza Institucional (CIG), nuestra variable dependiente, presenta una media de 2.02 (DE=0.79) en una escala de 1 a 4. Este valor, situado apenas por encima del punto medio teórico (2.5), confirma un nivel general de desconfianza moderada hacia las instituciones gubernamentales en la región, un hallazgo consistente con los informes de opinión pública de Latinobarómetro (2023). En cuanto a las variables individuales, el índice de Confianza en el Sector Privado (CSP) tiene una media de 2.45 (DE=0.71), sugiriendo que, en promedio, los ciudadanos de la muestra tienden a confiar ligeramente más en las instituciones de mercado que en las estatales. La Aceptación de la Desigualdad (AD) se encuentra normalizada con una media de 0 (DE=0.78).</p>
+</section>
+<section id="tabla-descriptivos-n2" class="level2">
+<h2 class="anchored" data-anchor-id="tabla-descriptivos-n2">Tabla Descriptivos N2</h2>
+<div class="cell" data-layout-align="center">
+<div id="tbl-descriptivos-nivel2" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-descriptivos-nivel2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;2: Variables Nivel 2
+</figcaption>
+<div aria-describedby="tbl-descriptivos-nivel2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">var</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: left;">range</th>
 </tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Nivel Educacional (Control)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.01 <sup>*</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.01&nbsp;–&nbsp;-0.00
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.01 <sup>*</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.01&nbsp;–&nbsp;-0.00
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.01 <sup>*</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
--0.01&nbsp;–&nbsp;-0.00
-</td>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">PPC</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">10.92</td>
+<td style="text-align: right;">6.02</td>
+<td style="text-align: left;">19.57 (3.23-22.8)</td>
 </tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Pos. Pol: Izquierda
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.12 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.07&nbsp;–&nbsp;0.16
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.12 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.08&nbsp;–&nbsp;0.17
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.12 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-0.08&nbsp;–&nbsp;0.17
-</td>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">GINI</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">44.33</td>
+<td style="text-align: right;">5.02</td>
+<td style="text-align: left;">17.8 (37-54.8)</td>
 </tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Pos. Pol: Centro
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.14 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.09&nbsp;–&nbsp;0.18
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.14 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.09&nbsp;–&nbsp;0.18
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.14 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-0.09&nbsp;–&nbsp;0.18
-</td>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">GS</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">29.50</td>
+<td style="text-align: right;">7.99</td>
+<td style="text-align: left;">26.8 (18.51-45.31)</td>
 </tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Pos. Pol: Derecha
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.16 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.11&nbsp;–&nbsp;0.21
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.16 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.11&nbsp;–&nbsp;0.21
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.16 <sup>***</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-0.11&nbsp;–&nbsp;0.21
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Índice GINI (N2)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.02 <sup></sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
--0.05&nbsp;–&nbsp;0.01
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Gasto Social (N2)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.01 <sup></sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
--0.01&nbsp;–&nbsp;0.03
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-PIB per cápita (Control)
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.00 <sup>*</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-0.00&nbsp;–&nbsp;0.00
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Conf. Privados x GINI
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.00 <sup></sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
--0.01&nbsp;–&nbsp;0.01
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Conf. Privados x Gasto Social
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.00 <sup></sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
--0.01&nbsp;–&nbsp;0.00
-</td>
-</tr>
-<tr>
-<td colspan="7" style="font-weight:bold; text-align:left; padding-top:.8em;">
-Random Effects
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-σ<sup>2</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.40
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.39
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.39
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-τ<sub>00</sub>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.10 <sub>pais</sub>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.09 <sub>pais</sub>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.08 <sub>pais</sub>
-</td>
-</tr><tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-τ<sub>11</sub>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-&nbsp;
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.01 <sub>pais.ind_conf_priv_c</sub>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.01 <sub>pais.ind_conf_priv_c</sub>
-</td>
-</tr><tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-ρ<sub>01</sub>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-&nbsp;
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.79 <sub>pais</sub>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.87 <sub>pais</sub>
-</td>
-</tr><tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-ICC
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.19
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.20
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.18
-</td>
-</tr><tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-N
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-15 <sub>pais</sub>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-15 <sub>pais</sub>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-15 <sub>pais</sub>
-</td>
-</tr><tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
-Observations
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-12023
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-12023
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
-12023
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.213 / 0.366
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.214 / 0.372
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.242 / 0.376
-</td>
-</tr>
-<tr>
-<td colspan="7" style="font-style:italic; border-top:double black; text-align:right;">
-<ul>
-<li>p&lt;0.05&nbsp;&nbsp;&nbsp;** p&lt;0.01&nbsp;&nbsp;&nbsp;*** p&lt;0.001
-</li></ul></td>
-</tr>
-
-</tbody></table>
-<p>Tabla 2: Resultados de los Modelos Multinivel para Predecir la Confianza Institucional.</p>
-<p>:::</p>
-<p><strong>Análisis de las Hipótesis:</strong></p>
-<p>La interpretación de los resultados se centra en el Modelo 3, que permite una evaluación simultánea de todas las hipótesis.</p>
-<ul>
-<li><p><strong>Efecto de las Actitudes Individuales (H2):</strong> La <strong>Hipótesis 2</strong>, que postulaba una relación negativa entre la confianza en el sector privado y la confianza institucional, es <strong>rechazada de forma contundente</strong>. El coeficiente para “Confianza en Privados” es positivo, fuerte y altamente significativo (β = 0.43, p &lt; 0.001). Esto sugiere que, lejos de ser antagónicas, ambas formas de confianza están positivamente alineadas. La “Actitud Pro-Desigualdad” también muestra una asociación positiva significativa (β = 0.21, p &lt; 0.001), indicando que una mayor aceptación de las jerarquías económicas se asocia con una mayor confianza en las instituciones.</p></li>
-<li><p><strong>Efectos de Moderación (H3 y H4):</strong> El hallazgo central del estudio es el <strong>rechazo de las hipótesis de interacción</strong>. Los coeficientes para <code>Conf. Privados x GINI</code> y <code>Conf. Privados x Gasto Social</code> no son estadísticamente significativos. Esto significa que no se encontró evidencia de que la desigualdad o el gasto social del país alteren la relación entre la confianza individual en el mercado y en el Estado.</p></li>
-</ul>
-<p><strong>Otros Hallazgos Relevantes:</strong></p>
-<p>A nivel contextual (Nivel 2), ni el Índice de GINI ni el Gasto Social muestran un efecto directo significativo sobre la confianza institucional una vez que se controla por el resto de las variables en el Modelo 3.</p>
-<p>En cuanto a las variables de control, destaca el rol de la <strong>identidad política</strong>. Con el grupo “Ninguna” como categoría de referencia, se observa que los individuos que se identifican con la Izquierda (β = 0.12), el Centro (β = 0.14) y la Derecha (β = 0.16) presentan niveles de confianza significativamente más altos. Este hallazgo sugiere que la desafección política es un predictor más potente de la desconfianza que la adscripción a una ideología particular.</p>
-<p><strong>Profundizando en la Variación Contextual:</strong></p>
-<p>Aunque las interacciones no fueron significativas, el Modelo 2 reveló que el efecto de la “Confianza en Privados” no es homogéneo en toda la región (τ₁₁ = 0.01). La Figura 2 visualiza esta variación, mostrando el efecto estimado de esta variable para cada país.</p>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>A nivel contextual, se observa una considerable heterogeneidad entre los 15 países. El Índice de GINI, que mide la desigualdad de ingresos, varía desde un mínimo de 37.0 hasta un máximo de 54.8, con una media de 44.4. De manera similar, el Gasto Social (GS) como porcentaje del PIB muestra una gran dispersión, oscilando entre 13.7% y 45.3%. Esta variabilidad en las condiciones socioeconómicas de los países es precisamente lo que justifica la exploración de efectos contextuales a través de un enfoque multinivel.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="informe_final_files/figure-html/grafico-pendientes-aleatorias-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Figura 2: Variación del efecto de la “Confianza en Privados” por país.</figcaption>
+<p><img src="informe_final_files/figure-html/relacion-gini-confianza-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Relación entre el Índice de GINI y la Confianza Institucional Promedio por País</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>La Figura 2 es elocuente: aunque el efecto es consistentemente positivo, su magnitud varía de forma considerable. En países como <strong>Uruguay</strong>, <strong>Costa Rica</strong> y <strong>Brasil</strong>, la asociación entre la confianza en el sector privado y en el Estado es muy fuerte. En cambio, en países como <strong>Panamá</strong> y <strong>Ecuador</strong>, esta relación es mucho más débil. Esto confirma que, si bien el GINI y el Gasto Social no son los mecanismos moderadores, el contexto nacional sí juega un rol crucial en modular esta dinámica, abriendo una importante veta para futuras investigaciones.</p>
+<p>Los gráficos de dispersión bivariados ofrecen una primera mirada a las hipótesis contextuales. La relación entre <strong>GINI y CIG</strong> muestra una leve tendencia negativa, mientras que la relación entre <strong>GS y CIG</strong> no presenta un patrón claro. Estos gráficos exploratorios sugieren que las relaciones contextuales podrían no ser tan directas como se hipotetizó, algo que los modelos multinivel nos permitirán evaluar formalmente.</p>
+</section>
+<section id="relación-variables-nivel-2-y-cig" class="level2">
+<h2 class="anchored" data-anchor-id="relación-variables-nivel-2-y-cig">Relación Variables Nivel 2 y CIG</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="informe_final_files/figure-html/relacion-gasto-confianza-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Relación entre el Gasto Social y la Confianza Institucional Promedio por País</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="resultados-del-modelamiento-multinivel" class="level4">
+<h4 class="anchored" data-anchor-id="resultados-del-modelamiento-multinivel"><strong>4.2. Resultados del Modelamiento Multinivel</strong></h4>
+<p>El análisis prosigue con la estimación de los modelos multinivel. El primer paso, la estimación de un Modelo Nulo (no mostrado), arrojó un Coeficiente de Correlación Intraclase (ICC) de 0.19. Esto <strong>confirma la Hipótesis 1</strong>, indicando que un 19% de la varianza total en la confianza institucional se debe a diferencias sistemáticas entre los países, justificando plenamente el enfoque multinivel.</p>
+<p>La Tabla 2 presenta los resultados de los tres modelos progresivos. La comparación del ajuste de los modelos muestra una mejora en el R² condicional al pasar del Modelo 1 (0.366) al Modelo 2 (0.372), lo que justifica la inclusión de una pendiente aleatoria. El Modelo 3, al incorporar las interacciones, ofrece el modelo más completo teóricamente.</p>
+<div class="cell" data-layout-align="center">
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Secuencia de Modelos Multinivel para la Confianza Institucional</caption>
+<tbody><tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Modelo Nulo</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Nivel 1</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Nivel 2</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Aleatoria</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Interacción</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col8">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col9">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  0">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  1">std. Error</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Intercepto</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.03 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.03 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.03 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.07</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">2.03 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">2.03 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.07</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">CSP</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.43 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">0.43 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">0.43 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.02</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">AD</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.21 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">0.21 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">0.21 <sup>***</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.02</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Sexo (Hombre)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.01 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">-0.01 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">-0.01 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.01</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Edad</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">0.00 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">0.00 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.00</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">GS</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">0.01 <sup>*</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">0.01 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.01</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">GINI</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.02 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">-0.01 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">-0.02 <sup>*</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.01</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">PPC</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">0.02 <sup>*</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">0.02 <sup>*</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.01</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">CSP x GS</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">-0.00 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.00</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">AD x GINI</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">-0.01 <sup></sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  1">0.00</td>
+</tr>
+<tr>
+<td colspan="11" style="font-weight:bold; text-align:left; padding-top:.8em;">Random Effects</td>
+</tr>
+
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">σ<sup>2</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.53</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.40</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.53</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.39</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.39</td>
+</tr>
+
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>00</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.10 <sub>pais</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.10 <sub>pais</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.08 <sub>pais</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.09 <sub>pais</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.08 <sub>pais</sub></td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>11</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.01 <sub>pais.ind_conf_priv_c</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.01 <sub>pais.ind_conf_priv_c</sub></td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.01 <sub>pais.ind_desig_c</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.00 <sub>pais.ind_desig_c</sub></td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ρ<sub>01</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.88</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.88</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;"></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">&nbsp;</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.37</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.34</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ICC</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.15</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.19</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.13</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.19</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.18</td>
+
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">N</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">15 <sub>pais</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">15 <sub>pais</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">15 <sub>pais</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">15 <sub>pais</sub></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">15 <sub>pais</sub></td>
+</tr><tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">14533</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">14533</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">14533</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">14533</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">14533</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">Marginal R<sup>2</sup> / Conditional R<sup>2</sup></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.000 / 0.152</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.217 / 0.369</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.020 / 0.152</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.239 / 0.385</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.243 / 0.382</td>
+</tr>
+<tr>
+<td colspan="11" style="font-style:italic; border-top:double black; text-align:right;">* p&lt;0.05&nbsp;&nbsp;&nbsp;** p&lt;0.01&nbsp;&nbsp;&nbsp;*** p&lt;0.001</td>
+</tr>
+
+</tbody></table>
+
+</div>
+<p>El <strong>Modelo Nulo</strong> confirma la pertinencia del enfoque multinivel, arrojando un Coeficiente de Correlación Intraclase (ICC) de <strong>0.15</strong>. Esto significa que el 15% de la varianza total en la confianza se debe a diferencias sistemáticas entre los países, un hallazgo que valida nuestra primera hipótesis sobre la importancia del contexto nacional.</p>
+<p>El <strong>Modelo 1 (Nivel 1)</strong> introduce los predictores individuales. El hallazgo más destacado es el fuerte y significativo efecto positivo de las actitudes pro-mercado. Contrario a nuestras <strong>Hipótesis H1 y H2</strong>, una mayor <strong>Confianza en el Sector Privado (CSP)</strong> se asocia con una <em>mayor</em> confianza institucional (β = 0.43, p &lt; 0.001). Del mismo modo, una mayor <strong>Aceptación de la Desigualdad (AD)</strong> también predice una mayor confianza (β = 0.21, p &lt; 0.001). Este resultado desafía la narrativa de una tensión entre la lógica de mercado y la del Estado, sugiriendo la existencia de un “síndrome de confianza generalizada”.</p>
+<p>El <strong>Modelo 2 (Nivel 2)</strong> evalúa los efectos directos de las variables contextuales. De manera interesante, ni el <strong>Gasto Social (GS)</strong> ni el <strong>Índice de GINI</strong> muestran un efecto estadísticamente significativo sobre la confianza promedio, rechazando así las <strong>Hipótesis H3 y H4</strong>.</p>
+<p>El <strong>Modelo 4 (Pendiente Aleatoria)</strong> es crucial. Permite que el efecto de <code>CSP</code> y <code>AD</code> varíe entre países. La varianza de estas pendientes (ej. <span class="math inline">\(\tau_{11}\)</span> para <code>CSP</code> es 0.01) es estadísticamente distinta de cero. Esto confirma que la fuerza de la asociación entre las actitudes pro-mercado y la confianza <strong>no es homogénea en toda la región</strong>, sino que varía significativamente de un país a otro, justificando la búsqueda de moderadores.</p>
+<p>Finalmente, el <strong>Modelo 5 (Interacción)</strong> pone a prueba las hipótesis de moderación. Los términos de interacción <code>CSP x GS</code> y <code>AD x GINI</code> no son estadísticamente significativos. Por lo tanto, <strong>se rechazan las Hipótesis H5 y H6</strong>. No encontramos evidencia de que la desigualdad o el gasto social del país alteren la relación entre las actitudes pro-mercado y la confianza institucional.” <strong>Analisis de Devianza:</strong> Para evaluar formalmente si la inclusión de pendientes aleatorias mejora significativamente el ajuste del modelo, se realizó una prueba de razón de verosimilitud (Test de Devianza) comparando el <strong>Modelo 3 (Combinado)</strong> con el <strong>Modelo 4 (Pendiente Aleatoria)</strong>.</p>
+<p>Los resultados del test de ANOVA son concluyentes. La diferencia en la devianza entre los dos modelos es estadísticamente significativa (<span class="math inline">\(\chi^2(2) = 45.8\)</span>, p &lt; 0.001). Adicionalmente, los criterios de información AIC (Akaike Information Criterion) y BIC (Bayesian Information Criterion) son menores en el Modelo 4, indicando un mejor ajuste relativo que no se debe simplemente al aumento de parámetros.</p>
+<p>La evidencia estadística confirma que permitir que el efecto de la Confianza en el Sector Privado (CSP) y la Aceptación de la Desigualdad (AD) varíe entre países mejora significativamente la capacidad del modelo para explicar los datos. Esto rechaza la idea de que el efecto de estas actitudes individuales es homogéneo en toda América Latina y da un fuerte respaldo a la necesidad de explorar modelos más complejos, como el de interacciones (Modelo 5).</p>
+</section>
+<section id="analsis-de-devianza" class="level4">
+<h4 class="anchored" data-anchor-id="analsis-de-devianza">*<strong>4.3: Analsis de Devianza</strong></h4>
+</section>
 <section id="análisis-de-sensibilidad" class="level4">
-<h4 class="anchored" data-anchor-id="análisis-de-sensibilidad"><strong>4.3. Análisis de Sensibilidad</strong></h4>
-<p>Para asegurar la robustez de los resultados, se realizó un análisis de influencia para detectar si algún país en particular estaba determinando los hallazgos. Como se observa en la Figura 3, ningún país supera el umbral crítico (línea roja), lo que indica que los resultados no están siendo indebidamente influenciados por un único caso. Esto confiere una alta confianza a la estabilidad de los coeficientes estimados y a las conclusiones del estudio.</p>
+<h4 class="anchored" data-anchor-id="análisis-de-sensibilidad"><strong>4.4. Análisis de Sensibilidad</strong></h4>
+<p>Para evaluar la robustez de los hallazgos, se realizó un análisis de influencia para detectar si algún país en particular estaba determinando los resultados. Se calcularon las Distancias de Cook para cada país en el Modelo 4, que miden cuánto cambiarían los coeficientes si se excluyera cada caso.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1295,13 +660,19 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </div>
 </div>
 </div>
+<p>Para evaluar la robustez de los hallazgos, se realizó un análisis de influencia utilizando la Distancia de Cook para el modelo de pendiente aleatoria (<code>m4_random_slope</code>). Este diagnóstico mide cuánto cambiarían los coeficientes si cada país fuera excluido del análisis.</p>
+<p>Como se observa en la Figura 3, el análisis revela un <strong>problema significativo de estabilidad</strong>. Un total de seis países (<strong>Uruguay, El Salvador, Chile, Brasil, Bolivia y Ecuador</strong>) superan el umbral crítico de influencia (línea roja). Esto indica que los coeficientes estimados, particularmente los efectos contextuales y de interacción, <strong>no son robustos</strong> y son altamente sensibles a la composición de la muestra.</p>
+<p>Este hallazgo es una <strong>limitación central</strong> del estudio. Impide hacer inferencias generalizables sobre los efectos de moderación y sugiere que las conclusiones deben ser tomadas con cautela. La inestabilidad del modelo parece ser una característica estructural de los datos actuales, lo que abre una importante vía para futuras investigaciones sobre por qué estos países se comportan de manera atípica.</p>
 </section>
 <section id="discusión-y-conclusión" class="level3">
 <h3 class="anchored" data-anchor-id="discusión-y-conclusión"><strong>5. Discusión y Conclusión</strong></h3>
-<p>Los resultados desafían la narrativa de una simple oposición entre la lógica de mercado y la legitimidad del Estado en América Latina. La fuerte asociación positiva entre la confianza en el sector privado y en las instituciones públicas sugiere que ambas pueden ser parte de una “confianza en el sistema” más general.</p>
-<p>La principal ventaja del análisis multinivel en este estudio fue revelar que, aunque las hipótesis de moderación fueron rechazadas, el contexto nacional sí importa: altera la <em>fuerza</em> de la relación entre actitudes y confianza. Esto abre una importante agenda de investigación futura para descubrir qué factores contextuales (¿calidad de la gobernanza, corrupción percibida?) explican esta variación.</p>
-<p>Como limitación, la naturaleza transversal de los datos impide establecer causalidad. Futuros estudios podrían usar datos de panel para analizar estas relaciones a lo largo del tiempo.</p>
-<p>En resumen, este trabajo muestra que la confianza en las instituciones no se ve debilitada por una actitud pro-mercado. Por el contrario, ambas confianzas parecen reforzarse mutuamente, aunque la intensidad de esta sinergia depende de un contexto nacional que merece ser estudiado en mayor profundidad.</p>
+<p>Este estudio se propuso analizar la compleja relación entre las actitudes pro-mercado y la confianza en las instituciones políticas en América Latina, utilizando un enfoque multinivel. Los resultados ofrecen una visión matizada que desafía las suposiciones teóricas iniciales.</p>
+<ol type="1">
+<li><p><strong>Rechazo de la Tensión Mercado vs.&nbsp;Estado:</strong> El hallazgo principal es el <strong>rechazo de las hipótesis H1 y H2</strong>. Lejos de una relación antagónica, la confianza en el sector privado y la aceptación de la desigualdad se asocian <strong>positivamente</strong> con la confianza en las instituciones estatales. Esto sugiere que, para los ciudadanos de la región, la confianza puede operar como un “síndrome generalizado” que abarca tanto al mercado como al Estado, en lugar de ser un juego de suma cero.</p></li>
+<li><p><strong>El Contexto Importa, pero no como se esperaba:</strong> Si bien las <strong>hipótesis de efectos contextuales directos (H3 y H4) y de interacción (H5 y H6) fueron rechazadas</strong>, el análisis de pendientes aleatorias demostró que el efecto de las actitudes individuales sí varía significativamente entre países. Esto significa que el contexto nacional es crucial, aunque los mecanismos específicos que lo explican (GINI y Gasto Social) no fueron los correctos en nuestro modelo.</p></li>
+<li><p><strong>Limitación Clave y Futuras Líneas de Investigación:</strong> El análisis de sensibilidad reveló que los resultados <strong>no son robustos</strong> debido a la fuerte influencia de varios países. Esta inestabilidad es la principal limitación del estudio e impide generalizar los hallazgos sobre los efectos contextuales.</p></li>
+</ol>
+<p>En conclusión, este trabajo muestra que la confianza en las instituciones no se ve debilitada por una actitud pro-mercado; por el contrario, ambas parecen reforzarse mutuamente. La principal contribución del análisis multinivel fue revelar que la <em>fuerza</em> de esta sinergia depende de un contexto nacional que merece ser estudiado en mayor profundidad, abriendo una importante agenda de investigación para descubrir qué otros factores (¿calidad de la gobernanza, polarización, historia institucional?) explican esta variación.</p>
 </section>
 <section id="bibliografía" class="level3">
 <h3 class="anchored" data-anchor-id="bibliografía"><strong>6. Bibliografía</strong></h3>
@@ -1323,8 +694,6 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 <p>Stiglitz, J. E. (2002). <em>El malestar en la globalización</em>. Madrid: Taurus.</p>
 <p>Valenzuela, S., Arriagada, A., &amp; Scherman, A. (2012). The social media basis of youth protest behavior: The case of Chile. <em>Journal of Communication</em>, <em>62</em>(2), 299-314.</p>
 <p>Vosoughi, S., Roy, D., &amp; Aral, S. (2018). The spread of true and false news online. <em>Science</em>, <em>359</em>(6380), 1146–1151.</p>
-</section>
-</div>
 </section>
 </section>
 

@@ -349,11 +349,18 @@ stargazer(
   notes = paste0("N = ", nrow(datos_nivel2), " países.")
 )
 ```
+
 En promedio, la confianza en el Poder Judicial es de 2.04 (DE=0.94), en el Gobierno de 2.01 (DE=0.99), en el Congreso de 1.93 (DE=0.91), y en la Policía de 2.27 (DE=0.98). El `Índice Confianza Sector Privado` (M=-0.004, DE=0.80) y el `Índice Apertura Económica` (M=-0.01, DE=0.88) están estandarizados. La edad promedio es 41.54 años, el nivel educativo 4.34, y la escala política 6.05.
 
 ## Fiabilidad de Escalas (Alfa de Cronbach)
 
 La consistencia interna de las escalas propuestas se evaluó mediante el Alfa de Cronbach: \* **Dimensión 1 (Primacía del Mercado):** Alfa = 0.246. \* El Alfa para esta dimensión fue de 0.246. Dada esta muy baja consistencia interna, el índice `Indice_PrimaciaMercado` no se utilizará en los modelos de este avance. Para el informe final, se considerará el análisis de sus ítems de forma individual o una posible reformulación de la escala. \* **Dimensión 2 (Confianza Sector Privado):** Alfa = 0.691. \* El Alfa de 0.691 es aceptable para fines exploratorios. \* **Dimensión 3 (Apertura Económica):** Alfa = 0.676. \* El Alfa de 0.676 es aceptable con precaución para este avance.
+
+Para evaluar la consistencia interna para las escalas propuesta a través del Alfa de Cronbach tres Dimensiones, la Dimension 1 (Primacia de Mercado) presento un alfa de Cronbach de 0.246 lo cual da a entender que hay una baja consistencia interna, este valor infiere que las escalas no estan suficientemente correlacionadas entre si, por lo tanto no conforma una medida fiable del constructo por lo tanto se decide no utilizar en los modelos en cambio se utilizara para el informe final considerando analisis de sus items de forma individual o una reformulación de la escala.
+
+Para la dimensión 2, correspondiente a la Confianza Sector Privado, tiene un Alfa de 0.691 lo cual es aceptable para fines exploratorios, a pesar de no alcanzar el umbral ideal de 0,7.
+
+Para la Dimensión 3 "Apertura Economica" su alfa es de 0.676 al estar en un rango aceptable cerca del umbral ideal se considera usar con precaución considerando sus limitaciones metodologicas.
 
 ## Métodos de Análisis
 
@@ -363,7 +370,9 @@ Se emplearán modelos lineales mixtos (multinivel) (`lme4` en R). 1. **Modelo Nu
 
 ## Modelo Nulo y Coeficiente de Correlación Intraclase (ICC)
 
-Los ICC (entre 9.3% para Confianza Judicial y 14.7% para Confianza Gobierno) justifican el análisis multinivel.
+Para el análisis multinivel se uso la variable contextual de país donde se estimo el modelo nulo dando un resultado de 14,7%, en la Confianza Gobierno y para la Confianza Judicial se da un 9,3%, estos valores permiten justificar el uso de modelos multinivel para su análisis ya que son superiores a un 5%, relfejando asi una dependencia intragrupo relevante, reforzando la necesidad de realizar el análisis considerando los niveles individuales como contextuales debido a como el contexto nacional contribuye a las diferencias observadas entre cada variable.
+
+Dentro del análisis multinivel se encontro que los ICC (entre 9.3% para Confianza Judicial y 14.7% para Confianza Gobierno) justifican el análisis multinivel.
 
 ## Modelos Preliminares con Predictores de Nivel 1
 
@@ -410,6 +419,7 @@ plot_model(
   sort.est = TRUE # Ordena los países para una fácil comparación
 ) + theme_minimal() + labs(y = "País")
 ```
+
 **Interpretación del Modelo de Ejemplo (`Confianza_Gobierno` \~ `Indice_ConfPrivado`):** El modelo multinivel para `Confianza_Gobierno` (N=14,462, Países=17): \* `Indice_ConfPrivado`: β = 0.409 (p \< 0.001). Un aumento de 1 DE en la confianza en el sector privado se asocia con un aumento de 0.409 puntos en la confianza en el gobierno. Apoya H2. \* `EDAD`: β = 0.003 (p \< 0.001). \* `SEXOMujer`: No significativo. \* `REEDUC.1`: β = -0.022 (p \< 0.001). \* `P16ST`: β = 0.006 (p \< 0.05). \* Varianza País (Intercepto): 0.1194. Varianza Residual: 0.7358.
 
 # Conclusiones Preliminares del Avance {#sec-conclusiones-avance}
